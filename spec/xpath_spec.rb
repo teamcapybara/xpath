@@ -26,6 +26,19 @@ describe XPath do
     end
   end
 
+  describe '#child' do
+    it "should find nodes that are nested directly below the current node" do
+      @results = xpath { |x| x.descendant(:div).child(:p) }
+      @results[0].text.should == "Blah"
+      @results[1].text.should == "Bax"
+    end
+
+    it "should not find nodes that are nested further down below the current node" do
+      @results = xpath { |x| x.child(:p) }
+      @results[0].should be_nil
+    end
+  end
+
   describe '#anywhere' do
     it "should find nodes regardless of the context" do
       @results = xpath do |x|
@@ -49,6 +62,18 @@ describe XPath do
 
     it "should be aliased as ==" do
       xpath { |x| x.descendant(:div).where(x.attr(:id) == 'foo') }.first[:title].should == "fooDiv"
+    end
+  end
+
+  describe '#one_of' do
+    it "should return all nodes where the condition matches" do
+      @results = xpath do |x|
+        p = x.anywhere(:div).where(x.attr(:id) == 'foo').attr(:title)
+        x.descendant(:*).where(x.attr(:id).one_of('foo', p, 'baz'))
+      end
+      @results[0][:title].should == "fooDiv"
+      @results[1].text.should == "Blah"
+      @results[2][:title].should == "bazDiv"
     end
   end
 

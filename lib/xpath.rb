@@ -33,6 +33,12 @@ module XPath
       end
     end
 
+    class Child < Binary
+      def to_xpath
+        "#{@left.to_xpath}/#{@right.to_xpath}"
+      end
+    end
+
     class Descendant < Binary
       def to_xpath
         "#{@left.to_xpath}//#{@right.to_xpath}"
@@ -90,6 +96,17 @@ module XPath
       end
     end
 
+    class OneOf < Expression
+      def initialize(left, right)
+        @left = wrap(left)
+        @right = right.map { |r| wrap(r) }
+      end
+
+      def to_xpath
+        @right.map { |r| "#{@left.to_xpath} = #{r.to_xpath}" }.join(' or ')
+      end
+    end
+
     def where(expression)
       Expression::Where.new(self, expression)
     end
@@ -103,12 +120,20 @@ module XPath
       Expression::Descendant.new(self, expression)
     end
 
+    def child(expression)
+      Expression::Child.new(self, expression)
+    end
+
     def anywhere(expression)
       Expression::Anywhere.new(expression)
     end
 
     def attr(expression)
       Expression::Attribute.new(self, expression)
+    end
+
+    def one_of(*expressions)
+      Expression::OneOf.new(self, expressions)
     end
 
     def string
