@@ -49,6 +49,23 @@ describe XPath do
     end
   end
 
+  describe '#contains' do
+    it "should find nodes that contain the given string" do
+      @results = xpath do |x|
+        x.descendant(:div).where(x.attr(:title).contains('ooD'))
+      end
+      @results[0][:id].should == "foo"
+    end
+
+    it "should find nodes that contain the given expression" do
+      @results = xpath do |x|
+        expression = x.anywhere(:div).where(x.attr(:title) == 'fooDiv').attr(:id)
+        x.descendant(:div).where(x.attr(:title).contains(expression))
+      end
+      @results[0][:id].should == "foo"
+    end
+  end
+
   describe '#where' do
     it "should limit the expression to find only certain nodes" do
       xpath { |x| x.descendant(:div).where(:"@id = 'foo'") }.first[:title].should == "fooDiv"

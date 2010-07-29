@@ -107,6 +107,12 @@ module XPath
       end
     end
 
+    class Contains < Binary
+      def to_xpath
+        "contains(#{@left.to_xpath}, #{@right.to_xpath})"
+      end
+    end
+
     def where(expression)
       Expression::Where.new(self, expression)
     end
@@ -138,6 +144,10 @@ module XPath
 
     def string
       Expression::StringFunction.new(self)
+    end
+
+    def contains(expression)
+      Expression::Contains.new(self, expression)
     end
 
     def to_xpath
