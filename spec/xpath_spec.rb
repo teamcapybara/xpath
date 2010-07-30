@@ -94,6 +94,40 @@ describe XPath do
     end
   end
 
+  describe '#and' do
+    it "should find all nodes in both expression" do
+      @results = xpath do |x|
+        x.descendant(:*).where(x.contains('Bax').and(x.attr(:title).equals('monkey')))
+      end
+      @results[0][:title].should == "monkey"
+    end
+
+    it "should be aliased as ampersand (&)" do
+      @results = xpath do |x|
+        x.descendant(:*).where(x.contains('Bax') & x.attr(:title).equals('monkey'))
+      end
+      @results[0][:title].should == "monkey"
+    end
+  end
+
+  describe '#or' do
+    it "should find all nodes in either expression" do
+      @results = xpath do |x|
+        x.descendant(:*).where(x.attr(:id).equals('foo').or(x.attr(:id).equals('fooDiv')))
+      end
+      @results[0][:title].should == "fooDiv"
+      @results[1].text.should == "Blah"
+    end
+
+    it "should be aliased as pipe (|)" do
+      @results = xpath do |x|
+        x.descendant(:*).where(x.attr(:id).equals('foo') | x.attr(:id).equals('fooDiv'))
+      end
+      @results[0][:title].should == "fooDiv"
+      @results[1].text.should == "Blah"
+    end
+  end
+
   describe '#attr' do
     it "should be an attribute" do
       @results = xpath { |x| x.descendant(:div).where(x.attr(:id)) }

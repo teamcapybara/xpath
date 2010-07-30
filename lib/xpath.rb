@@ -96,6 +96,18 @@ module XPath
       end
     end
 
+    class And < Binary
+      def to_xpath
+        "#{@left.to_xpath} and #{@right.to_xpath}"
+      end
+    end
+
+    class Or < Binary
+      def to_xpath
+        "#{@left.to_xpath} or #{@right.to_xpath}"
+      end
+    end
+
     class OneOf < Expression
       def initialize(left, right)
         @left = wrap(left)
@@ -137,6 +149,16 @@ module XPath
     def attr(expression)
       Expression::Attribute.new(self, expression)
     end
+
+    def or(expression)
+      Expression::Or.new(self, expression)
+    end
+    alias_method :|, :or
+
+    def and(expression)
+      Expression::And.new(self, expression)
+    end
+    alias_method :&, :and
 
     def one_of(*expressions)
       Expression::OneOf.new(self, expressions)
