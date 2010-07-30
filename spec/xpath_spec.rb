@@ -2,12 +2,25 @@ require 'spec_helper'
 
 require 'nokogiri'
 
+class Thingy
+  include XPath
+
+  def foo_div
+    descendant(:div).where(attr(:id) == 'foo')
+  end
+end
+
 describe XPath do
+  let(:template) { File.read(File.expand_path('fixtures/simple.html', File.dirname(__FILE__))) }
+  let(:doc) { Nokogiri::HTML(template) }
+
   def xpath(&block)
-    template = File.read(File.expand_path('fixtures/simple.html', File.dirname(__FILE__)))
-    doc = Nokogiri::HTML(template)
-    xpath = XPath.generate(&block)
-    doc.xpath(xpath)
+    doc.xpath XPath.generate(&block)
+  end
+
+  it "should work as a mixin" do
+    xpath = Thingy.new.foo_div.to_xpath
+    doc.xpath(xpath).first[:title].should == 'fooDiv'
   end
 
   describe '#descendant' do
