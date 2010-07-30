@@ -5,7 +5,7 @@ module XPath
 
   class Expression
     class Self < Expression
-      def to_xpath
+      def render
         '.'
       end
     end
@@ -28,37 +28,37 @@ module XPath
         @expression = expression
       end
 
-      def to_xpath
+      def render
         @expression.to_s
       end
     end
 
     class Child < Binary
-      def to_xpath
+      def render
         "#{@left.to_xpath}/#{@right.to_xpath}"
       end
     end
 
     class Descendant < Binary
-      def to_xpath
+      def render
         "#{@left.to_xpath}//#{@right.to_xpath}"
       end
     end
 
     class Anywhere < Unary
-      def to_xpath
+      def render
         "//#{@expression.to_xpath}"
       end
     end
 
     class Where < Binary
-      def to_xpath
+      def render
         "#{@left.to_xpath}[#{@right.to_xpath}]"
       end
     end
 
     class Attribute < Binary
-      def to_xpath
+      def render
         if @right.is_a?(Literal)
           "#{@left.to_xpath}/@#{@right.to_xpath}"
         else
@@ -68,13 +68,13 @@ module XPath
     end
 
     class Equality < Binary
-      def to_xpath
+      def render
         "#{@left.to_xpath} = #{@right.to_xpath}"
       end
     end
 
     class StringFunction < Unary
-      def to_xpath
+      def render
         "string(#{@expression.to_xpath})"
       end
     end
@@ -84,7 +84,7 @@ module XPath
         @expression = expression
       end
 
-      def to_xpath
+      def render
         if @expression.include?("'")
           @expression = @expression.split("'", -1).map do |substr|
             "'#{substr}'"
@@ -97,13 +97,13 @@ module XPath
     end
 
     class And < Binary
-      def to_xpath
+      def render
         "#{@left.to_xpath} and #{@right.to_xpath}"
       end
     end
 
     class Or < Binary
-      def to_xpath
+      def render
         "#{@left.to_xpath} or #{@right.to_xpath}"
       end
     end
@@ -114,13 +114,13 @@ module XPath
         @right = right.map { |r| wrap(r) }
       end
 
-      def to_xpath
+      def render
         @right.map { |r| "#{@left.to_xpath} = #{r.to_xpath}" }.join(' or ')
       end
     end
 
     class Contains < Binary
-      def to_xpath
+      def render
         "contains(#{@left.to_xpath}, #{@right.to_xpath})"
       end
     end
@@ -172,8 +172,12 @@ module XPath
       Expression::Contains.new(self, expression)
     end
 
-    def to_xpath
+    def render
       raise NotImplementedError, "please implement in subclass"
+    end
+
+    def to_xpath
+      @_render ||= render
     end
 
     def wrap(expression)
@@ -182,7 +186,6 @@ module XPath
         when ::Symbol then Expression::Literal.new(expression)
         else expression
       end
-      
     end
   end
 end
