@@ -1,5 +1,10 @@
 module XPath
   autoload :Expression, 'xpath/expression'
+  autoload :Collection, 'xpath/collection'
+
+  def self.generate
+    yield(Expression::Self.new)
+  end
 
   def current
     Expression::Self.new

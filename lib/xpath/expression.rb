@@ -1,8 +1,4 @@
 module XPath
-  def self.generate
-    yield(Expression::Self.new).to_xpath
-  end
-
   class Expression
     include XPath
 

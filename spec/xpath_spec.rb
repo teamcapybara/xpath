@@ -15,7 +15,7 @@ describe XPath do
   let(:doc) { Nokogiri::HTML(template) }
 
   def xpath(&block)
-    doc.xpath XPath.generate(&block)
+    doc.xpath XPath.generate(&block).to_xpath
   end
 
   it "should work as a mixin" do
