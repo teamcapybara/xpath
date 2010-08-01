@@ -157,4 +157,25 @@ describe XPath do
     end
   end
 
+  describe '#apply' do
+    it "should interpolate variables in the xpath expression" do
+      @xpath = XPath.generate { |x| x.descendant(:*).where(x.attr(:id) == x.var(:id).string_literal) }
+      @result1 = doc.xpath(@xpath.apply(:id => 'foo')).first
+      @result1[:title].should == 'fooDiv'
+      @result2 = doc.xpath(@xpath.apply(:id => 'baz')).first
+      @result2[:title].should == 'bazDiv'
+    end
+
+    it "should raise an argument error if the interpolation key is not given" do
+      @xpath = XPath.generate { |x| x.descendant(:*).where(x.attr(:id) == x.var(:id).string_literal) }
+      lambda { @xpath.apply }.should raise_error(ArgumentError)
+    end
+
+    it "should be aliased as #to_s" do
+      @xpath = XPath.generate { |x| x.descendant(:*).where(x.attr(:id) == x.var(:id).string_literal) }
+      @result1 = doc.xpath(@xpath.to_s(:id => 'foo')).first
+      @result1[:title].should == 'fooDiv'
+    end
+  end
+
 end

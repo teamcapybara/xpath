@@ -37,4 +37,8 @@ module XPath
   def contains(expression)
     Expression::Contains.new(current, expression)
   end
+
+  def var(name)
+    Expression::Variable.new(name)
+  end
 end
