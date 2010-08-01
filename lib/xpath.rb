@@ -41,4 +41,8 @@ module XPath
   def var(name)
     Expression::Variable.new(name)
   end
+
+  def varstring(name)
+    var(name).string_literal
+  end
 end

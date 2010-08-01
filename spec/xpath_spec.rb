@@ -157,7 +157,7 @@ describe XPath do
     end
   end
 
-  describe '#apply' do
+  describe '#apply and #var' do
     it "should interpolate variables in the xpath expression" do
       @xpath = XPath.generate { |x| x.descendant(:*).where(x.attr(:id) == x.var(:id).string_literal) }
       @result1 = doc.xpath(@xpath.apply(:id => 'foo')).first
@@ -174,6 +174,14 @@ describe XPath do
     it "should be aliased as #to_s" do
       @xpath = XPath.generate { |x| x.descendant(:*).where(x.attr(:id) == x.var(:id).string_literal) }
       @result1 = doc.xpath(@xpath.to_s(:id => 'foo')).first
+      @result1[:title].should == 'fooDiv'
+    end
+  end
+
+  describe '#varstring' do
+    it "should add a literal string variable" do
+      @xpath = XPath.generate { |x| x.descendant(:*).where(x.attr(:id) == x.varstring(:id)) }
+      @result1 = doc.xpath(@xpath.apply(:id => 'foo')).first
       @result1[:title].should == 'fooDiv'
     end
   end
