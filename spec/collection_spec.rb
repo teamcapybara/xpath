@@ -29,8 +29,19 @@ describe XPath::Collection do
       @expr1 = XPath.generate { |x| x.descendant(:p) } 
       @expr2 = XPath.generate { |x| x.descendant(:div) } 
       @collection = XPath::Collection.new(@expr1, @expr2)
-      exprs = []
       @collection.map { |expr| expr.class }.should == [XPath::Expression::Descendant, XPath::Expression::Descendant]
+    end
+  end
+
+  describe '#to_xpath' do
+    it "should create a valid xpath expression" do
+      @expr1 = XPath.generate { |x| x.descendant(:p) } 
+      @expr2 = XPath.generate { |x| x.descendant(:div).where(x.attr(:id) == 'foo') } 
+      @collection = XPath::Collection.new(@expr1, @expr2)
+      @results = doc.xpath(@collection.to_xpath)
+      @results[0][:title].should == 'fooDiv'
+      @results[1].text.should == 'Blah'
+      @results[2].text.should == 'Bax'
     end
   end
 end
