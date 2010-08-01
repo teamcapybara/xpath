@@ -123,6 +123,12 @@ module XPath
       end
     end
 
+    class Text < Unary
+      def to_xpath
+        "#{@expression.to_xpath}/text()"
+      end
+    end
+
     class Variable < Expression
       def initialize(name)
         @name = name

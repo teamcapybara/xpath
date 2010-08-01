@@ -79,6 +79,16 @@ describe XPath do
     end
   end
 
+  describe '#text' do
+    it "should select a node's text" do
+      @results = xpath { |x| x.descendant(:p).where(x.text == 'Bax') }
+      @results[0].text.should == 'Bax'
+      @results[1][:title].should == 'monkey'
+      @results = xpath { |x| x.descendant(:div).where(x.descendant(:p).text == 'Bax') }
+      @results[0][:title].should == 'fooDiv'
+    end
+  end
+
   describe '#where' do
     it "should limit the expression to find only certain nodes" do
       xpath { |x| x.descendant(:div).where(:"@id = 'foo'") }.first[:title].should == "fooDiv"

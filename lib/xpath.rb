@@ -38,6 +38,10 @@ module XPath
     Expression::Contains.new(current, expression)
   end
 
+  def text
+    Expression::Text.new(current)
+  end
+
   def var(name)
     Expression::Variable.new(name)
   end
