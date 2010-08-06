@@ -139,6 +139,11 @@ module XPath
       end
     end
 
+    class Inverse < Unary
+      def to_xpath
+        "not(#{@expression.to_xpath})"
+      end
+    end
 
     class Applied < Expression
       def initialize(expression, variables={})
@@ -182,6 +187,11 @@ module XPath
       Expression::And.new(current, expression)
     end
     alias_method :&, :and
+
+    def inverse
+      Expression::Inverse.new(current)
+    end
+    alias_method :~, :inverse
 
     def string_literal
       Expression::StringLiteral.new(self.to_xpath)

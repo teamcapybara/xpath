@@ -98,6 +98,15 @@ describe XPath do
       xpath { |x| x.descendant(:div)[:"@id = 'foo'"] }.first[:title].should == "fooDiv"
     end
   end
+
+  describe '#inverse' do
+    it "should invert the expression" do
+      xpath { |x| x.descendant(:p).where(x.attr(:id).equals('fooDiv').inverse) }.first.text.should == 'Bax'
+    end
+
+    it "should be aliased as the unary tilde" do
+      xpath { |x| x.descendant(:p).where(~x.attr(:id).equals('fooDiv')) }.first.text.should == 'Bax'
+    end
   end
 
   describe '#equals' do
