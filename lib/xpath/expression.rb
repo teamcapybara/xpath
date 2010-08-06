@@ -143,6 +143,11 @@ module XPath
       self
     end
 
+    def where(expression)
+      Expression::Where.new(current, expression)
+    end
+    alias_method :[], :where
+
     def one_of(*expressions)
       Expression::OneOf.new(current, expressions)
     end

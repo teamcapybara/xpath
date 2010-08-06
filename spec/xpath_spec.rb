@@ -93,6 +93,11 @@ describe XPath do
     it "should limit the expression to find only certain nodes" do
       xpath { |x| x.descendant(:div).where(:"@id = 'foo'") }.first[:title].should == "fooDiv"
     end
+
+    it "should be aliased as []" do
+      xpath { |x| x.descendant(:div)[:"@id = 'foo'"] }.first[:title].should == "fooDiv"
+    end
+  end
   end
 
   describe '#equals' do

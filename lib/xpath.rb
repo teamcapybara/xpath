@@ -10,10 +10,6 @@ module XPath
     Expression::Self.new
   end
 
-  def where(expression)
-    Expression::Where.new(current, expression)
-  end
-
   def descendant(expression)
     Expression::Descendant.new(current, expression)
   end
