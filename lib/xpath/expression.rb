@@ -139,6 +139,22 @@ module XPath
       end
     end
 
+
+    class Applied < Expression
+      def initialize(expression, variables={})
+        @variables = variables
+        @xpath ||= expression.to_xpath
+      end
+
+      def to_xpath
+        @xpath % @variables
+      rescue ArgumentError # for ruby < 1.9 compat
+        @xpath.gsub(/%\{(\w+)\}/) do |_|
+          @variables[$1.to_sym] or raise(ArgumentError, "expected variable #{$1} to be set")
+        end
+      end
+    end
+
     def current
       self
     end
@@ -174,16 +190,11 @@ module XPath
     def to_xpath
       raise NotImplementedError, "please implement in subclass"
     end
+    alias_method :to_s, :to_xpath
 
     def apply(variables={})
-      @_xpath ||= to_xpath
-      @_xpath % variables
-    rescue ArgumentError # for ruby < 1.9 compat
-      @_xpath.gsub(/%\{(\w+)\}/) do |_|
-        variables[$1.to_sym] or raise(ArgumentError, "expected variable #{$1} to be set")
-      end
+      Expression::Applied.new(current, variables)
     end
-    alias_method :to_s, :apply
 
     def wrap_xpath(expression)
       case expression
