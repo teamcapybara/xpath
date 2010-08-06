@@ -2,6 +2,8 @@ module XPath
   autoload :Expression, 'xpath/expression'
   autoload :Collection, 'xpath/collection'
 
+  extend self
+
   def self.generate
     yield(Expression::Self.new)
   end
