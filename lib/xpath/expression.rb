@@ -21,6 +21,16 @@ module XPath
       end
     end
 
+    class Multiple < Expression
+      def initialize(left, expressions)
+        @left = wrap_xpath(left)
+        @expressions = expressions.map { |e| wrap_xpath(e) }
+        if @expressions.empty?
+          raise ArgumentError, "must specify at least one expression"
+        end
+      end
+    end
+
     class Literal < Expression
       def initialize(expression)
         @expression = expression
@@ -37,9 +47,13 @@ module XPath
       end
     end
 
-    class Descendant < Binary
+    class Descendant < Multiple
       def to_xpath
-        "#{@left.to_xpath}//#{@right.to_xpath}"
+        if @expressions.length == 1
+          "#{@left.to_xpath}//#{@expressions.first.to_xpath}"
+        else
+          "#{@left.to_xpath}//*[#{@expressions.map { |e| "self::#{e.to_xpath}" }.join(" | ")}]"
+        end
       end
     end
 

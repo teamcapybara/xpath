@@ -12,8 +12,8 @@ module XPath
     Expression::Self.new
   end
 
-  def descendant(expression)
-    Expression::Descendant.new(current, expression)
+  def descendant(*expressions)
+    Expression::Descendant.new(current, expressions)
   end
 
   def child(expression)
