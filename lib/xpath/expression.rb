@@ -63,6 +63,12 @@ module XPath
       end
     end
 
+    class Name < Unary
+      def to_xpath(predicate=nil)
+        "name(#{@expression.to_xpath(predicate)})"
+      end
+    end
+
     class Where < Binary
       def to_xpath(predicate=nil)
         "#{@left.to_xpath(predicate)}[#{@right.to_xpath(predicate)}]"

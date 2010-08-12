@@ -12,6 +12,10 @@ module XPath
     Expression::Self.new
   end
 
+  def name
+    Expression::Name.new(current)
+  end
+
   def descendant(*expressions)
     Expression::Descendant.new(current, expressions)
   end

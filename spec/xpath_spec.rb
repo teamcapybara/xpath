@@ -216,6 +216,12 @@ describe XPath do
     end
   end
 
+  describe '#name' do
+    it "should match the node's name" do
+      xpath { |x| x.descendant(:*).where(x.name == 'ul') }.first.text.should == "A list"
+    end
+  end
+
   describe '#apply and #var' do
     it "should interpolate variables in the xpath expression" do
       @xpath = XPath.generate do |x|
