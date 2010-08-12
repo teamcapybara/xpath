@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.email = ["jonas.nicklas@gmail.com"]
   s.description = "XPath is a Ruby DSL for generating XPath expressions"
 
-  s.files = Dir.glob("{lib,spec}/**/*") + %w(README.rdoc History.txt)
+  s.files = Dir.glob("{lib,spec}/**/*") + %w(README.rdoc)
   s.extra_rdoc_files = ["README.rdoc"]
 
   s.homepage = "http://github.com/jnicklas/xpath"
