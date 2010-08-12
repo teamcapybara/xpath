@@ -115,6 +115,12 @@ module XPath
       end
     end
 
+    class NormalizedSpace < Unary
+      def to_xpath(predicate=nil)
+        "normalize-space(#{@expression.to_xpath(predicate)})"
+      end
+    end
+
     class And < Binary
       def to_xpath(predicate=nil)
         "(#{@left.to_xpath(predicate)} and #{@right.to_xpath(predicate)})"
@@ -251,6 +257,11 @@ module XPath
     def apply(variables={})
       Expression::Applied.new(current, variables)
     end
+
+    def normalize
+      Expression::NormalizedSpace.new(current)
+    end
+    alias_method :n, :normalize
 
     def wrap_xpath(expression)
       case expression

@@ -247,4 +247,14 @@ describe XPath do
     end
   end
 
+  describe '#normalize' do
+    it "should normalize whitespace" do
+      xpath { |x| x.descendant(:p).where(x.text.normalize == 'A lot of whitespace') }.first[:id].should == "whitespace"
+    end
+
+    it "should be aliased as 'n'" do
+      xpath { |x| x.descendant(:p).where(x.text.n == 'A lot of whitespace') }.first[:id].should == "whitespace"
+    end
+  end
+
 end
