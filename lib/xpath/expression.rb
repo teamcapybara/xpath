@@ -117,13 +117,13 @@ module XPath
 
     class And < Binary
       def to_xpath(predicate=nil)
-        "#{@left.to_xpath(predicate)} and #{@right.to_xpath(predicate)}"
+        "(#{@left.to_xpath(predicate)} and #{@right.to_xpath(predicate)})"
       end
     end
 
     class Or < Binary
       def to_xpath(predicate=nil)
-        "#{@left.to_xpath(predicate)} or #{@right.to_xpath(predicate)}"
+        "(#{@left.to_xpath(predicate)} or #{@right.to_xpath(predicate)})"
       end
     end
 
