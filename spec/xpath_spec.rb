@@ -125,6 +125,14 @@ describe XPath do
     end
   end
 
+  describe '#is' do
+    it "should limit the expression to only nodes that contain the given expression" do
+      @results = xpath { |x| x.descendant(:p).where(x.text.is('llama')) }
+      @results[0][:id].should == 'is-fuzzy'
+      @results[1][:id].should == 'is-exact'
+    end
+  end
+
   describe '#one_of' do
     it "should return all nodes where the condition matches" do
       @results = xpath do |x|

@@ -192,6 +192,10 @@ module XPath
     end
     alias_method :==, :equals
 
+    def is(expression)
+      Expression::Contains.new(current, expression)
+    end
+
     def string
       Expression::StringFunction.new(current)
     end
