@@ -131,6 +131,27 @@ describe XPath do
       @results[0][:id].should == 'is-fuzzy'
       @results[1][:id].should == 'is-exact'
     end
+
+    it "should limit the expression to only nodes that contain the given expression if fuzzy predicate given" do
+      @results = xpath(:fuzzy) { |x| x.descendant(:p).where(x.text.is('llama')) }
+      @results[0][:id].should == 'is-fuzzy'
+      @results[1][:id].should == 'is-exact'
+    end
+
+    it "should limit the expression to only nodes that equal the given expression if exact predicate given" do
+      @results = xpath(:exact) { |x| x.descendant(:p).where(x.text.is('llama')) }
+      @results[0][:id].should == 'is-exact'
+      @results[1].should be_nil
+    end
+
+    context "with to_xpaths" do
+      it "should prefer exact matches" do
+        @xpath = XPath.generate { |x| x.descendant(:p).where(x.text.is('llama')) }
+        @results = @xpath.to_xpaths.map { |path| doc.xpath(path) }.flatten
+        @results[0][:id].should == 'is-exact'
+        @results[1][:id].should == 'is-fuzzy'
+      end
+    end
   end
 
   describe '#one_of' do

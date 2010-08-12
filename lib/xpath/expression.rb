@@ -138,6 +138,16 @@ module XPath
       end
     end
 
+    class Is < Binary
+      def to_xpath(predicate=nil)
+        if predicate == :exact
+          Equality.new(@left, @right).to_xpath(predicate)
+        else
+          Contains.new(@left, @right).to_xpath(predicate)
+        end
+      end
+    end
+
     class Text < Unary
       def to_xpath(predicate=nil)
         "#{@expression.to_xpath(predicate)}/text()"
@@ -194,7 +204,7 @@ module XPath
     alias_method :==, :equals
 
     def is(expression)
-      Expression::Contains.new(current, expression)
+      Expression::Is.new(current, expression)
     end
 
     def string
@@ -224,6 +234,10 @@ module XPath
       raise NotImplementedError, "please implement in subclass"
     end
     alias_method :to_s, :to_xpath
+
+    def to_xpaths
+      [to_xpath(:exact), to_xpath(:fuzzy)].uniq
+    end
 
     def apply(variables={})
       Expression::Applied.new(current, variables)

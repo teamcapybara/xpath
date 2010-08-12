@@ -12,8 +12,12 @@ module XPath
       expressions.each(&block)
     end
 
-    def to_xpath
-      expressions.map { |e| e.to_xpath }.join(' | ')
+    def to_xpath(predicate=nil)
+      expressions.map { |e| e.to_xpath(predicate) }.join(' | ')
+    end
+
+    def to_xpaths
+      [to_xpath(:exact), to_xpath(:fuzzy)].uniq
     end
 
     def method_missing(*args)
