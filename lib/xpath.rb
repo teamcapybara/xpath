@@ -28,10 +28,6 @@ module XPath
     Expression::Attribute.new(current, expression)
   end
 
-  def string
-    Expression::StringFunction.new(current)
-  end
-
   def contains(expression)
     Expression::Contains.new(current, expression)
   end
