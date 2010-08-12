@@ -239,7 +239,10 @@ module XPath
     def to_xpath(predicate=nil)
       raise NotImplementedError, "please implement in subclass"
     end
-    alias_method :to_s, :to_xpath
+
+    def to_s
+      to_xpaths.join(' | ')
+    end
 
     def to_xpaths
       [to_xpath(:exact), to_xpath(:fuzzy)].uniq
