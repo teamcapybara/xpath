@@ -14,8 +14,8 @@ describe XPath do
   let(:template) { File.read(File.expand_path('fixtures/simple.html', File.dirname(__FILE__))) }
   let(:doc) { Nokogiri::HTML(template) }
 
-  def xpath(&block)
-    doc.xpath XPath.generate(&block).to_xpath
+  def xpath(predicate=nil, &block)
+    doc.xpath XPath.generate(&block).to_xpath(predicate)
   end
 
   it "should work as a mixin" do
