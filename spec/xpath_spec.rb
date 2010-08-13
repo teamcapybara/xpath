@@ -64,6 +64,15 @@ describe XPath do
     end
   end
 
+  describe '#next_sibling' do
+    it "should find nodes which are immediate siblings of the current node" do
+      xpath { |x| x.descendant(:p)[x.attr(:id) == 'fooDiv'].next_sibling(:p) }.first.text.should == 'Bax'
+      xpath { |x| x.descendant(:p)[x.attr(:id) == 'fooDiv'].next_sibling(:ul, :p) }.first.text.should == 'Bax'
+      xpath { |x| x.descendant(:p)[x.attr(:title) == 'monkey'].next_sibling(:ul, :p) }.first.text.should == 'A list'
+      xpath { |x| x.descendant(:p)[x.attr(:id) == 'fooDiv'].next_sibling(:ul, :li) }.first.should be_nil
+    end
+  end
+
   describe '#anywhere' do
     it "should find nodes regardless of the context" do
       @results = xpath do |x|

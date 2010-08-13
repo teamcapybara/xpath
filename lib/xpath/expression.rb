@@ -61,6 +61,16 @@ module XPath
       end
     end
 
+    class NextSibling < Multiple
+      def to_xpath(predicate=nil)
+        if @expressions.length == 1
+          "#{@left.to_xpath(predicate)}/following-sibling::*[1]/self::#{@expressions.first.to_xpath(predicate)}"
+        else
+          "#{@left.to_xpath(predicate)}/following-sibling::*[1]/self::*[#{@expressions.map { |e| "self::#{e.to_xpath(predicate)}" }.join(" | ")}]"
+        end
+      end
+    end
+
     class Anywhere < Unary
       def to_xpath(predicate=nil)
         "//#{@expression.to_xpath(predicate)}"
@@ -203,6 +213,10 @@ module XPath
 
     def current
       self
+    end
+
+    def next_sibling(*expressions)
+      Expression::NextSibling.new(current, expressions)
     end
 
     def where(expression)
