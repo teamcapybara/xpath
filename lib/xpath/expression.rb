@@ -41,9 +41,13 @@ module XPath
       end
     end
 
-    class Child < Binary
+    class Child < Multiple
       def to_xpath(predicate=nil)
-        "#{@left.to_xpath(predicate)}/#{@right.to_xpath(predicate)}"
+        if @expressions.length == 1
+          "#{@left.to_xpath(predicate)}/#{@expressions.first.to_xpath(predicate)}"
+        else
+          "#{@left.to_xpath(predicate)}/*[#{@expressions.map { |e| "self::#{e.to_xpath(predicate)}" }.join(" | ")}]"
+        end
       end
     end
 

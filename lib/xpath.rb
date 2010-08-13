@@ -20,8 +20,8 @@ module XPath
     Expression::Descendant.new(current, expressions)
   end
 
-  def child(expression)
-    Expression::Child.new(current, expression)
+  def child(*expressions)
+    Expression::Child.new(current, expressions)
   end
 
   def anywhere(expression)

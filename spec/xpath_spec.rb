@@ -56,6 +56,12 @@ describe XPath do
       @results = xpath { |x| x.child(:p) }
       @results[0].should be_nil
     end
+
+    it "should find multiple kinds of nodes" do
+      @results = xpath { |x| x.descendant(:div).child(:p, :ul) }
+      @results[0].text.should == 'Blah'
+      @results[3].text.should == 'A list'
+    end
   end
 
   describe '#anywhere' do
