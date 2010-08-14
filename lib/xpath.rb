@@ -1,6 +1,7 @@
 module XPath
   autoload :Expression, 'xpath/expression'
   autoload :Union, 'xpath/union'
+  autoload :HTML, 'xpath/html'
 
   extend self
 
