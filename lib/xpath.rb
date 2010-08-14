@@ -1,6 +1,6 @@
 module XPath
   autoload :Expression, 'xpath/expression'
-  autoload :Collection, 'xpath/collection'
+  autoload :Union, 'xpath/union'
 
   extend self
 

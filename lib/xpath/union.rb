@@ -1,5 +1,5 @@
 module XPath
-  class Collection
+  class Union
     include Enumerable
 
     attr_reader :expressions
@@ -21,7 +21,7 @@ module XPath
     end
 
     def method_missing(*args)
-      XPath::Collection.new(*expressions.map { |e| e.send(*args) })
+      XPath::Union.new(*expressions.map { |e| e.send(*args) })
     end
   end
 end
