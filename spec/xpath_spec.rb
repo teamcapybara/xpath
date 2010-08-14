@@ -272,4 +272,30 @@ describe XPath do
     end
   end
 
+  describe '#union' do
+    it "should create a union expression" do
+      @expr1 = XPath.generate { |x| x.descendant(:p) } 
+      @expr2 = XPath.generate { |x| x.descendant(:div) } 
+      @collection = @expr1.union(@expr2)
+      @xpath1 = @collection.where(XPath.attr(:id) == 'foo').to_xpath
+      @xpath2 = @collection.where(XPath.attr(:id) == XPath.varstring(:id)).apply(:id => 'fooDiv').to_xpath
+      @results = doc.xpath(@xpath1)
+      @results[0][:title].should == 'fooDiv'
+      @results = doc.xpath(@xpath2)
+      @results[0][:id].should == 'fooDiv'
+    end
+
+    it "should be aliased as +" do
+      @expr1 = XPath.generate { |x| x.descendant(:p) } 
+      @expr2 = XPath.generate { |x| x.descendant(:div) } 
+      @collection = @expr1 + @expr2
+      @xpath1 = @collection.where(XPath.attr(:id) == 'foo').to_xpath
+      @xpath2 = @collection.where(XPath.attr(:id) == XPath.varstring(:id)).apply(:id => 'fooDiv').to_xpath
+      @results = doc.xpath(@xpath1)
+      @results[0][:title].should == 'fooDiv'
+      @results = doc.xpath(@xpath2)
+      @results[0][:id].should == 'fooDiv'
+    end
+  end
+
 end

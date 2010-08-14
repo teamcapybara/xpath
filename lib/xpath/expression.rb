@@ -251,6 +251,11 @@ module XPath
     end
     alias_method :&, :and
 
+    def union(*expressions)
+      Union.new(*[self, expressions].flatten)
+    end
+    alias_method :+, :union
+
     def inverse
       Expression::Inverse.new(current)
     end
