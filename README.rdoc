@@ -1,0 +1,29 @@
+= XPath
+
+XPath is a Ruby DSL around a subset of XPath 1.0. It's primary purpose is to facilitate writing complex XPath queries from Ruby code.
+
+== Generating expressions
+
+To create quick, one of expressions, XPath.generate can be used:
+
+    XPath.generate { |x| x.descendant(:ul)[x.attr(:id) == 'foo'] }
+
+However for more complex expressions, it is probably ore convenient to include the XPath module into your own class or module:
+
+    module MyXPaths
+      include XPath
+
+      def foo_ul
+        descendant(:ul)[attr(:id) == 'foo']
+      end
+
+      def password_field(id)
+        descendant(:input)[attr(:type) == 'password'][attr(:id) == id]
+      end
+    end
+
+Both ways return an XPath::Expression instance, which can be further modified. To convert the expression to a string, just call #to_s on it.
+
+== HTML
+
+XPath comes with a set of premade XPaths for use with HTML documents.
