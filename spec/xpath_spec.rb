@@ -200,6 +200,14 @@ describe XPath do
       @results = xpath { |x| x.descendant(:div).where(x.attr(:class).includes('bar')) }
       @results.map(&:text).should == ['bar baz']
     end
+
+    it "should be more selective than #contains" do
+      @results = xpath { |x| x.descendant(:div).where(x.attr(:class).contains('quu')) }
+      @results.map(&:text).should_not be_empty
+
+      @results = xpath { |x| x.descendant(:div).where(x.attr(:class).includes('quu')) }
+      @results.map(&:text).should be_empty
+    end
   end
 
   describe '#one_of' do
