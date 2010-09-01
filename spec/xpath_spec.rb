@@ -190,6 +190,18 @@ describe XPath do
     end
   end
 
+  describe "#includes" do
+    it "should match elements with a single matching class" do
+      @results = xpath { |x| x.descendant(:div).where(x.attr(:class).includes('foo')) }
+      @results.map(&:text).should == ['foo']
+    end
+
+    it "should match multi-class elements with a matching class" do
+      @results = xpath { |x| x.descendant(:div).where(x.attr(:class).includes('bar')) }
+      @results.map(&:text).should == ['bar baz']
+    end
+  end
+
   describe '#one_of' do
     it "should return all nodes where the condition matches" do
       @results = xpath do |x|

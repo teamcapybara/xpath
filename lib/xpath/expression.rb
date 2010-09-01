@@ -183,6 +183,13 @@ module XPath
       end
     end
 
+    class Includes < Binary
+      # http://pivotallabs.com/users/alex/blog/articles/427-xpath-css-class-matching
+      def to_xpath(predicate=nil)
+        "contains(concat(' ', normalize-space(#{@left.to_xpath(predicate)}), ' '), concat(' ', #{@right.to_xpath(predicate)}, ' '))"
+      end
+    end
+
     class Text < Unary
       def to_xpath(predicate=nil)
         "#{@expression.to_xpath(predicate)}/text()"
@@ -250,6 +257,10 @@ module XPath
 
     def is(expression)
       Expression::Is.new(current, expression)
+    end
+
+    def includes(expression)
+      Expression::Includes.new(current, expression)
     end
 
     def or(expression)
