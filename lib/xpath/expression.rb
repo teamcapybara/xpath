@@ -79,7 +79,7 @@ module XPath
 
     class Name < Unary
       def to_xpath(predicate=nil)
-        "name(#{@expression.to_xpath(predicate)})"
+        "translate(name(#{@expression.to_xpath(predicate)}), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"
       end
     end
 
