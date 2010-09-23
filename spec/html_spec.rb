@@ -160,4 +160,10 @@ describe XPath::HTML do
   describe '#fillable_field' do
 
   end
+
+  describe "#optgroup" do
+    subject { :optgroup }
+
+    it("finds optgroups by label") { get('Group A').should == 'optgroup-a' }
+  end
 end
