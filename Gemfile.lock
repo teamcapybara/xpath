@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    xpath (0.0.1)
+    xpath (0.1.0)
 
 GEM
   remote: http://rubygems.org/
