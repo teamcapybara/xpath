@@ -9,7 +9,7 @@ module XPath
 
     def link(locator)
       link = descendant(:a)[attr(:href)]
-      link[attr(:id).equals(locator) | text.is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
+      link[attr(:id).equals(locator) | string.n.is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
     end
 
     def content(locator)
@@ -86,7 +86,7 @@ module XPath
     end
 
     def table_rows(rows)
-      row_conditions = descendant(:tr)[table_row(rows.first)] 
+      row_conditions = descendant(:tr)[table_row(rows.first)]
       rows.drop(1).each do |row|
         row_conditions = row_conditions.next_sibling(:tr)[table_row(row)]
       end
@@ -94,7 +94,7 @@ module XPath
     end
 
     def table_row(cells)
-      cell_conditions = child(:td, :th)[text.equals(cells.first)] 
+      cell_conditions = child(:td, :th)[text.equals(cells.first)]
       cells.drop(1).each do |cell|
         cell_conditions = cell_conditions.next_sibling(:td, :th)[text.equals(cell)]
       end
