@@ -237,10 +237,6 @@ module XPath
       Expression::Is.new(current, expression)
     end
 
-    def string
-      Expression::StringFunction.new(current)
-    end
-
     def or(expression)
       Expression::Or.new(current, expression)
     end
