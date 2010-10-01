@@ -135,7 +135,7 @@ describe XPath::HTML do
         get(XPath::HTML.button('imgbut-with-alt'))[:data].should == 'alt-imgbut'
       end
 
-      it "finds prefers buttons with exact value " do
+      it "prefers buttons with exact value " do
         results = all(XPath::HTML.button('exact value imgbut'))
         results[0][:data].should == 'exact-value-imgbut'
         results[1][:data].should == 'not-exact-value-imgbut'
@@ -178,7 +178,7 @@ describe XPath::HTML do
         get(XPath::HTML.button('emphatic'))[:href].should == 'btag-with-children'
       end
 
-      it "finds prefers buttons with exact text " do
+      it "prefers buttons with exact text" do
         results = all(XPath::HTML.button('exact text btag'))
         results[0][:data].should == 'exact-text-btag'
         results[1][:data].should == 'not-exact-text-btag'
