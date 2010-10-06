@@ -284,7 +284,11 @@ describe XPath do
 
     it "should raise an argument error if the interpolation key is not given" do
       @xpath = XPath.generate { |x| x.descendant(:*).where(x.attr(:id) == x.var(:id).string_literal) }
-      lambda { @xpath.apply.to_xpath }.should raise_error(ArgumentError)
+      if defined?(KeyError)
+        lambda { @xpath.apply.to_xpath }.should raise_error(KeyError)
+      else
+        lambda { @xpath.apply.to_xpath }.should raise_error(ArgumentError)
+      end
     end
   end
 
