@@ -214,6 +214,12 @@ module XPath
       end
     end
 
+    class CSS < Binary
+      def to_xpath(predicate=nil)
+        "#{@left.to_xpath}#{@right.to_xpath}"
+      end
+    end
+
     def current
       self
     end

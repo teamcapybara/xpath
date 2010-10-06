@@ -234,13 +234,34 @@ describe XPath do
       @results[0][:title].should == "barDiv"
       @results[1][:title].should == "fooDiv"
     end
-    
+
     it "should be closed" do
       @results = xpath do |x|
         foo_div = x.anywhere(:div).where(x.attr(:id) == 'foo')
         id = x.attr(foo_div.attr(:data))
         x.descendant(:div).where(id == 'bar')
       end.first[:title].should == "barDiv"
+    end
+  end
+
+  describe '#css' do
+    it "should find nodes by the given CSS selector" do
+      @results = xpath { |x| x.css('#preference p') }
+      @results[0].text.should == 'allamas'
+      @results[1].text.should == 'llama'
+    end
+
+    it "should respect previous expression" do
+      @results = xpath { |x| x.descendant[x.attr(:id) == 'moar'].css('p') }
+      @results[0].text.should == 'chimp'
+      @results[1].text.should == 'flamingo'
+    end
+
+    it "should allow comma separated selectors" do
+      @results = xpath { |x| x.descendant[x.attr(:id) == 'moar'].css('div, p') }
+      @results[0].text.should == 'chimp'
+      @results[1].text.should == 'flamingo'
+      @results[2].text.should == 'elephant'
     end
   end
 
@@ -287,8 +308,8 @@ describe XPath do
 
   describe '#union' do
     it "should create a union expression" do
-      @expr1 = XPath.generate { |x| x.descendant(:p) } 
-      @expr2 = XPath.generate { |x| x.descendant(:div) } 
+      @expr1 = XPath.generate { |x| x.descendant(:p) }
+      @expr2 = XPath.generate { |x| x.descendant(:div) }
       @collection = @expr1.union(@expr2)
       @xpath1 = @collection.where(XPath.attr(:id) == 'foo').to_xpath
       @xpath2 = @collection.where(XPath.attr(:id) == XPath.varstring(:id)).apply(:id => 'fooDiv').to_xpath
@@ -299,8 +320,8 @@ describe XPath do
     end
 
     it "should be aliased as +" do
-      @expr1 = XPath.generate { |x| x.descendant(:p) } 
-      @expr2 = XPath.generate { |x| x.descendant(:div) } 
+      @expr1 = XPath.generate { |x| x.descendant(:p) }
+      @expr2 = XPath.generate { |x| x.descendant(:div) }
       @collection = @expr1 + @expr2
       @xpath1 = @collection.where(XPath.attr(:id) == 'foo').to_xpath
       @xpath2 = @collection.where(XPath.attr(:id) == XPath.varstring(:id)).apply(:id => 'fooDiv').to_xpath

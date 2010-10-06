@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 module XPath
   autoload :Expression, 'xpath/expression'
   autoload :Union, 'xpath/union'
@@ -47,6 +49,13 @@ module XPath
 
   def string
     Expression::StringFunction.new(current)
+  end
+
+  def css(selector)
+    paths = Nokogiri::CSS.xpath_for(selector).map do |selector|
+      Expression::CSS.new(current, Expression::Literal.new(selector))
+    end
+    Union.new(*paths)
   end
 
   def varstring(name)

@@ -3,10 +3,6 @@ module XPath
     include XPath
     extend self
 
-    def from_css(css)
-      XPath::Union.new(*Nokogiri::CSS.xpath_for(css).map { |selector| ::XPath::Expression::Literal.new(:".#{selector}") }.flatten)
-    end
-
     def link(locator)
       link = descendant(:a)[attr(:href)]
       link[attr(:id).equals(locator) | string.n.is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
@@ -99,14 +95,6 @@ module XPath
         cell_conditions = cell_conditions.next_sibling(:td, :th)[text.equals(cell)]
       end
       cell_conditions
-    end
-
-    def wrap(path)
-      if path.respond_to?(:to_xpaths)
-        path.to_xpaths
-      else
-        [path.to_s].flatten
-      end
     end
 
   protected

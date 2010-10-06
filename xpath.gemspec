@@ -22,7 +22,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = "1.3.6"
   s.summary = "Generate XPath expressions from Ruby"
 
+  s.add_dependency("nokogiri", ["~> 1.3"])
+
   s.add_development_dependency("rspec", [">= 1.2.9"])
-  s.add_development_dependency("nokogiri", [">= 1.3.3"])
   s.add_development_dependency("yard", [">= 0.5.8"])
 end
