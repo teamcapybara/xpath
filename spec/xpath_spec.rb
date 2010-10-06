@@ -43,6 +43,12 @@ describe XPath do
       @results[0].text.should == 'Blah'
       @results[3].text.should == 'A list'
     end
+
+    it "should find all nodes when no arguments given" do
+      @results = xpath { |x| x.descendant[x.attr(:id) == 'foo'].descendant }
+      @results[0].text.should == 'Blah'
+      @results[4].text.should == 'A list'
+    end
   end
 
   describe '#child' do
@@ -62,6 +68,12 @@ describe XPath do
       @results[0].text.should == 'Blah'
       @results[3].text.should == 'A list'
     end
+
+    it "should find all nodes when no arguments given" do
+      @results = xpath { |x| x.descendant[x.attr(:id) == 'foo'].child }
+      @results[0].text.should == 'Blah'
+      @results[3].text.should == 'A list'
+    end
   end
 
   describe '#next_sibling' do
@@ -70,6 +82,7 @@ describe XPath do
       xpath { |x| x.descendant(:p)[x.attr(:id) == 'fooDiv'].next_sibling(:ul, :p) }.first.text.should == 'Bax'
       xpath { |x| x.descendant(:p)[x.attr(:title) == 'monkey'].next_sibling(:ul, :p) }.first.text.should == 'A list'
       xpath { |x| x.descendant(:p)[x.attr(:id) == 'fooDiv'].next_sibling(:ul, :li) }.first.should be_nil
+      xpath { |x| x.descendant(:p)[x.attr(:id) == 'fooDiv'].next_sibling }.first.text.should == 'Bax'
     end
   end
 
