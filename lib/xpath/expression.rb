@@ -25,9 +25,6 @@ module XPath
       def initialize(left, expressions)
         @left = wrap_xpath(left)
         @expressions = expressions.map { |e| wrap_xpath(e) }
-        if @expressions.empty?
-          raise ArgumentError, "must specify at least one expression"
-        end
       end
     end
 
@@ -45,8 +42,10 @@ module XPath
       def to_xpath(predicate=nil)
         if @expressions.length == 1
           "#{@left.to_xpath(predicate)}/#{@expressions.first.to_xpath(predicate)}"
-        else
+        elsif @expressions.length > 1
           "#{@left.to_xpath(predicate)}/*[#{@expressions.map { |e| "self::#{e.to_xpath(predicate)}" }.join(" | ")}]"
+        else
+          "#{@left.to_xpath(predicate)}/*"
         end
       end
     end
@@ -55,8 +54,10 @@ module XPath
       def to_xpath(predicate=nil)
         if @expressions.length == 1
           "#{@left.to_xpath(predicate)}//#{@expressions.first.to_xpath(predicate)}"
-        else
+        elsif @expressions.length > 1
           "#{@left.to_xpath(predicate)}//*[#{@expressions.map { |e| "self::#{e.to_xpath(predicate)}" }.join(" | ")}]"
+        else
+          "#{@left.to_xpath(predicate)}//*"
         end
       end
     end
@@ -65,8 +66,10 @@ module XPath
       def to_xpath(predicate=nil)
         if @expressions.length == 1
           "#{@left.to_xpath(predicate)}/following-sibling::*[1]/self::#{@expressions.first.to_xpath(predicate)}"
-        else
+        elsif @expressions.length > 1
           "#{@left.to_xpath(predicate)}/following-sibling::*[1]/self::*[#{@expressions.map { |e| "self::#{e.to_xpath(predicate)}" }.join(" | ")}]"
+        else
+          "#{@left.to_xpath(predicate)}/following-sibling::*[1]/self::*"
         end
       end
     end
@@ -208,6 +211,12 @@ module XPath
         @expression.to_xpath(predicate).gsub(/%\{(\w+)\}/) do |_|
           @variables[$1.to_sym] or raise(ArgumentError, "expected variable #{$1} to be set")
         end
+      end
+    end
+
+    class CSS < Binary
+      def to_xpath(predicate=nil)
+        "#{@left.to_xpath}#{@right.to_xpath}"
       end
     end
 
