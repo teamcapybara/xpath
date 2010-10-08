@@ -86,4 +86,78 @@ describe XPath::HTML do
     it("accepts approximate legends") { get('Legend').should == 'fieldset-legend' }
     it("prefers exact legend")        { all('Long legend').should == ['fieldset-exact', 'fieldset-fuzzy'] }
   end
+
+  describe '#field' do
+    subject { :field }
+
+    context "by id" do
+      it("finds inputs with text type")     {}
+      it("finds inputs with password type") {}
+      it("finds inputs with custom type")   {}
+      it("finds textareas")                 {}
+      it("finds select boxes")              {}
+      it("does not find submit buttons")    {}
+      it("does not find image buttons")     {}
+      it("does not find hidden fields")     {}
+    end
+
+    context "by name" do
+      it("finds inputs with text type")     {}
+      it("finds inputs with password type") {}
+      it("finds inputs with custom type")   {}
+      it("finds textareas")                 {}
+      it("finds select boxes")              {}
+      it("does not find submit buttons")    {}
+      it("does not find image buttons")     {}
+      it("does not find hidden fields")     {}
+    end
+
+    context "by referenced label" do
+      it("finds inputs with text type")     {}
+      it("finds inputs with password type") {}
+      it("finds inputs with custom type")   {}
+      it("finds textareas")                 {}
+      it("finds select boxes")              {}
+      it("does not find submit buttons")    {}
+      it("does not find image buttons")     {}
+      it("does not find hidden fields")     {}
+    end
+
+    context "by parent label" do
+      it("finds inputs with text type")     {}
+      it("finds inputs with password type") {}
+      it("finds inputs with custom type")   {}
+      it("finds textareas")                 {}
+      it("finds select boxes")              {}
+      it("does not find submit buttons")    {}
+      it("does not find image buttons")     {}
+      it("does not find hidden fields")     {}
+    end
+
+    context "with :with option" do
+      it("finds inputs that match option")          {}
+      it("omits inputs that don't match option")    {}
+      it("finds textareas that match option")       {}
+      it("omits textareas that don't match option") {}
+    end
+
+    context "with :checked option" do
+      context "when true" do
+        it("finds checked fields")   {}
+        it("omits unchecked fields") {}
+      end
+      context "when false" do
+        it("finds unchecked fields") {}
+        it("omits checked fields")   {}
+      end
+      context "when ommitted" do
+        it("finds unchecked fields") {}
+        it("finds checked fields")   {}
+      end
+    end
+  end
+
+  describe '#fillable_field' do
+
+  end
 end
