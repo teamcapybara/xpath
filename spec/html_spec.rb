@@ -18,58 +18,58 @@ describe XPath::HTML do
 
   describe '#link' do
     it "finds links by id" do
-      get(XPath::HTML.link('some-id'))[:href].should == '#id'
+      get(XPath::HTML.link('some-id'))[:data].should == 'link-id'
     end
 
     it "finds links by content" do
-      get(XPath::HTML.link('An awesome link'))[:href].should == '#link'
+      get(XPath::HTML.link('An awesome link'))[:data].should == 'link-text'
     end
 
     it "finds links by content without caring about whitespace" do
-      get(XPath::HTML.link('My whitespaced link'))[:href].should == '#spacey'
+      get(XPath::HTML.link('My whitespaced link'))[:data].should == 'link-whitespace'
     end
 
     it "finds links with child tags by content" do
-      get(XPath::HTML.link('An emphatic link'))[:href].should == '#has-children'
-      get(XPath::HTML.link('emphatic'))[:href].should == '#has-children'
+      get(XPath::HTML.link('An emphatic link'))[:data].should == 'link-children'
+      get(XPath::HTML.link('emphatic'))[:data].should == 'link-children'
     end
 
     it "finds links by approximate content" do
-      get(XPath::HTML.link('awesome'))[:href].should == '#link'
+      get(XPath::HTML.link('awesome'))[:data].should == 'link-text'
     end
 
     it "prefers exact matches of content" do
       result = all(XPath::HTML.link('A link'))
-      result[0][:href].should == '#foo'
-      result[1][:href].should == '#bar'
+      result[0][:data].should == 'link-exact'
+      result[1][:data].should == 'link-fuzzy'
     end
 
     it "finds links by title" do
-      get(XPath::HTML.link('My title'))[:href].should == '#title'
+      get(XPath::HTML.link('My title'))[:data].should == 'link-title'
     end
 
     it "finds links by approximate title" do
-      get(XPath::HTML.link('title'))[:href].should == '#title'
+      get(XPath::HTML.link('title'))[:data].should == 'link-title'
     end
 
     it "prefers exact matches of title" do
       result = all(XPath::HTML.link('This title'))
-      result[0][:href].should == '#foo'
-      result[1][:href].should == '#bar'
+      result[0][:data].should == 'link-exact'
+      result[1][:data].should == 'link-fuzzy'
     end
 
     it "finds links by an image's alt attribute" do
-      get(XPath::HTML.link('Alt link'))[:href].should == '#image'
+      get(XPath::HTML.link('Alt link'))[:data].should == 'link-img'
     end
 
     it "finds links by an image's approximate alt attribute" do
-      get(XPath::HTML.link('Alt'))[:href].should == '#image'
+      get(XPath::HTML.link('Alt'))[:data].should == 'link-img'
     end
 
     it "prefers exact matches of image's alt attribute" do
       result = all(XPath::HTML.link('An image'))
-      result[0][:href].should == '#foo'
-      result[1][:href].should == '#bar'
+      result[0][:data].should == 'link-img-exact'
+      result[1][:data].should == 'link-img-fuzzy'
     end
 
     it "does not find links without href attriutes" do
@@ -174,8 +174,8 @@ describe XPath::HTML do
       end
 
       it "finds buttons with child tags by text" do
-        get(XPath::HTML.button('An emphatic button'))[:href].should == 'btag-with-children'
-        get(XPath::HTML.button('emphatic'))[:href].should == 'btag-with-children'
+        get(XPath::HTML.button('An emphatic button'))[:data].should == 'btag-with-children'
+        get(XPath::HTML.button('emphatic'))[:data].should == 'btag-with-children'
       end
 
       it "prefers buttons with exact text" do

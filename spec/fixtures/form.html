@@ -1,20 +1,20 @@
 <h1>Form</h1>
 
 <p>
-  <a id="awesome-link" href="#link">An awesome link</a>
-  <a id="some-id" href="#id">With id</a>
-  <a title="My title" href="#title">A cool title</a>
-  <a href="#image"><img src="foo.png" alt="Alt link"/></a>
-  <a title="This title is too long" href="#bar">A link at a time</a>
-  <a title="This title" href="#foo">A link</a>
-  <a href="#bar"><img src="foo.png" alt="An image that is beautiful"/></a>
-  <a href="#foo"><img src="foo.ong" alt="An image"/></a>
+  <a id="awesome-link" data="link-text" href="#link">An awesome link</a>
+  <a id="some-id" data="link-id" href="#id">With id</a>
+  <a title="My title" data="link-title" href="#title">A cool title</a>
+  <a href="#image" data="link-img"><img src="foo.png" alt="Alt link"/></a>
+  <a title="This title is too long" data="link-fuzzy" href="#bar">A link at a time</a>
+  <a title="This title" data="link-exact" href="#foo">A link</a>
+  <a href="#bar" data="link-img-fuzzy"><img src="foo.png" alt="An image that is beautiful"/></a>
+  <a href="#foo" data="link-img-exact"><img src="foo.ong" alt="An image"/></a>
   <a>Wrong Link</a>
-  <a href="#spacey">    My
+  <a href="#spacey" data="link-whitespace">    My
 
       whitespaced
     link</a>
-  <a href="#has-children">
+  <a href="#has-children" data="link-children">
     An <em>emphatic</em> link with some children
   </a>
 </p>
@@ -49,7 +49,7 @@
 
       whitespaced
     button</button>
-  <button href="btag-with-children">
+  <button data="btag-with-children">
     An <em>emphatic</em> button with some children
   </button>
 
