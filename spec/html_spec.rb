@@ -13,7 +13,7 @@ describe XPath::HTML do
   def all(xpath)
     xpath.to_xpaths.map do |xpath|
       doc.xpath(xpath)
-    end.flatten.map { |node| node[:data] }
+    end.flatten.uniq.map { |node| node[:data] }
   end
 
   describe '#link' do
@@ -39,9 +39,7 @@ describe XPath::HTML do
     end
 
     it "prefers exact matches of content" do
-      result = all(XPath::HTML.link('A link'))
-      result[0].should == 'link-exact'
-      result[1].should == 'link-fuzzy'
+      all(XPath::HTML.link('A link')).should == ['link-exact', 'link-fuzzy']
     end
 
     it "finds links by title" do
@@ -53,9 +51,7 @@ describe XPath::HTML do
     end
 
     it "prefers exact matches of title" do
-      result = all(XPath::HTML.link('This title'))
-      result[0].should == 'link-exact'
-      result[1].should == 'link-fuzzy'
+      all(XPath::HTML.link('This title')).should == ['link-exact', 'link-fuzzy']
     end
 
     it "finds links by an image's alt attribute" do
@@ -67,9 +63,7 @@ describe XPath::HTML do
     end
 
     it "prefers exact matches of image's alt attribute" do
-      result = all(XPath::HTML.link('An image'))
-      result[0].should == 'link-img-exact'
-      result[1].should == 'link-img-fuzzy'
+      all(XPath::HTML.link('An image')).should == ['link-img-exact', 'link-img-fuzzy']
     end
 
     it "does not find links without href attriutes" do
@@ -92,9 +86,7 @@ describe XPath::HTML do
       end
 
       it "finds prefers buttons with exact value " do
-        results = all(XPath::HTML.button('exact value submit'))
-        results[0].should == 'exact-value-submit'
-        results[1].should == 'not-exact-value-submit'
+        all(XPath::HTML.button('exact value submit')).should == ['exact-value-submit', 'not-exact-value-submit']
       end
     end
 
@@ -112,9 +104,7 @@ describe XPath::HTML do
       end
 
       it "finds prefers buttons with exact value " do
-        results = all(XPath::HTML.button('exact value button'))
-        results[0].should == 'exact-value-button'
-        results[1].should == 'not-exact-value-button'
+        all(XPath::HTML.button('exact value button')).should == ['exact-value-button', 'not-exact-value-button']
       end
     end
 
@@ -136,9 +126,7 @@ describe XPath::HTML do
       end
 
       it "prefers buttons with exact value " do
-        results = all(XPath::HTML.button('exact value imgbut'))
-        results[0].should == 'exact-value-imgbut'
-        results[1].should == 'not-exact-value-imgbut'
+        all(XPath::HTML.button('exact value imgbut')).should == ['exact-value-imgbut', 'not-exact-value-imgbut']
       end
     end
 
@@ -156,9 +144,7 @@ describe XPath::HTML do
       end
 
       it "finds prefers buttons with exact value " do
-        results = all(XPath::HTML.button('exact value btag'))
-        results[0].should == 'exact-value-btag'
-        results[1].should == 'not-exact-value-btag'
+        all(XPath::HTML.button('exact value btag')).should == ['exact-value-btag', 'not-exact-value-btag']
       end
 
       it "finds buttons by text" do
@@ -179,9 +165,7 @@ describe XPath::HTML do
       end
 
       it "prefers buttons with exact text" do
-        results = all(XPath::HTML.button('exact text btag'))
-        results[0].should == 'exact-text-btag'
-        results[1].should == 'not-exact-text-btag'
+        all(XPath::HTML.button('exact text btag')).should == ['exact-text-btag', 'not-exact-text-btag']
       end
     end
 
