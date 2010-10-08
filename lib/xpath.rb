@@ -51,6 +51,10 @@ module XPath
     Expression::StringFunction.new(current)
   end
 
+  def tag(name)
+    Expression::Tag.new(name)
+  end
+
   def css(selector)
     paths = Nokogiri::CSS.xpath_for(selector).map do |selector|
       Expression::CSS.new(current, Expression::Literal.new(selector))

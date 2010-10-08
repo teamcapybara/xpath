@@ -74,6 +74,12 @@ module XPath
       end
     end
 
+    class Tag < Unary
+      def to_xpath(predicate=nil)
+        "self::#{@expression.to_xpath(predicate)}"
+      end
+    end
+
     class Anywhere < Unary
       def to_xpath(predicate=nil)
         "//#{@expression.to_xpath(predicate)}"
