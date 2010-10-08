@@ -13,63 +13,63 @@ describe XPath::HTML do
   def all(xpath)
     xpath.to_xpaths.map do |xpath|
       doc.xpath(xpath)
-    end.flatten
+    end.flatten.map { |node| node[:data] }
   end
 
   describe '#link' do
     it "finds links by id" do
-      get(XPath::HTML.link('some-id'))[:data].should == 'link-id'
+      get(XPath::HTML.link('some-id')).should == 'link-id'
     end
 
     it "finds links by content" do
-      get(XPath::HTML.link('An awesome link'))[:data].should == 'link-text'
+      get(XPath::HTML.link('An awesome link')).should == 'link-text'
     end
 
     it "finds links by content without caring about whitespace" do
-      get(XPath::HTML.link('My whitespaced link'))[:data].should == 'link-whitespace'
+      get(XPath::HTML.link('My whitespaced link')).should == 'link-whitespace'
     end
 
     it "finds links with child tags by content" do
-      get(XPath::HTML.link('An emphatic link'))[:data].should == 'link-children'
-      get(XPath::HTML.link('emphatic'))[:data].should == 'link-children'
+      get(XPath::HTML.link('An emphatic link')).should == 'link-children'
+      get(XPath::HTML.link('emphatic')).should == 'link-children'
     end
 
     it "finds links by approximate content" do
-      get(XPath::HTML.link('awesome'))[:data].should == 'link-text'
+      get(XPath::HTML.link('awesome')).should == 'link-text'
     end
 
     it "prefers exact matches of content" do
       result = all(XPath::HTML.link('A link'))
-      result[0][:data].should == 'link-exact'
-      result[1][:data].should == 'link-fuzzy'
+      result[0].should == 'link-exact'
+      result[1].should == 'link-fuzzy'
     end
 
     it "finds links by title" do
-      get(XPath::HTML.link('My title'))[:data].should == 'link-title'
+      get(XPath::HTML.link('My title')).should == 'link-title'
     end
 
     it "finds links by approximate title" do
-      get(XPath::HTML.link('title'))[:data].should == 'link-title'
+      get(XPath::HTML.link('title')).should == 'link-title'
     end
 
     it "prefers exact matches of title" do
       result = all(XPath::HTML.link('This title'))
-      result[0][:data].should == 'link-exact'
-      result[1][:data].should == 'link-fuzzy'
+      result[0].should == 'link-exact'
+      result[1].should == 'link-fuzzy'
     end
 
     it "finds links by an image's alt attribute" do
-      get(XPath::HTML.link('Alt link'))[:data].should == 'link-img'
+      get(XPath::HTML.link('Alt link')).should == 'link-img'
     end
 
     it "finds links by an image's approximate alt attribute" do
-      get(XPath::HTML.link('Alt'))[:data].should == 'link-img'
+      get(XPath::HTML.link('Alt')).should == 'link-img'
     end
 
     it "prefers exact matches of image's alt attribute" do
       result = all(XPath::HTML.link('An image'))
-      result[0][:data].should == 'link-img-exact'
-      result[1][:data].should == 'link-img-fuzzy'
+      result[0].should == 'link-img-exact'
+      result[1].should == 'link-img-fuzzy'
     end
 
     it "does not find links without href attriutes" do
@@ -80,108 +80,108 @@ describe XPath::HTML do
   describe '#button' do
     context "with submit type" do
       it "finds buttons by id" do
-        get(XPath::HTML.button('submit-with-id'))[:data].should == 'id-submit'
+        get(XPath::HTML.button('submit-with-id')).should == 'id-submit'
       end
 
       it "finds buttons by value" do
-        get(XPath::HTML.button('submit-with-value'))[:data].should == 'value-submit'
+        get(XPath::HTML.button('submit-with-value')).should == 'value-submit'
       end
 
       it "finds buttons by approximate value " do
-        get(XPath::HTML.button('mit-with-val'))[:data].should == 'value-submit'
+        get(XPath::HTML.button('mit-with-val')).should == 'value-submit'
       end
 
       it "finds prefers buttons with exact value " do
         results = all(XPath::HTML.button('exact value submit'))
-        results[0][:data].should == 'exact-value-submit'
-        results[1][:data].should == 'not-exact-value-submit'
+        results[0].should == 'exact-value-submit'
+        results[1].should == 'not-exact-value-submit'
       end
     end
 
     context "with button type" do
       it "finds buttons by id" do
-        get(XPath::HTML.button('button-with-id'))[:data].should == 'id-button'
+        get(XPath::HTML.button('button-with-id')).should == 'id-button'
       end
 
       it "finds buttons by value" do
-        get(XPath::HTML.button('button-with-value'))[:data].should == 'value-button'
+        get(XPath::HTML.button('button-with-value')).should == 'value-button'
       end
 
       it "finds buttons by approximate value " do
-        get(XPath::HTML.button('ton-with-val'))[:data].should == 'value-button'
+        get(XPath::HTML.button('ton-with-val')).should == 'value-button'
       end
 
       it "finds prefers buttons with exact value " do
         results = all(XPath::HTML.button('exact value button'))
-        results[0][:data].should == 'exact-value-button'
-        results[1][:data].should == 'not-exact-value-button'
+        results[0].should == 'exact-value-button'
+        results[1].should == 'not-exact-value-button'
       end
     end
 
     context "with image type" do
       it "finds buttons by id" do
-        get(XPath::HTML.button('imgbut-with-id'))[:data].should == 'id-imgbut'
+        get(XPath::HTML.button('imgbut-with-id')).should == 'id-imgbut'
       end
 
       it "finds buttons by value" do
-        get(XPath::HTML.button('imgbut-with-value'))[:data].should == 'value-imgbut'
+        get(XPath::HTML.button('imgbut-with-value')).should == 'value-imgbut'
       end
 
       it "finds buttons by approximate value " do
-        get(XPath::HTML.button('gbut-with-val'))[:data].should == 'value-imgbut'
+        get(XPath::HTML.button('gbut-with-val')).should == 'value-imgbut'
       end
 
       it "finds buttons by alt attribute" do
-        get(XPath::HTML.button('imgbut-with-alt'))[:data].should == 'alt-imgbut'
+        get(XPath::HTML.button('imgbut-with-alt')).should == 'alt-imgbut'
       end
 
       it "prefers buttons with exact value " do
         results = all(XPath::HTML.button('exact value imgbut'))
-        results[0][:data].should == 'exact-value-imgbut'
-        results[1][:data].should == 'not-exact-value-imgbut'
+        results[0].should == 'exact-value-imgbut'
+        results[1].should == 'not-exact-value-imgbut'
       end
     end
 
     context "with button tag" do
       it "finds buttons by id" do
-        get(XPath::HTML.button('btag-with-id'))[:data].should == 'id-btag'
+        get(XPath::HTML.button('btag-with-id')).should == 'id-btag'
       end
 
       it "finds buttons by value" do
-        get(XPath::HTML.button('btag-with-value'))[:data].should == 'value-btag'
+        get(XPath::HTML.button('btag-with-value')).should == 'value-btag'
       end
 
       it "finds buttons by approximate value " do
-        get(XPath::HTML.button('tag-with-val'))[:data].should == 'value-btag'
+        get(XPath::HTML.button('tag-with-val')).should == 'value-btag'
       end
 
       it "finds prefers buttons with exact value " do
         results = all(XPath::HTML.button('exact value btag'))
-        results[0][:data].should == 'exact-value-btag'
-        results[1][:data].should == 'not-exact-value-btag'
+        results[0].should == 'exact-value-btag'
+        results[1].should == 'not-exact-value-btag'
       end
 
       it "finds buttons by text" do
-        get(XPath::HTML.button('btag-with-text'))[:data].should == 'text-btag'
+        get(XPath::HTML.button('btag-with-text')).should == 'text-btag'
       end
 
       it "finds buttons by text ignoring whitespace" do
-        get(XPath::HTML.button('My whitespaced button'))[:data].should == 'btag-with-whitespace'
+        get(XPath::HTML.button('My whitespaced button')).should == 'btag-with-whitespace'
       end
 
       it "finds buttons by approximate text " do
-        get(XPath::HTML.button('tag-with-tex'))[:data].should == 'text-btag'
+        get(XPath::HTML.button('tag-with-tex')).should == 'text-btag'
       end
 
       it "finds buttons with child tags by text" do
-        get(XPath::HTML.button('An emphatic button'))[:data].should == 'btag-with-children'
-        get(XPath::HTML.button('emphatic'))[:data].should == 'btag-with-children'
+        get(XPath::HTML.button('An emphatic button')).should == 'btag-with-children'
+        get(XPath::HTML.button('emphatic')).should == 'btag-with-children'
       end
 
       it "prefers buttons with exact text" do
         results = all(XPath::HTML.button('exact text btag'))
-        results[0][:data].should == 'exact-text-btag'
-        results[1][:data].should == 'not-exact-text-btag'
+        results[0].should == 'exact-text-btag'
+        results[1].should == 'not-exact-text-btag'
       end
     end
 
