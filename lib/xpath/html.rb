@@ -27,15 +27,12 @@ module XPath
     end
 
     def field(locator, options={})
-      if options[:with]
-        fillable_field(locator, options)
-      else
-        xpath = descendant(:input, :textarea, :select)[~attr(:type).one_of('submit', 'image', 'hidden')]
-        xpath = locate_field(xpath, locator)
-        xpath = xpath[attr(:checked)] if options[:checked]
-        xpath = xpath[~attr(:checked)] if options[:unchecked]
-        xpath
-      end
+      xpath = descendant(:input, :textarea, :select)[~attr(:type).one_of('submit', 'image', 'hidden')]
+      xpath = locate_field(xpath, locator)
+      xpath = xpath[attr(:checked)] if options[:checked]
+      xpath = xpath[~attr(:checked)] if options[:unchecked]
+      xpath = xpath[field_value(options[:with])] if options.has_key?(:with)
+      xpath
     end
 
     def fillable_field(locator, options={})
@@ -105,7 +102,7 @@ module XPath
     end
 
     def field_value(value)
-      (text.is(value) & name.equals('textarea')) | (attr(:value).equals(value) & ~name.equals('textarea'))
+      (text.is(value) & tag(:textarea)) | (attr(:value).equals(value) & ~tag(:textarea))
     end
 
   end
