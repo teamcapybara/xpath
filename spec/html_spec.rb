@@ -76,6 +76,5 @@ describe XPath::HTML do
     context "with unkown type" do
       it("does not find the button") { get('schmoo button').should be_nil }
     end
-
   end
 end
