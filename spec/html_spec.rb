@@ -77,4 +77,13 @@ describe XPath::HTML do
       it("does not find the button") { get('schmoo button').should be_nil }
     end
   end
+
+  describe '#fieldset' do
+    subject { :fieldset }
+
+    it("finds fieldsets by id")       { get('some-fieldset-id').should == 'fieldset-id' }
+    it("finds fieldsets by legend")   { get('Some Legend').should == 'fieldset-legend' }
+    it("accepts approximate legends") { get('Legend').should == 'fieldset-legend' }
+    it("prefers exact legend")        { all('Long legend').should == ['fieldset-exact', 'fieldset-fuzzy'] }
+  end
 end
