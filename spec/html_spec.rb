@@ -124,14 +124,15 @@ describe XPath::HTML do
     end
 
     context "by parent label" do
-      it("finds inputs with text type")     {}
-      it("finds inputs with password type") {}
-      it("finds inputs with custom type")   {}
-      it("finds textareas")                 {}
-      it("finds select boxes")              {}
-      it("does not find submit buttons")    {}
-      it("does not find image buttons")     {}
-      it("does not find hidden fields")     {}
+      it("finds inputs with text type")                    { get('Label text').should == 'id-text' }
+      it("finds inputs where label has problem chars")     { get("Label text's got an apostrophe").should == 'id-problem-text' }
+      it("finds inputs with password type")                {}
+      it("finds inputs with custom type")                  {}
+      it("finds textareas")                                {}
+      it("finds select boxes")                             {}
+      it("does not find submit buttons")                   {}
+      it("does not find image buttons")                    {}
+      it("does not find hidden fields")                    {}
     end
 
     context "with :with option" do
