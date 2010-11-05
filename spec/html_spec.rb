@@ -158,6 +158,10 @@ describe XPath::HTML do
   end
 
   describe '#fillable_field' do
-
+    subject{ :fillable_field }
+    it("finds fields with contenteditable='true'") do
+      get('div').should == 'id-contenteditable-div'
+      all('h1').last.should == 'id-contenteditable-h1'
+    end
   end
 end
