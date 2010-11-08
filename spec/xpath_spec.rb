@@ -265,11 +265,17 @@ describe XPath do
       @results[1].text.should == 'flamingo'
     end
 
+    it "should be composable" do
+      @results = xpath { |x| x.css('#moar').descendant(:p) }
+      @results[0].text.should == 'chimp'
+      @results[1].text.should == 'flamingo'
+    end
+
     it "should allow comma separated selectors" do
       @results = xpath { |x| x.descendant[x.attr(:id) == 'moar'].css('div, p') }
       @results[0].text.should == 'chimp'
-      @results[1].text.should == 'flamingo'
-      @results[2].text.should == 'elephant'
+      @results[1].text.should == 'elephant'
+      @results[2].text.should == 'flamingo'
     end
   end
 
