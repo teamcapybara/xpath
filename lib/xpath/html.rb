@@ -70,6 +70,10 @@ module XPath
       locate_field(descendant(:input)[attr(:type).equals('file')], locator)
     end
 
+    def optgroup(name)
+      descendant(:optgroup)[attr(:label).is(name)]
+    end
+
     def option(name)
       descendant(:option)[text.n.is(name)]
     end
