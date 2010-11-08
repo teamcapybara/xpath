@@ -126,14 +126,15 @@ module XPath
       end
 
       def to_xpath(predicate=nil)
-        @expression = @expression.to_xpath(predicate) unless @expression.is_a?(String)
-        if @expression.include?("'")
-          @expression = @expression.split("'", -1).map do |substr|
+        string = @expression
+        string = @expression.to_xpath(predicate) unless @expression.is_a?(String)
+        if string.include?("'")
+          string = string.split("'", -1).map do |substr|
             "'#{substr}'"
           end.join(%q{,"'",})
-          "concat(#{@expression})"
+          "concat(#{string})"
         else
-          "'#{@expression}'"
+          "'#{string}'"
         end
       end
     end
