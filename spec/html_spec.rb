@@ -157,6 +157,11 @@ describe XPath::HTML do
         it("finds checked fields")    { get("unchecked-checkbox").should == "unchecked" }
       end
     end
+    
+    context "with :disabled option" do
+      it("finds disabled fields")     { get("disabled-text", :disabled => true).should == "disabled" }
+      it("omits enabled fields")      { get("Label text", :disabled => true).should be_nil }
+    end
   end
 
   describe '#fillable_field' do

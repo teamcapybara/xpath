@@ -31,6 +31,7 @@ module XPath
       xpath = locate_field(xpath, locator)
       xpath = xpath[attr(:checked)] if options[:checked]
       xpath = xpath[~attr(:checked)] if options[:unchecked]
+      xpath = xpath[attr(:disabled)] if options[:disabled]
       xpath = xpath[field_value(options[:with])] if options.has_key?(:with)
       xpath
     end
