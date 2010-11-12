@@ -20,7 +20,10 @@
 </p>
 
 <p>
-  <input type="submit" id="submit-with-id" data="id-submit" value="Has ID"/>
+  <label for="submit-with-id">Referenced label for submit</label>
+  <label>Label for submit
+    <input type="submit" id="submit-with-id" name="submit-with-name" data="id-submit" value="Has ID"/>
+  </label>
   <input type="submit" value="submit-with-value" data="value-submit"/>
   <input type="submit" value="not exact value submit" data="not-exact-value-submit"/>
   <input type="submit" value="exact value submit" data="exact-value-submit"/>
@@ -30,7 +33,10 @@
   <input type="button" value="not exact value button" data="not-exact-value-button"/>
   <input type="button" value="exact value button" data="exact-value-button"/>
 
-  <input type="image" id="imgbut-with-id" data="id-imgbut" value="Has ID"/>
+  <label for="imgbut-with-id">Referenced label for image</label>
+  <label>Label for image
+    <input type="image" id="imgbut-with-id" name="imgbut-with-name" data="id-imgbut" value="Has ID"/>
+  </label>
   <input type="image" value="imgbut-with-value" data="value-imgbut"/>
   <input type="image" alt="imgbut-with-alt" data="alt-imgbut"/>
   <input type="image" value="not exact value imgbut" data="not-exact-value-imgbut"/>
@@ -58,9 +64,34 @@
     An <em>emphatic</em> button with some children
   </button>
 
-  <input type="schmoo" value="schmoo button" data="schmoo"/>
-  <label for="text-with-id">Label text <input type="text" id="text-with-id" data="id-text" value="monkey"/></label>
-  <label for="problem-text-with-id">Label text's got an apostrophe <input type="text" id="problem-text-with-id" data="id-problem-text" value="monkey"/></label>
+  <label for="schmoo-with-id">Referenced label for schmoo</label>
+  <label>Label for schmoo
+    <input type="schmoo" value="schmoo button" data="schmoo" id="schmoo-with-id" name="schmoo-with-name"/>
+  </label>
+  <label for="text-with-id">Referenced label for text</label>
+  <label for="text-with-id">Label text
+    <input type="text" id="text-with-id" name="text-with-name" data="id-text" value="monkey"/>
+  </label>
+  <label for="problem-text-with-id">Label text's got an apostrophe
+    <input type="text" id="problem-text-with-id" data="id-problem-text" value="monkey"/>
+  </label>
+  <label for="password-with-id">Referenced label for password</label>
+  <label>Label for password
+    <input type="password" id="password-with-id" name="password-with-name" data="id-password" />
+  </label>
+  <label for="textarea-with-id">Referenced label for textarea</label>
+  <label>Label for textarea
+    <textarea id="textarea-with-id" data="id-textarea" name="textarea-with-name">wadus</textarea>
+  </label>
+  <label for="hidden-with-id">Referenced label for hidden</label>
+  <label>Label for hidden
+    <input type="hidden" id="hidden-with-id" name="hidden-with-name" data="id-hidden" />
+  </label>
+</p>
+
+<p>
+  <input type="checkbox" id="checked-checkbox" data="checked" checked="checked" />
+  <input type="checkbox" id="unchecked-checkbox" data="unchecked" />
 </p>
 
 <p>
@@ -76,4 +107,8 @@
     <optgroup label="Group A" data="optgroup-a"></optgroup>
     <optgroup label="Group B" data="optgroup-b"></optgroup>
   </select>
+  <label for="select-with-id">Referenced label for select</label>
+  <label>Label for select
+    <select id="select-with-id" name="select-with-name" data="id-select"></select>
+  </label>
 </p>

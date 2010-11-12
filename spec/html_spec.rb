@@ -92,69 +92,69 @@ describe XPath::HTML do
     subject { :field }
 
     context "by id" do
-      it("finds inputs with text type")     {}
-      it("finds inputs with password type") {}
-      it("finds inputs with custom type")   {}
-      it("finds textareas")                 {}
-      it("finds select boxes")              {}
-      it("does not find submit buttons")    {}
-      it("does not find image buttons")     {}
-      it("does not find hidden fields")     {}
+      it("finds inputs with text type")     { get('text-with-id').should == 'id-text' }
+      it("finds inputs with password type") { get('password-with-id').should == 'id-password' }
+      it("finds inputs with custom type")   { get('schmoo-with-id').should == 'schmoo' }
+      it("finds textareas")                 { get('textarea-with-id').should == 'id-textarea' }
+      it("finds select boxes")              { get('select-with-id').should == 'id-select' }
+      it("does not find submit buttons")    { get('submit-with-id').should be_nil }
+      it("does not find image buttons")     { get('imgbut-with-id').should be_nil }
+      it("does not find hidden fields")     { get('hidden-with-id').should be_nil }
     end
 
     context "by name" do
-      it("finds inputs with text type")     {}
-      it("finds inputs with password type") {}
-      it("finds inputs with custom type")   {}
-      it("finds textareas")                 {}
-      it("finds select boxes")              {}
-      it("does not find submit buttons")    {}
-      it("does not find image buttons")     {}
-      it("does not find hidden fields")     {}
+      it("finds inputs with text type")     { get('text-with-name').should == 'id-text' }
+      it("finds inputs with password type") { get('password-with-name').should == 'id-password' }
+      it("finds inputs with custom type")   { get('schmoo-with-name').should == 'schmoo' }
+      it("finds textareas")                 { get('textarea-with-name').should == 'id-textarea' }
+      it("finds select boxes")              { get('select-with-name').should == 'id-select' }
+      it("does not find submit buttons")    { get('submit-with-name').should be_nil }
+      it("does not find image buttons")     { get('imgbut-with-name').should be_nil }
+      it("does not find hidden fields")     { get('hidden-with-name').should be_nil }
     end
 
     context "by referenced label" do
-      it("finds inputs with text type")     {}
-      it("finds inputs with password type") {}
-      it("finds inputs with custom type")   {}
-      it("finds textareas")                 {}
-      it("finds select boxes")              {}
-      it("does not find submit buttons")    {}
-      it("does not find image buttons")     {}
-      it("does not find hidden fields")     {}
+      it("finds inputs with text type")     { get('Referenced label for text').should == 'id-text' }
+      it("finds inputs with password type") { get('Referenced label for password').should == 'id-password' }
+      it("finds inputs with custom type")   { get('Referenced label for schmoo').should == 'schmoo' }
+      it("finds textareas")                 { get('Referenced label for textarea').should == 'id-textarea' }
+      it("finds select boxes")              { get('Referenced label for select').should == 'id-select' }
+      it("does not find submit buttons")    { get('Referenced label for submit').should be_nil }
+      it("does not find image buttons")     { get('Referenced label for image').should be_nil }
+      it("does not find hidden fields")     { get('Referenced label for hidden').should  be_nil }
     end
 
     context "by parent label" do
       it("finds inputs with text type")                    { get('Label text').should == 'id-text' }
       it("finds inputs where label has problem chars")     { get("Label text's got an apostrophe").should == 'id-problem-text' }
-      it("finds inputs with password type")                {}
-      it("finds inputs with custom type")                  {}
-      it("finds textareas")                                {}
-      it("finds select boxes")                             {}
-      it("does not find submit buttons")                   {}
-      it("does not find image buttons")                    {}
-      it("does not find hidden fields")                    {}
+      it("finds inputs with password type")                { get('Label for password').should == 'id-password' }
+      it("finds inputs with custom type")                  { get('Label for schmoo').should == 'schmoo' }
+      it("finds textareas")                                { get('Label for textarea').should == 'id-textarea' }
+      it("finds select boxes")                             { get('Label for select').should == 'id-select' }
+      it("does not find submit buttons")                   { get('Label for submit').should be_nil }
+      it("does not find image buttons")                    { get('Label for image').should be_nil }
+      it("does not find hidden fields")                    { get('Label for hidden').should  be_nil }
     end
 
     context "with :with option" do
-      it("finds inputs that match option")          {}
-      it("omits inputs that don't match option")    {}
-      it("finds textareas that match option")       {}
-      it("omits textareas that don't match option") {}
+      it("finds inputs that match option")          { get("Label text", :with => "monkey").should == 'id-text' }
+      it("omits inputs that don't match option")    { get("Label text", :with => "donkey").should be_nil }
+      it("finds textareas that match option")       { get("Label for textarea", :with => "wadus").should == 'id-textarea' }
+      it("omits textareas that don't match option") { get("Label for textarea", :with => "monkey").should be_nil }
     end
 
-    context "with :checked option" do
-      context "when true" do
-        it("finds checked fields")   {}
-        it("omits unchecked fields") {}
+    context "with :checked & :unchecked options" do
+      context "when :checked => true" do
+        it("finds checked fields")    { get("checked-checkbox", :checked => true).should == "checked" }
+        it("omits unchecked fields")  { get("unchecked-checkbox", :checked => true).should be_nil }
       end
-      context "when false" do
-        it("finds unchecked fields") {}
-        it("omits checked fields")   {}
+      context "when :unchecked => true" do
+        it("finds unchecked fields")  { get("unchecked-checkbox", :unchecked => true).should == "unchecked" }
+        it("omits checked fields")    { get("checked-checkbox", :unchecked => true).should be_nil }
       end
       context "when ommitted" do
-        it("finds unchecked fields") {}
-        it("finds checked fields")   {}
+        it("finds unchecked fields")  { get("checked-checkbox").should == "checked" }
+        it("finds checked fields")    { get("unchecked-checkbox").should == "unchecked" }
       end
     end
   end
