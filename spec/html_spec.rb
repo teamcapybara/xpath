@@ -34,6 +34,7 @@ describe XPath::HTML do
     it("prefers exact matches of image's alt attribute")   { all('An image').should == ['link-img-exact', 'link-img-fuzzy'] }
     it("does not find links without href attriutes")       { get('Wrong Link').should be_nil }
     it("finds links with an href")                         { get("Href-ed link", :href => 'http://www.example.com').should == 'link-href' }
+    it("does not find links with an incorrect href")       { get("Href-ed link", :href => 'http://www.somewhere.com').should be_nil }
   end
 
   describe '#button' do
