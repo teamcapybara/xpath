@@ -172,4 +172,10 @@ describe XPath::HTML do
 
     it("finds optgroups by label") { get('Group A').should == 'optgroup-a' }
   end
+
+  describe "#table" do
+    subject {:table}
+
+    it("finds cell content regardless of whitespace") {get('whitespaced-table', :rows => [["I have nested whitespace", "I don't"]]).should == 'table-with-whitespace'}
+  end
 end

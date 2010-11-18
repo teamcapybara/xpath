@@ -93,9 +93,9 @@ module XPath
     end
 
     def table_row(cells)
-      cell_conditions = child(:td, :th)[text.equals(cells.first)]
+      cell_conditions = child(:td, :th)[string.n.equals(cells.first)]
       cells.drop(1).each do |cell|
-        cell_conditions = cell_conditions.next_sibling(:td, :th)[text.equals(cell)]
+        cell_conditions = cell_conditions.next_sibling(:td, :th)[string.n.equals(cell)]
       end
       cell_conditions
     end
