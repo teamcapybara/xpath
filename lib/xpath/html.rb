@@ -3,8 +3,9 @@ module XPath
     include XPath
     extend self
 
-    def link(locator)
-      link = descendant(:a)[attr(:href)]
+    def link(locator, options={})
+      href = options[:href]
+      link = descendant(:a)[href ? attr(:href).equals(href) : attr(:href)]
       link[attr(:id).equals(locator) | string.n.is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
     end
 

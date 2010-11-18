@@ -33,6 +33,7 @@ describe XPath::HTML do
     it("finds links by image's approximate alt attribute") { get('Alt').should == 'link-img' }
     it("prefers exact matches of image's alt attribute")   { all('An image').should == ['link-img-exact', 'link-img-fuzzy'] }
     it("does not find links without href attriutes")       { get('Wrong Link').should be_nil }
+    it("finds links with an href")                         { get("Href-ed link", :href => 'http://www.example.com').should == 'link-href' }
   end
 
   describe '#button' do
