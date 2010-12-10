@@ -38,7 +38,7 @@ module XPath
     def fillable_field(locator, options={})
       html4 = descendant(:input, :textarea)[~attr(:type).one_of('submit', 'image', 'radio', 'checkbox', 'hidden', 'file')]
       html5 = descendant(:'*')[attr(:contenteditable).equals('true')]
-      
+
       xpath = locate_field(html4.union(html5), locator)
       xpath = xpath[field_value(options[:with])] if options.has_key?(:with)
       xpath
@@ -48,11 +48,11 @@ module XPath
       xpath = locate_field(descendant(:select), locator)
 
       options[:options].each do |option|
-        xpath = xpath[descendant(:option).text.equals(option)]
+        xpath = xpath[descendant(:option).string.n.equals(option)]
       end if options[:options]
 
       [options[:selected]].flatten.each do |option|
-        xpath = xpath[descendant(:option)[attr(:selected)].text.equals(option)]
+        xpath = xpath[descendant(:option)[attr(:selected)].string.n.equals(option)]
       end if options[:selected]
 
       xpath
@@ -75,7 +75,7 @@ module XPath
     end
 
     def option(name)
-      descendant(:option)[text.n.is(name)]
+      descendant(:option)[string.n.is(name)]
     end
 
     def table(locator, options={})
@@ -103,12 +103,12 @@ module XPath
   protected
 
     def locate_field(xpath, locator)
-      locate_field = xpath[attr(:id).equals(locator) | attr(:name).equals(locator) | attr(:id).equals(anywhere(:label)[text.is(locator)].attr(:for))]
-      locate_field += descendant(:label)[text.is(locator)].descendant(xpath)
+      locate_field = xpath[attr(:id).equals(locator) | attr(:name).equals(locator) | attr(:id).equals(anywhere(:label)[string.n.is(locator)].attr(:for))]
+      locate_field += descendant(:label)[string.n.is(locator)].descendant(xpath)
     end
 
     def field_value(value)
-      (text.is(value) & tag(:textarea)) | (attr(:value).equals(value) & ~tag(:textarea))
+      (string.n.is(value) & tag(:textarea)) | (attr(:value).equals(value) & ~tag(:textarea))
     end
 
   end
