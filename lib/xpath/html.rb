@@ -49,11 +49,11 @@ module XPath
       xpath = locate_field(descendant(:select), locator)
 
       options[:options].each do |option|
-        xpath = xpath[descendant(:option).string.n.equals(option)]
+        xpath = xpath[descendant(:option).equals(option)]
       end if options[:options]
 
       [options[:selected]].flatten.each do |option|
-        xpath = xpath[descendant(:option)[attr(:selected)].string.n.equals(option)]
+        xpath = xpath[descendant(:option)[attr(:selected)].equals(option)]
       end if options[:selected]
 
       xpath
