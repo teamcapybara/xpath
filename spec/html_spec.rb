@@ -162,6 +162,11 @@ describe XPath::HTML do
   end
 
   describe '#fillable_field' do
+    subject{ :fillable_field }
+    context "by parent label" do
+      it("finds inputs with text type")                    { get('Label text').should == 'id-text' }
+      it("finds inputs where label has problem chars")     { get("Label text's got an apostrophe").should == 'id-problem-text' }
+    end
 
   end
 
