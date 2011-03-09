@@ -167,6 +167,9 @@ describe XPath::HTML do
       it("finds inputs with text type")                    { get('Label text').should == 'id-text' }
       it("finds inputs where label has problem chars")     { get("Label text's got an apostrophe").should == 'id-problem-text' }
     end
+    context "by placeholder" do
+      it("finds inputs with placeholder text")              { get('Placeholder text').should == 'placeholder-text' }
+    end
 
   end
 

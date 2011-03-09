@@ -102,7 +102,7 @@ module XPath
   protected
 
     def locate_field(xpath, locator)
-      locate_field = xpath[attr(:id).equals(locator) | attr(:name).equals(locator) | attr(:id).equals(anywhere(:label)[string.n.is(locator)].attr(:for))]
+      locate_field = xpath[attr(:id).equals(locator) | attr(:name).equals(locator) | attr(:id).equals(anywhere(:label)[string.n.is(locator)].attr(:for)) | attr(:placeholder).equals(locator)]
       locate_field += descendant(:label)[string.n.is(locator)].descendant(xpath)
     end
 
