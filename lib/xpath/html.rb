@@ -14,8 +14,8 @@ module XPath
     end
 
     def button(locator)
-      button = descendant(:input)[attr(:type).one_of('submit', 'image', 'button')][attr(:id).equals(locator) | attr(:value).is(locator)]
-      button += descendant(:button)[attr(:id).equals(locator) | attr(:value).is(locator) | string.n.is(locator)]
+      button = descendant(:input)[attr(:type).one_of('submit', 'image', 'button')][attr(:id).equals(locator) | attr(:value).is(locator) | attr(:title).is(locator)]
+      button += descendant(:button)[attr(:id).equals(locator) | attr(:value).is(locator) | string.n.is(locator) | attr(:title).is(locator)]
       button += descendant(:input)[attr(:type).equals('image')][attr(:alt).is(locator)]
     end
 

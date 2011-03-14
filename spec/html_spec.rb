@@ -45,6 +45,9 @@ describe XPath::HTML do
       it("finds buttons by value")             { get('submit-with-value').should == 'value-submit' }
       it("finds buttons by approximate value") { get('mit-with-val').should == 'value-submit' }
       it("prefers buttons with exact value")   { all('exact value submit').should == ['exact-value-submit', 'not-exact-value-submit'] }
+      it("finds buttons by title")             { get('My submit title').should == 'title-submit' }
+      it("finds buttons by approximate title") { get('submit title').should == 'title-submit' }
+      it("prefers exact matches of title")     { all('Exact submit title').should == ['exact-title-submit', 'not-exact-title-submit'] }
     end
 
     context "with button type" do
@@ -52,6 +55,9 @@ describe XPath::HTML do
       it("finds buttons by value")             { get('button-with-value').should == 'value-button' }
       it("finds buttons by approximate value") { get('ton-with-val').should == 'value-button' }
       it("prefers buttons with exact value")   { all('exact value button').should == ['exact-value-button', 'not-exact-value-button'] }
+      it("finds buttons by title")             { get('My button title').should == 'title-button' }
+      it("finds buttons by approximate title") { get('button title').should == 'title-button' }
+      it("prefers exact matches of title")     { all('Exact button title').should == ['exact-title-button', 'not-exact-title-button'] }
     end
 
     context "with image type" do
@@ -60,6 +66,9 @@ describe XPath::HTML do
       it("finds buttons by approximate value") { get('gbut-with-val').should == 'value-imgbut' }
       it("finds buttons by alt attribute")     { get('imgbut-with-alt').should == 'alt-imgbut' }
       it("prefers buttons with exact value")   { all('exact value imgbut').should == ['exact-value-imgbut', 'not-exact-value-imgbut'] }
+      it("finds buttons by title")             { get('My imgbut title').should == 'title-imgbut' }
+      it("finds buttons by approximate title") { get('imgbut title').should == 'title-imgbut' }
+      it("prefers exact matches of title")     { all('Exact imgbut title').should == ['exact-title-imgbut', 'not-exact-title-imgbut'] }
     end
 
     context "with button tag" do
@@ -73,6 +82,9 @@ describe XPath::HTML do
       it("finds buttons with child tags by text")     { get('An emphatic button').should == 'btag-with-children' }
       it("finds buttons by text of their children")   { get('emphatic').should == 'btag-with-children' }
       it("prefers buttons with exact text")           { all('exact text btag').should == ['exact-text-btag', 'not-exact-text-btag'] }
+      it("finds buttons by title")                    { get('My btag title').should == 'title-btag' }
+      it("finds buttons by approximate title")        { get('btag title').should == 'title-btag' }
+      it("prefers exact matches of title")            { all('Exact btag title').should == ['exact-title-btag', 'not-exact-title-btag'] }
     end
 
     context "with unkown type" do
