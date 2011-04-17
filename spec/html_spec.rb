@@ -106,55 +106,58 @@ describe XPath::HTML do
     subject { :field }
 
     context "by id" do
-      it("finds inputs with text type")     {}
-      it("finds inputs with password type") {}
-      it("finds inputs with custom type")   {}
-      it("finds textareas")                 {}
-      it("finds select boxes")              {}
-      it("does not find submit buttons")    {}
-      it("does not find image buttons")     {}
-      it("does not find hidden fields")     {}
+      it("finds inputs with no type")       { get('input-with-id').should == 'input-with-id-data' }
+      it("finds inputs with text type")     { get('input-text-with-id').should == 'input-text-with-id-data' }
+      it("finds inputs with password type") { get('input-password-with-id').should == 'input-password-with-id-data' }
+      it("finds inputs with custom type")   { get('input-custom-with-id').should == 'input-custom-with-id-data' }
+      it("finds textareas")                 { get('textarea-with-id').should == 'textarea-with-id-data' }
+      it("finds select boxes")              { get('select-with-id').should == 'select-with-id-data' }
+      it("does not find submit buttons")    { get('input-submit-with-id').should be_nil }
+      it("does not find image buttons")     { get('input-image-with-id').should be_nil }
+      it("does not find hidden fields")     { get('input-hidden-with-id').should be_nil }
     end
 
     context "by name" do
-      it("finds inputs with text type")     {}
-      it("finds inputs with password type") {}
-      it("finds inputs with custom type")   {}
-      it("finds textareas")                 {}
-      it("finds select boxes")              {}
-      it("does not find submit buttons")    {}
-      it("does not find image buttons")     {}
-      it("does not find hidden fields")     {}
+      it("finds inputs with no type")       { get('input-with-name').should == 'input-with-name-data' }
+      it("finds inputs with text type")     { get('input-text-with-name').should == 'input-text-with-name-data' }
+      it("finds inputs with password type") { get('input-password-with-name').should == 'input-password-with-name-data' }
+      it("finds inputs with custom type")   { get('input-custom-with-name').should == 'input-custom-with-name-data' }
+      it("finds textareas")                 { get('textarea-with-name').should == 'textarea-with-name-data' }
+      it("finds select boxes")              { get('select-with-name').should == 'select-with-name-data' }
+      it("does not find submit buttons")    { get('input-submit-with-name').should be_nil }
+      it("does not find image buttons")     { get('input-image-with-name').should be_nil }
+      it("does not find hidden fields")     { get('input-hidden-with-name').should be_nil }
     end
 
     context "by referenced label" do
-      it("finds inputs with text type")     {}
-      it("finds inputs with password type") {}
-      it("finds inputs with custom type")   {}
-      it("finds textareas")                 {}
-      it("finds select boxes")              {}
-      it("does not find submit buttons")    {}
-      it("does not find image buttons")     {}
-      it("does not find hidden fields")     {}
+      it("finds inputs with no type")       { get('Input with label').should == 'input-with-label-data' }
+      it("finds inputs with text type")     { get('Input text with label').should == 'input-text-with-label-data' }
+      it("finds inputs with password type") { get('Input password with label').should == 'input-password-with-label-data' }
+      it("finds inputs with custom type")   { get('Input custom with label').should == 'input-custom-with-label-data' }
+      it("finds textareas")                 { get('Textarea with label').should == 'textarea-with-label-data' }
+      it("finds select boxes")              { get('Select with label').should == 'select-with-label-data' }
+      it("does not find submit buttons")    { get('Input submit with label').should be_nil }
+      it("does not find image buttons")     { get('Input image with label').should be_nil }
+      it("does not find hidden fields")     { get('Input hidden with label').should be_nil }
     end
 
     context "by parent label" do
-      it("finds inputs with text type")                    { get('Label text').should == 'id-text' }
-      it("finds inputs where label has problem chars")     { get("Label text's got an apostrophe").should == 'id-problem-text' }
-      it("finds inputs with password type")                {}
-      it("finds inputs with custom type")                  {}
-      it("finds textareas")                                {}
-      it("finds select boxes")                             {}
-      it("does not find submit buttons")                   {}
-      it("does not find image buttons")                    {}
-      it("does not find hidden fields")                    {}
+      it("finds inputs with no type")       { get('Input with parent label').should == 'input-with-parent-label-data' }
+      it("finds inputs with text type")     { get('Input text with parent label').should == 'input-text-with-parent-label-data' }
+      it("finds inputs with password type") { get('Input password with parent label').should == 'input-password-with-parent-label-data' }
+      it("finds inputs with custom type")   { get('Input custom with parent label').should == 'input-custom-with-parent-label-data' }
+      it("finds textareas")                 { get('Textarea with parent label').should == 'textarea-with-parent-label-data' }
+      it("finds select boxes")              { get('Select with parent label').should == 'select-with-parent-label-data' }
+      it("does not find submit buttons")    { get('Input submit with parent label').should be_nil }
+      it("does not find image buttons")     { get('Input image with parent label').should be_nil }
+      it("does not find hidden fields")     { get('Input hidden with parent label').should be_nil }
     end
 
     context "with :with option" do
-      it("finds inputs that match option")          {}
-      it("omits inputs that don't match option")    {}
-      it("finds textareas that match option")       {}
-      it("omits textareas that don't match option") {}
+      it("finds inputs that match option")          { get('input-with-id', :with => 'correct-value').should == 'input-with-id-data' }
+      it("omits inputs that don't match option")    { get('input-with-id', :with => 'wrong-value').should be_nil }
+      it("finds textareas that match option")       { get('textarea-with-id', :with => 'Correct value').should == 'textarea-with-id-data' }
+      it("omits textareas that don't match option") { get('textarea-with-id', :with => 'Wrong value').should be_nil }
     end
 
     context "with :checked option" do
@@ -179,6 +182,26 @@ describe XPath::HTML do
       it("finds inputs with text type")                    { get('Label text').should == 'id-text' }
       it("finds inputs where label has problem chars")     { get("Label text's got an apostrophe").should == 'id-problem-text' }
     end
+
+  end
+
+  describe '#select' do
+
+  end
+
+  describe '#checkbox' do
+
+  end
+
+  describe '#radio_button' do
+
+  end
+
+  describe '#file_field' do
+
+  end
+
+  describe '#option' do
 
   end
 
