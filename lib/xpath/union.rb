@@ -12,6 +12,10 @@ module XPath
       expressions.each(&block)
     end
 
+    def to_s
+      to_xpaths.join(' | ')
+    end
+
     def to_xpath(predicate=nil)
       expressions.map { |e| e.to_xpath(predicate) }.join(' | ')
     end
