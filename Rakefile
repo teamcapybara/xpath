@@ -1,10 +1,11 @@
 require 'rubygems'
-require 'spec/rake/spectask'
+require 'rspec/core/rake_task'
 require 'yard'
 
 desc "Run all examples"
-Spec::Rake::SpecTask.new('spec') do |t|
-  t.spec_files = FileList['spec/**/*.rb']
+RSpec::Core::RakeTask.new(:spec) do |t|
+  #t.rspec_path = 'bin/rspec'
+  t.rspec_opts = %w[--color]
 end
 
 YARD::Rake::YardocTask.new do |t|
