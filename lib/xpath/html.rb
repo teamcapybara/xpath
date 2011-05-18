@@ -78,7 +78,7 @@ module XPath
     end
 
     def table(locator, options={})
-      xpath = descendant(:table)[attr(:id).equals(locator) | descendant(:caption).contains(locator)]
+      xpath = descendant(:table)[attr(:id).equals(locator) | descendant(:caption).contains(locator) | attr(:id).equals(anywhere(:label)[string.n.is(locator)].attr(:for))]
       xpath = xpath[table_rows(options[:rows])] if options[:rows]
       xpath
     end
