@@ -215,5 +215,6 @@ describe XPath::HTML do
     subject {:table}
 
     it("finds cell content regardless of whitespace") {get('whitespaced-table', :rows => [["I have nested whitespace", "I don't"]]).should == 'table-with-whitespace'}
+	it("finds table using label") { get('Whitespaced Table').should == 'table-with-whitespace' }
   end
 end
