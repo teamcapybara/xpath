@@ -39,6 +39,10 @@ module XPath
     Expression::Contains.new(current, expression)
   end
 
+  def concat(*expressions)
+    Expression::Concat.new(*expressions)
+  end
+
   def text
     Expression::Text.new(current)
   end
