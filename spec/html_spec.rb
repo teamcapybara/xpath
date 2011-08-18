@@ -186,7 +186,11 @@ describe XPath::HTML do
   end
 
   describe '#select' do
-
+    subject{ :select }
+    it("finds selects by id")             { get('select-with-id').should == 'select-with-id-data' }
+    it("finds selects by name")           { get('select-with-name').should == 'select-with-name-data' }
+    it("finds selects by label")          { get('Select with label').should == 'select-with-label-data' }
+    it("finds selects by parent label")   { get('Select with parent label').should == 'select-with-parent-label-data' }
   end
 
   describe '#checkbox' do
