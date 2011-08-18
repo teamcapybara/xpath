@@ -211,22 +211,25 @@ describe XPath::HTML do
   end
 
   describe '#file_field' do
-
+    subject{ :file_field }
+    it("finds file fields by id") { get('input-file-with-id').should == 'input-file-with-id-data' }
+    it("finds file fields by name") { get('input-file-with-name').should == 'input-file-with-name-data' }
+    it("finds file fields by label") { get('Input file with label').should == 'input-file-with-label-data' }
+    it("finds file fields by parent label") { get('Input file with parent label').should == 'input-file-with-parent-label-data' }
   end
 
   describe '#option' do
-
+    subject{ :option }
+    it("finds options by text") { get('Option with text').should == 'option-with-text-data' }
   end
 
   describe "#optgroup" do
     subject { :optgroup }
-
     it("finds optgroups by label") { get('Group A').should == 'optgroup-a' }
   end
 
   describe "#table" do
     subject {:table}
-
     it("finds tables by id") { get('table-with-id').should == 'table-with-id-data' }
     it("finds tables by caption") { get('Table with caption').should == 'table-with-caption-data' }
     it("finds cell content regardless of whitespace") { get('whitespaced-table', :rows => [["I have nested whitespace", "I don't"]]).should == 'table-with-whitespace' }
