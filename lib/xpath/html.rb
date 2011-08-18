@@ -24,7 +24,7 @@ module XPath
     end
 
     def fieldset(locator)
-      descendant(:fieldset)[attr(:id).equals(locator) | descendant(:legend)[string.n.is(locator)]]
+      descendant(:fieldset)[attr(:id).equals(locator) | child(:legend)[string.n.is(locator)]]
     end
 
     def field(locator, options={})
