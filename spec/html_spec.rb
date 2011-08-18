@@ -194,10 +194,19 @@ describe XPath::HTML do
   end
 
   describe '#checkbox' do
-
+    subject{ :checkbox }
+    it("finds checkboxes by id") { get('input-checkbox-with-id').should == 'input-checkbox-with-id-data' }
+    it("finds checkboxes by name") { get('input-checkbox-with-name').should == 'input-checkbox-with-name-data' }
+    it("finds checkboxes by label") { get('Input checkbox with label').should == 'input-checkbox-with-label-data' }
+    it("finds checkboxes by parent label") { get('Input checkbox with parent label').should == 'input-checkbox-with-parent-label-data' }
   end
 
   describe '#radio_button' do
+    subject{ :radio_button }
+    it("finds radio buttons by id") { get('input-radio-with-id').should == 'input-radio-with-id-data' }
+    it("finds radio buttons by name") { get('input-radio-with-name').should == 'input-radio-with-name-data' }
+    it("finds radio buttons by label") { get('Input radio with label').should == 'input-radio-with-label-data' }
+    it("finds radio buttons by parent label") { get('Input radio with parent label').should == 'input-radio-with-parent-label-data' }
 
   end
 
@@ -218,6 +227,9 @@ describe XPath::HTML do
   describe "#table" do
     subject {:table}
 
-    it("finds cell content regardless of whitespace") {get('whitespaced-table', :rows => [["I have nested whitespace", "I don't"]]).should == 'table-with-whitespace'}
+    it("finds tables by id") { get('table-with-id').should == 'table-with-id-data' }
+    it("finds tables by caption") { get('Table with caption').should == 'table-with-caption-data' }
+    it("finds cell content regardless of whitespace") { get('whitespaced-table', :rows => [["I have nested whitespace", "I don't"]]).should == 'table-with-whitespace' }
   end
+
 end
