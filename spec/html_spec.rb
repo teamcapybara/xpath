@@ -100,6 +100,7 @@ describe XPath::HTML do
     it("finds fieldsets by legend child tags")   { get('Span Legend').should == 'fieldset-legend-span' }
     it("accepts approximate legends")            { get('Legend').should == 'fieldset-legend' }
     it("prefers exact legend")                   { all('Long legend').should == ['fieldset-exact', 'fieldset-fuzzy'] }
+    it("finds nested fieldsets by legend")       { get('Inner legend').should == 'fieldset-inner' }
   end
 
   describe '#field' do
