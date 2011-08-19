@@ -50,7 +50,7 @@ module XPath
     #   Legend or id of the fieldset
     #
     def fieldset(locator)
-      descendant(:fieldset)[attr(:id).equals(locator) | descendant(:legend)[string.n.is(locator)]]
+      descendant(:fieldset)[attr(:id).equals(locator) | child(:legend)[string.n.is(locator)]]
     end
 
 
