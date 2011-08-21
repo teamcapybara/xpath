@@ -5,7 +5,7 @@ facilitate writing complex XPath queries from Ruby code.
 
 == Generating expressions
 
-To create quick, one of expressions, XPath.generate can be used:
+To create quick, one-off expressions, +XPath.generate+ can be used:
 
     XPath.generate { |x| x.descendant(:ul)[x.attr(:id) == 'foo'] }
 
