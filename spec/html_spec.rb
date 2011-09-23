@@ -130,6 +130,15 @@ describe XPath::HTML do
       it("does not find hidden fields")     { get('input-hidden-with-name').should be_nil }
     end
 
+    context "by placeholder" do
+      it("finds inputs with no type")       { get('input-with-placeholder').should == 'input-with-placeholder-data' }
+      it("finds inputs with text type")     { get('input-text-with-placeholder').should == 'input-text-with-placeholder-data' }
+      it("finds inputs with password type") { get('input-password-with-placeholder').should == 'input-password-with-placeholder-data' }
+      it("finds inputs with custom type")   { get('input-custom-with-placeholder').should == 'input-custom-with-placeholder-data' }
+      it("finds textareas")                 { get('textarea-with-placeholder').should == 'textarea-with-placeholder-data' }
+      it("does not find hidden fields")     { get('input-hidden-with-placeholder').should be_nil }
+    end
+
     context "by referenced label" do
       it("finds inputs with no type")       { get('Input with label').should == 'input-with-label-data' }
       it("finds inputs with text type")     { get('Input text with label').should == 'input-text-with-label-data' }
