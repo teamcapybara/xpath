@@ -13,7 +13,8 @@ module XPath
     def link(locator, options={})
       href = options[:href]
       link = descendant(:a)[href ? attr(:href).equals(href) : attr(:href)]
-      link[attr(:id).equals(locator) | string.n.is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
+      link[attr(:id).equals(locator) | string.n.is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)] |
+           concat(" ",attr(:rel)," ").contains(" #{locator} ")]
     end
 
 

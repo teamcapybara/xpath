@@ -174,6 +174,16 @@ module XPath
       end
     end
 
+    class Concat < Expression
+      def initialize(*parts)
+        @parts = parts.map{|p| wrap_xpath(p)}
+      end
+
+      def to_xpath(predicate=nil)
+        "concat(#{@parts.map{|p| p.to_xpath}.join(",")})"
+      end
+    end
+
     class Is < Binary
       def to_xpath(predicate=nil)
         if predicate == :exact

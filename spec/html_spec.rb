@@ -35,6 +35,9 @@ describe XPath::HTML do
     it("does not find links without href attriutes")       { get('Wrong Link').should be_nil }
     it("finds links with an href")                         { get("Href-ed link", :href => 'http://www.example.com').should == 'link-href' }
     it("does not find links with an incorrect href")       { get("Href-ed link", :href => 'http://www.somewhere.com').should be_nil }
+    it("finds links with a rel")                           { get("http://example.com/vocab/link-rel1").should == 'link-rel-single' }
+    it("does not find links with an incorrect rel")        { get("http://somewhere.com/vocab/link-rel").should be_nil}
+    it("finds links with multiple rels")                   { get("http://example.com/vocab/link-rel2").should == 'link-rel-multi'}
   end
 
   describe '#button' do
