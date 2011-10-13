@@ -8,39 +8,39 @@ module XPath
   extend self
 
   def self.generate
-    yield(NewExpression.new(:this_node))
+    yield(Expression.new(:this_node))
   end
 
   module AdditionalStuff
     def where(expression)
-      NewExpression.new(:where, current, expression)
+      Expression.new(:where, current, expression)
     end
     alias_method :[], :where
 
     def next_sibling(*expressions)
-      NewExpression.new(:next_sibling, current, expressions)
+      Expression.new(:next_sibling, current, expressions)
     end
 
     def one_of(*expressions)
-      NewExpression.new(:one_of, current, expressions)
+      Expression.new(:one_of, current, expressions)
     end
 
     def equals(expression)
-      NewExpression.new(:equality, current, expression)
+      Expression.new(:equality, current, expression)
     end
     alias_method :==, :equals
 
     def is(expression)
-      NewExpression.new(:is, current, expression)
+      Expression.new(:is, current, expression)
     end
 
     def or(expression)
-      NewExpression.new(:or, current, expression)
+      Expression.new(:or, current, expression)
     end
     alias_method :|, :or
 
     def and(expression)
-      NewExpression.new(:and, current, expression)
+      Expression.new(:and, current, expression)
     end
     alias_method :&, :and
 
@@ -50,20 +50,20 @@ module XPath
     alias_method :+, :union
 
     def inverse
-      NewExpression.new(:inverse, current)
+      Expression.new(:inverse, current)
     end
     alias_method :~, :inverse
 
     def string_literal
-      NewExpression.new(:string_literal, self)
+      Expression.new(:string_literal, self)
     end
 
     def apply(variables={})
-      NewExpression.new(:applied, current, NewLiteral.new(variables))
+      Expression.new(:applied, current, NewLiteral.new(variables))
     end
 
     def normalize
-      NewExpression.new(:normalized_space, current)
+      Expression.new(:normalized_space, current)
     end
     alias_method :n, :normalize
   end
@@ -89,22 +89,6 @@ module XPath
     end
   end
 
-  class NewExpression
-    attr_accessor :expression, :arguments
-    include XPath
-    include AdditionalStuff
-    include Convertable
-
-    def initialize(expression, *arguments)
-      @expression = expression
-      @arguments = arguments
-    end
-
-    def current
-      self
-    end
-  end
-
   class Renderer
     attr_reader :predicate
 
@@ -123,7 +107,7 @@ module XPath
 
     def convert_argument(argument)
       case argument
-        when NewExpression, Union then render(argument)
+        when Expression, Union then render(argument)
         when Array then argument.map { |element| convert_argument(element) }
         when String then string_literal(argument)
         when NewLiteral then argument.value
@@ -271,51 +255,51 @@ module XPath
 
   def current
     #Expression::Self.new
-    NewExpression.new(:this_node)
+    Expression.new(:this_node)
   end
 
   def name
-    NewExpression.new(:node_name, current)
+    Expression.new(:node_name, current)
   end
 
   def descendant(*expressions)
-    NewExpression.new(:descendant, current, expressions)
+    Expression.new(:descendant, current, expressions)
   end
 
   def child(*expressions)
-    NewExpression.new(:child, current, expressions)
+    Expression.new(:child, current, expressions)
   end
 
   def anywhere(expression)
-    NewExpression.new(:anywhere, expression)
+    Expression.new(:anywhere, expression)
   end
 
   def attr(expression)
-    NewExpression.new(:attribute, current, expression)
+    Expression.new(:attribute, current, expression)
   end
 
   def contains(expression)
-    NewExpression.new(:contains, current, expression)
+    Expression.new(:contains, current, expression)
   end
 
   def text
-    NewExpression.new(:text, current)
+    Expression.new(:text, current)
   end
 
   def var(name)
-    NewExpression.new(:variable, name)
+    Expression.new(:variable, name)
   end
 
   def string
-    NewExpression.new(:string_function, current)
+    Expression.new(:string_function, current)
   end
 
   def tag(name)
-    NewExpression.new(:tag, name)
+    Expression.new(:tag, name)
   end
 
   def css(selector)
-    NewExpression.new(:css, current, NewLiteral.new(selector))
+    Expression.new(:css, current, NewLiteral.new(selector))
   end
 
   def varstring(name)
