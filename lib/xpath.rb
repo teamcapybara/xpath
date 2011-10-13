@@ -3,6 +3,7 @@ require 'nokogiri'
 module XPath
   autoload :Expression, 'xpath/expression'
   autoload :Literal, 'xpath/literal'
+  autoload :Convertable, 'xpath/convertable'
   autoload :Union, 'xpath/union'
   autoload :HTML, 'xpath/html'
   autoload :DSL, 'xpath/dsl'
@@ -12,21 +13,6 @@ module XPath
 
   def self.generate
     yield(Expression.new(:this_node))
-  end
-
-
-  module Convertable
-    def to_s
-      to_xpaths.join(' | ')
-    end
-
-    def to_xpaths
-      [to_xpath(:exact), to_xpath(:fuzzy)].uniq
-    end
-
-    def to_xpath(predicate=nil)
-      Renderer.render(predicate, self)
-    end
   end
 
   class Renderer
