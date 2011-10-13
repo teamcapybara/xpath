@@ -1,8 +1,7 @@
 module XPath
   class Expression
     attr_accessor :expression, :arguments
-    include XPath
-    include AdditionalStuff
+    include XPath::DSL::ExpressionLevel
     include Convertable
 
     def initialize(expression, *arguments)
