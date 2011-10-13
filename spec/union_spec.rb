@@ -6,8 +6,8 @@ describe XPath::Union do
 
   describe '#expressions' do
     it "should return the expressions" do
-      @expr1 = XPath.generate { |x| x.descendant(:p) } 
-      @expr2 = XPath.generate { |x| x.descendant(:div) } 
+      @expr1 = XPath.generate { |x| x.descendant(:p) }
+      @expr2 = XPath.generate { |x| x.descendant(:div) }
       @collection = XPath::Union.new(@expr1, @expr2)
       @collection.expressions.should == [@expr1, @expr2]
     end
@@ -15,8 +15,8 @@ describe XPath::Union do
 
   describe '#each' do
     it "should iterate through the expressions" do
-      @expr1 = XPath.generate { |x| x.descendant(:p) } 
-      @expr2 = XPath.generate { |x| x.descendant(:div) } 
+      @expr1 = XPath.generate { |x| x.descendant(:p) }
+      @expr2 = XPath.generate { |x| x.descendant(:div) }
       @collection = XPath::Union.new(@expr1, @expr2)
       exprs = []
       @collection.each { |expr| exprs << expr }
@@ -26,17 +26,17 @@ describe XPath::Union do
 
   describe '#map' do
     it "should map the expressions" do
-      @expr1 = XPath.generate { |x| x.descendant(:p) } 
-      @expr2 = XPath.generate { |x| x.descendant(:div) } 
+      @expr1 = XPath.generate { |x| x.descendant(:p) }
+      @expr2 = XPath.generate { |x| x.descendant(:div) }
       @collection = XPath::Union.new(@expr1, @expr2)
-      @collection.map { |expr| expr.class }.should == [XPath::Expression::Descendant, XPath::Expression::Descendant]
+      @collection.map { |expr| expr.expression }.should == [:descendant, :descendant]
     end
   end
 
   describe '#to_xpath' do
     it "should create a valid xpath expression" do
-      @expr1 = XPath.generate { |x| x.descendant(:p) } 
-      @expr2 = XPath.generate { |x| x.descendant(:div).where(x.attr(:id) == 'foo') } 
+      @expr1 = XPath.generate { |x| x.descendant(:p) }
+      @expr2 = XPath.generate { |x| x.descendant(:div).where(x.attr(:id) == 'foo') }
       @collection = XPath::Union.new(@expr1, @expr2)
       @results = doc.xpath(@collection.to_xpath)
       @results[0][:title].should == 'fooDiv'
@@ -45,10 +45,11 @@ describe XPath::Union do
     end
   end
 
+
   describe '#where, #apply and others' do
     it "should be delegated to the individual expressions" do
-      @expr1 = XPath.generate { |x| x.descendant(:p) } 
-      @expr2 = XPath.generate { |x| x.descendant(:div) } 
+      @expr1 = XPath.generate { |x| x.descendant(:p) }
+      @expr2 = XPath.generate { |x| x.descendant(:div) }
       @collection = XPath::Union.new(@expr1, @expr2)
       @xpath1 = @collection.where(XPath.attr(:id) == 'foo').to_xpath
       @xpath2 = @collection.where(XPath.attr(:id) == XPath.varstring(:id)).apply(:id => 'fooDiv').to_xpath
