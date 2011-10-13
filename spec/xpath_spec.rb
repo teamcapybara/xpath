@@ -242,14 +242,6 @@ describe XPath do
       @results[0][:title].should == "barDiv"
       @results[1][:title].should == "fooDiv"
     end
-
-    it "should be closed" do
-      @results = xpath do |x|
-        foo_div = x.anywhere(:div).where(x.attr(:id) == 'foo')
-        id = x.attr(foo_div.attr(:data))
-        x.descendant(:div).where(id == 'bar')
-      end.first[:title].should == "barDiv"
-    end
   end
 
   describe '#css' do

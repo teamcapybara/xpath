@@ -23,7 +23,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  nokogiri (~> 1.3)
   rspec (~> 2.0)
   xpath!
   yard (>= 0.5.8)

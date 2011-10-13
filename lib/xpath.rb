@@ -2,67 +2,17 @@ require 'nokogiri'
 
 module XPath
   autoload :Expression, 'xpath/expression'
+  autoload :Literal, 'xpath/literal'
+  autoload :Convertable, 'xpath/convertable'
   autoload :Union, 'xpath/union'
+  autoload :Renderer, 'xpath/renderer'
   autoload :HTML, 'xpath/html'
+  autoload :DSL, 'xpath/dsl'
 
-  extend self
+  extend XPath::DSL::TopLevel
+  include XPath::DSL::TopLevel
 
   def self.generate
-    yield(Expression::Self.new)
-  end
-
-  def current
-    Expression::Self.new
-  end
-
-  def name
-    Expression::Name.new(current)
-  end
-
-  def descendant(*expressions)
-    Expression::Descendant.new(current, expressions)
-  end
-
-  def child(*expressions)
-    Expression::Child.new(current, expressions)
-  end
-
-  def anywhere(expression)
-    Expression::Anywhere.new(expression)
-  end
-
-  def attr(expression)
-    Expression::Attribute.new(current, expression)
-  end
-
-  def contains(expression)
-    Expression::Contains.new(current, expression)
-  end
-
-  def text
-    Expression::Text.new(current)
-  end
-
-  def var(name)
-    Expression::Variable.new(name)
-  end
-
-  def string
-    Expression::StringFunction.new(current)
-  end
-
-  def tag(name)
-    Expression::Tag.new(name)
-  end
-
-  def css(selector)
-    paths = Nokogiri::CSS.xpath_for(selector).map do |selector|
-      Expression::CSS.new(current, Expression::Literal.new(selector))
-    end
-    Union.new(*paths)
-  end
-
-  def varstring(name)
-    var(name).string_literal
+    yield(Expression.new(:this_node))
   end
 end
