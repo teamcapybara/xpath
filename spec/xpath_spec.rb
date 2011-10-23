@@ -86,6 +86,16 @@ describe XPath do
     end
   end
 
+  describe '#previous_sibling' do
+    it "should find nodes which are exactly preceding the current node" do
+      xpath { |x| x.descendant(:p)[x.attr(:id) == 'wooDiv'].previous_sibling(:p) }.first.text.should == 'Bax'
+      xpath { |x| x.descendant(:p)[x.attr(:id) == 'wooDiv'].previous_sibling(:ul, :p) }.first.text.should == 'Bax'
+      xpath { |x| x.descendant(:p)[x.attr(:title) == 'gorilla'].previous_sibling(:ul, :p) }.first.text.should == 'A list'
+      xpath { |x| x.descendant(:p)[x.attr(:id) == 'wooDiv'].previous_sibling(:ul, :li) }.first.should be_nil
+      xpath { |x| x.descendant(:p)[x.attr(:id) == 'wooDiv'].previous_sibling }.first.text.should == 'Bax'
+    end
+  end
+
   describe '#anywhere' do
     it "should find nodes regardless of the context" do
       @results = xpath do |x|
