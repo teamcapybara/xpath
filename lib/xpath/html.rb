@@ -208,6 +208,14 @@ module XPath
       cell_conditions
     end
 
+    # Match any 'dd' element.
+    #
+    # @param [String] locator
+    #   Id of the 'dd' element or text from preciding 'dt' element content
+    def definition_description(locator)
+      descendant(:dd)[attr(:id).equals(locator) | previous_sibling(:dt)[string.n.equals(locator)] ]
+    end
+
   protected
 
     def locate_field(xpath, locator)

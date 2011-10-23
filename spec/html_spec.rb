@@ -226,4 +226,11 @@ describe XPath::HTML do
 
     it("finds cell content regardless of whitespace") {get('whitespaced-table', :rows => [["I have nested whitespace", "I don't"]]).should == 'table-with-whitespace'}
   end
+
+  describe "#definition_description" do
+    subject {:definition_description}
+    let(:template) {'stuff'}
+    it("find definition description by id") { get('latte').should == "with-id" }
+    it("find definition description by term") { get("Milk").should == "with-dt" }
+  end
 end
