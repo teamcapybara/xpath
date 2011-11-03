@@ -2,3 +2,4 @@
 .bundle
 .yardoc
 doc
+Gemfile.lock
