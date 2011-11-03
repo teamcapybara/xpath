@@ -13,7 +13,7 @@ You can also call expression methods directly on the XPath module:
 
     XPath.descendant(:ul)[XPath.attr(:id) == 'foo'] }
 
-However for more complex expressions, it is probably ore convenient to include
+However for more complex expressions, it is probably more convenient to include
 the XPath module into your own class or module:
 
     module MyXPaths
