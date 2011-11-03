@@ -3,6 +3,8 @@
 XPath is a Ruby DSL around a subset of XPath 1.0. It's primary purpose is to
 facilitate writing complex XPath queries from Ruby code.
 
+{<img src="http://travis-ci.org/jnicklas/xpath.png" />}[http://travis-ci.org/jnicklas/xpath]
+
 == Generating expressions
 
 To create quick, one-off expressions, +XPath.generate+ can be used:
