@@ -13,6 +13,6 @@ module XPath
   include XPath::DSL::TopLevel
 
   def self.generate
-    yield(Expression.new(:this_node))
+    yield(self)
   end
 end
