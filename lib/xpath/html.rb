@@ -176,10 +176,20 @@ module XPath
     #
     def table(locator, options={})
       xpath = descendant(:table)[attr(:id).equals(locator) | descendant(:caption).contains(locator)]
-      xpath = xpath[table_rows(options[:rows])] if options[:rows]
+      xpath = xpath[table_rows(options[:rows]) | table_thead_tbody(options[:rows])] if options[:rows]
       xpath
     end
 
+    # Match content in thead and tbody
+    #
+    # @param [Array] rows
+    #   Array of arrays of strings containing cell content to match
+    #   First item will be matched inside thead and the rest inside tbody
+    def table_thead_tbody(rows)
+      conditions = descendant(:thead)[descendant(:tr)[table_row(rows.first)]]
+      conditions = conditions.next_sibling(:tbody)[table_rows(rows.drop(1))] if rows.size > 1
+      conditions
+    end
 
     # Match content in consecutive table rows.
     #
