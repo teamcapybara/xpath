@@ -243,6 +243,7 @@ describe XPath::HTML do
     it("finds tables by id") { get('table-with-id').should == 'table-with-id-data' }
     it("finds tables by caption") { get('Table with caption').should == 'table-with-caption-data' }
     it("finds cell content regardless of whitespace") { get('whitespaced-table', :rows => [["I have nested whitespace", "I don't"]]).should == 'table-with-whitespace' }
+    it("finds cell content inside thead and tbody") { get('table-with-thead-and-tbody', :rows => [["Header 1", "Header 2"], ["Body 11", "Body 12"], ["Body 21", "Body 22"]]).should == 'table-with-thead-and-tbody-data' }
   end
 
 end
