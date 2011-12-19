@@ -58,6 +58,7 @@ describe XPath::HTML do
       it("finds buttons by title")             { get('My button title').should == 'title-button' }
       it("finds buttons by approximate title") { get('button title').should == 'title-button' }
       it("prefers exact matches of title")     { all('Exact button title').should == ['exact-title-button', 'not-exact-title-button'] }
+      it("finds images by alt attribute")      { get('button-with-img').should == 'btag-with-imgalt' }
     end
 
     context "with image type" do
