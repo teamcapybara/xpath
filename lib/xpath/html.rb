@@ -6,14 +6,14 @@ module XPath
     # Match an `a` link element.
     #
     # @param [String] locator
-    #   Text, id, title, or image alt attribute of the link
+    #   Text, id, rel, title, or image alt attribute of the link
     # @option options [String] :href
     #   `href` attribute of the link
     #
     def link(locator, options={})
       href = options[:href]
       link = descendant(:a)[href ? attr(:href).equals(href) : attr(:href)]
-      link[attr(:id).equals(locator) | string.n.is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
+      link[attr(:id).equals(locator) | string.n.is(locator) | attr(:rel).is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
     end
 
 
