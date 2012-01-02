@@ -175,37 +175,7 @@ module XPath
     #   Content of each cell in each row to match
     #
     def table(locator, options={})
-      xpath = descendant(:table)[attr(:id).equals(locator) | descendant(:caption).contains(locator)]
-      xpath = xpath[table_rows(options[:rows])] if options[:rows]
-      xpath
-    end
-
-
-    # Match content in consecutive table rows.
-    #
-    # @param [Array] rows
-    #   Array of arrays of strings containing cell content to match
-    #
-    def table_rows(rows)
-      row_conditions = descendant(:tr)[table_row(rows.first)]
-      rows.drop(1).each do |row|
-        row_conditions = row_conditions.next_sibling(:tr)[table_row(row)]
-      end
-      row_conditions
-    end
-
-
-    # Match content in consecutive table cells.
-    #
-    # @param [Array] cells
-    #   Array of strings to match against consecutive cell contents.
-    #
-    def table_row(cells)
-      cell_conditions = child(:td, :th)[string.n.equals(cells.first)]
-      cells.drop(1).each do |cell|
-        cell_conditions = cell_conditions.next_sibling(:td, :th)[string.n.equals(cell)]
-      end
-      cell_conditions
+      descendant(:table)[attr(:id).equals(locator) | descendant(:caption).contains(locator)]
     end
 
   protected
