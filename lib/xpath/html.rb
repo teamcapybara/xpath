@@ -7,12 +7,9 @@ module XPath
     #
     # @param [String] locator
     #   Text, id, title, or image alt attribute of the link
-    # @option options [String] :href
-    #   `href` attribute of the link
     #
-    def link(locator, options={})
-      href = options[:href]
-      link = descendant(:a)[href ? attr(:href).equals(href) : attr(:href)]
+    def link(locator)
+      link = descendant(:a)[attr(:href)]
       link[attr(:id).equals(locator) | string.n.is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
     end
 
@@ -59,20 +56,10 @@ module XPath
     #
     # @param [String] locator
     #   Label, id, or name of field to match
-    # @option options [Bool] :checked
-    #   Match only if the input has a `checked` attribute
-    # @option options [Bool] :unchecked
-    #   Match only if the input does not have a `checked` attribute
-    # @option options [String] :with
-    #   Text that matches only elements with this value
-    #   (`value` attribute or contained text)
     #
-    def field(locator, options={})
+    def field(locator)
       xpath = descendant(:input, :textarea, :select)[~attr(:type).one_of('submit', 'image', 'hidden')]
       xpath = locate_field(xpath, locator)
-      xpath = xpath[attr(:checked)] if options[:checked]
-      xpath = xpath[~attr(:checked)] if options[:unchecked]
-      xpath = xpath[field_value(options[:with])] if options.has_key?(:with)
       xpath
     end
 
@@ -83,14 +70,10 @@ module XPath
     #
     # @param [String] locator
     #   Label, id, or name of field to match
-    # @option options [String] :with
-    #   Text that matches only elements with this value
-    #   (`value` attribute or contained text)
     #
-    def fillable_field(locator, options={})
+    def fillable_field(locator)
       xpath = descendant(:input, :textarea)[~attr(:type).one_of('submit', 'image', 'radio', 'checkbox', 'hidden', 'file')]
       xpath = locate_field(xpath, locator)
-      xpath = xpath[field_value(options[:with])] if options.has_key?(:with)
       xpath
     end
 
@@ -99,21 +82,9 @@ module XPath
     #
     # @param [String] locator
     #   Label, id, or name of the field to match
-    # @option options [Array] :options
-    # @option options [Array] :selected
     #
-    def select(locator, options={})
-      xpath = locate_field(descendant(:select), locator)
-
-      options[:options].each do |option|
-        xpath = xpath[descendant(:option).equals(option)]
-      end if options[:options]
-
-      [options[:selected]].flatten.each do |option|
-        xpath = xpath[descendant(:option)[attr(:selected)].equals(option)]
-      end if options[:selected]
-
-      xpath
+    def select(locator)
+      locate_field(descendant(:select), locator)
     end
 
 
@@ -122,7 +93,7 @@ module XPath
     # @param [String] locator
     #   Label, id, or name of the checkbox to match
     #
-    def checkbox(locator, options={})
+    def checkbox(locator)
       xpath = locate_field(descendant(:input)[attr(:type).equals('checkbox')], locator)
     end
 
@@ -132,7 +103,7 @@ module XPath
     # @param [String] locator
     #   Label, id, or name of the radio button to match
     #
-    def radio_button(locator, options={})
+    def radio_button(locator)
       locate_field(descendant(:input)[attr(:type).equals('radio')], locator)
     end
 
@@ -142,7 +113,7 @@ module XPath
     # @param [String] locator
     #   Label, id, or name of the file field to match
     #
-    def file_field(locator, options={})
+    def file_field(locator)
       locate_field(descendant(:input)[attr(:type).equals('file')], locator)
     end
 
@@ -174,7 +145,7 @@ module XPath
     # @option options [Array] :rows
     #   Content of each cell in each row to match
     #
-    def table(locator, options={})
+    def table(locator)
       descendant(:table)[attr(:id).equals(locator) | descendant(:caption).contains(locator)]
     end
 
@@ -184,10 +155,5 @@ module XPath
       locate_field = xpath[attr(:id).equals(locator) | attr(:name).equals(locator) | attr(:placeholder).equals(locator) | attr(:id).equals(anywhere(:label)[string.n.is(locator)].attr(:for))]
       locate_field += descendant(:label)[string.n.is(locator)].descendant(xpath)
     end
-
-    def field_value(value)
-      (string.n.is(value) & tag(:textarea)) | (attr(:value).equals(value) & ~tag(:textarea))
-    end
-
   end
 end

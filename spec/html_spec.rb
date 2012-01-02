@@ -33,8 +33,6 @@ describe XPath::HTML do
     it("finds links by image's approximate alt attribute") { get('Alt').should == 'link-img' }
     it("prefers exact matches of image's alt attribute")   { all('An image').should == ['link-img-exact', 'link-img-fuzzy'] }
     it("does not find links without href attriutes")       { get('Wrong Link').should be_nil }
-    it("finds links with an href")                         { get("Href-ed link", :href => 'http://www.example.com').should == 'link-href' }
-    it("does not find links with an incorrect href")       { get("Href-ed link", :href => 'http://www.somewhere.com').should be_nil }
   end
 
   describe '#button' do
@@ -162,28 +160,6 @@ describe XPath::HTML do
       it("does not find image buttons")     { get('Input image with parent label').should be_nil }
       it("does not find hidden fields")     { get('Input hidden with parent label').should be_nil }
     end
-
-    context "with :with option" do
-      it("finds inputs that match option")          { get('input-with-id', :with => 'correct-value').should == 'input-with-id-data' }
-      it("omits inputs that don't match option")    { get('input-with-id', :with => 'wrong-value').should be_nil }
-      it("finds textareas that match option")       { get('textarea-with-id', :with => 'Correct value').should == 'textarea-with-id-data' }
-      it("omits textareas that don't match option") { get('textarea-with-id', :with => 'Wrong value').should be_nil }
-    end
-
-    context "with :checked option" do
-      context "when true" do
-        it("finds checked fields")   {}
-        it("omits unchecked fields") {}
-      end
-      context "when false" do
-        it("finds unchecked fields") {}
-        it("omits checked fields")   {}
-      end
-      context "when ommitted" do
-        it("finds unchecked fields") {}
-        it("finds checked fields")   {}
-      end
-    end
   end
 
   describe '#fillable_field' do
@@ -242,7 +218,6 @@ describe XPath::HTML do
     subject {:table}
     it("finds tables by id") { get('table-with-id').should == 'table-with-id-data' }
     it("finds tables by caption") { get('Table with caption').should == 'table-with-caption-data' }
-    it("finds cell content regardless of whitespace") { get('whitespaced-table', :rows => [["I have nested whitespace", "I don't"]]).should == 'table-with-whitespace' }
   end
 
 end
