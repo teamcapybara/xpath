@@ -17,6 +17,10 @@ module XPath
         Expression.new(:child, current, expressions)
       end
 
+      def axis(name, tag_name=:*)
+        Expression.new(:axis, current, name, tag_name)
+      end
+
       def anywhere(expression)
         Expression.new(:anywhere, expression)
       end

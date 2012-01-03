@@ -76,6 +76,13 @@ describe XPath do
     end
   end
 
+  describe '#axis' do
+    it "should find nodes given the xpath axis" do
+      @results = xpath { |x| x.axis(:descendant, :p) }
+      @results[0].text.should == "Blah"
+    end
+  end
+
   describe '#next_sibling' do
     it "should find nodes which are immediate siblings of the current node" do
       xpath { |x| x.descendant(:p)[x.attr(:id) == 'fooDiv'].next_sibling(:p) }.first.text.should == 'Bax'

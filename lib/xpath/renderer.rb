@@ -60,6 +60,10 @@ module XPath
       end
     end
 
+    def axis(parent, name, tag_name)
+      "#{parent}/#{name}::#{tag_name}"
+    end
+
     def node_name(current)
       "name(#{current})"
     end
