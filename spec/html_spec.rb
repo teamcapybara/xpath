@@ -29,6 +29,9 @@ describe XPath::HTML do
     it("finds links by title")                             { get('My title').should == 'link-title' }
     it("finds links by approximate title")                 { get('title').should == 'link-title' }
     it("prefers exact matches of title")                   { all('This title').should == ['link-exact', 'link-fuzzy'] }
+    it("finds links by rel")                               { get('some-rel').should == 'link-rel' }
+    it("finds links by approximate rel")                   { get('rel').should == 'link-rel-long' }
+    it("prefers exact matches of rel")                     { all('some-rel').should == ['link-rel', 'link-rel-long'] }
     it("finds links by image's alt attribute")             { get('Alt link').should == 'link-img' }
     it("finds links by image's approximate alt attribute") { get('Alt').should == 'link-img' }
     it("prefers exact matches of image's alt attribute")   { all('An image').should == ['link-img-exact', 'link-img-fuzzy'] }
