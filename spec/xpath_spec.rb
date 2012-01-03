@@ -103,14 +103,6 @@ describe XPath do
     end
   end
 
-  describe '#tag' do
-    it "should filter elements by tag" do
-      @results = xpath { |x| x.descendant[x.tag(:p) | x.tag(:li)] }
-      @results[0].text.should == 'Blah'
-      @results[3].text.should == 'A list'
-    end
-  end
-
   describe '#contains' do
     it "should find nodes that contain the given string" do
       @results = xpath do |x|

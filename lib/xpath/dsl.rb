@@ -45,10 +45,6 @@ module XPath
         Expression.new(:string_function, current)
       end
 
-      def tag(name)
-        Expression.new(:tag, name)
-      end
-
       def css(selector)
         Expression.new(:css, current, Literal.new(selector))
       end

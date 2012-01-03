@@ -158,10 +158,6 @@ module XPath
       "not(#{current})"
     end
 
-    def tag(current)
-      "self::#{current}"
-    end
-
     def string_function(current)
       "string(#{current})"
     end
