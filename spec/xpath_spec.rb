@@ -81,6 +81,11 @@ describe XPath do
       @results = xpath { |x| x.axis(:descendant, :p) }
       @results[0].text.should == "Blah"
     end
+
+    it "should find nodes given the xpath axis without a specific tag" do
+      @results = xpath { |x| x.descendant(:div)[x.attr(:id) == 'foo'].axis(:descendant) }
+      @results[0][:id].should == "fooDiv"
+    end
   end
 
   describe '#next_sibling' do
