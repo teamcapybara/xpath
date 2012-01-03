@@ -1,5 +1,5 @@
 module XPath
-  module Convertable
+  module Convertible
     def to_s
       to_xpaths.join(' | ')
     end

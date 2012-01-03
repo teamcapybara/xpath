@@ -1,7 +1,7 @@
 module XPath
   class Union
     include Enumerable
-    include Convertable
+    include Convertible
 
     attr_reader :expressions
     alias_method :arguments, :expressions
