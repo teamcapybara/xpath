@@ -88,7 +88,7 @@ module XPath
     #   Label, id, or name of the checkbox to match
     #
     def checkbox(locator)
-      xpath = locate_field(descendant(:input)[attr(:type).equals('checkbox')], locator)
+      locate_field(descendant(:input)[attr(:type).equals('checkbox')], locator)
     end
 
 
