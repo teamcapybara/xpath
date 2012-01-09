@@ -105,8 +105,8 @@ module XPath
     end
 
     def css(current, selector)
-      paths = Nokogiri::CSS.xpath_for(selector).map do |selector|
-        "#{current}#{selector}"
+      paths = Nokogiri::CSS.xpath_for(selector).map do |xpath_selector|
+        "#{current}#{xpath_selector}"
       end
       union(paths)
     end
