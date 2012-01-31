@@ -75,10 +75,6 @@ module XPath
       end
       alias_method :==, :equals
 
-      def is(expression)
-        Expression.new(:is, current, expression)
-      end
-
       def or(expression)
         Expression.new(:or, current, expression)
       end

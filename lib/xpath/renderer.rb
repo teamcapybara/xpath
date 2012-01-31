@@ -1,13 +1,7 @@
 module XPath
   class Renderer
-    attr_reader :predicate
-
-    def self.render(predicate, node)
-      new(predicate).render(node)
-    end
-
-    def initialize(predicate)
-      @predicate = predicate
+    def self.render(node)
+      new.render(node)
     end
 
     def render(node)
@@ -125,7 +119,6 @@ module XPath
 
     def and(one, two)
       "(#{one} and #{two})"
-
     end
 
     def or(one, two)
@@ -134,14 +127,6 @@ module XPath
 
     def one_of(current, values)
       values.map { |value| "#{current} = #{value}" }.join(' or ')
-    end
-
-    def is(one, two)
-      if predicate == :exact
-        equality(one, two)
-      else
-        contains(one, two)
-      end
     end
 
     def next_sibling(current, element_names)
