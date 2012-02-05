@@ -123,9 +123,12 @@ module XPath
       "contains(#{current}, #{value})"
     end
 
+    def starts_with(current, value)
+      "starts-with(#{current}, #{value})"
+    end
+
     def and(one, two)
       "(#{one} and #{two})"
-
     end
 
     def or(one, two)
