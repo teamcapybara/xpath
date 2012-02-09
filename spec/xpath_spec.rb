@@ -125,6 +125,25 @@ describe XPath do
     end
   end
 
+  describe '#starts_with' do
+    it "should find nodes that begin with the given string" do
+      @results = xpath do |x|
+        x.descendant(:*).where(x.attr(:id).starts_with('foo'))
+      end
+      @results.size.should == 2
+      @results[0][:id].should == "foo"
+      @results[1][:id].should == "fooDiv"
+    end
+
+    it "should find nodes that contain the given expression" do
+      @results = xpath do |x|
+        expression = x.anywhere(:div).where(x.attr(:title) == 'fooDiv').attr(:id)
+        x.descendant(:div).where(x.attr(:title).starts_with(expression))
+      end
+      @results[0][:id].should == "foo"
+    end
+  end
+
   describe '#text' do
     it "should select a node's text" do
       @results = xpath { |x| x.descendant(:p).where(x.text == 'Bax') }
