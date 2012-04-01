@@ -33,6 +33,10 @@ module XPath
         Expression.new(:contains, current, expression)
       end
 
+      def starts_with(expression)
+        Expression.new(:starts_with, current, expression)
+      end
+
       def text
         Expression.new(:text, current)
       end
