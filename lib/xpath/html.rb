@@ -19,7 +19,7 @@ module XPath
     #   Value, title, id, or image alt attribute of the button
     #
     def button(locator)
-      button = descendant(:input)[attr(:type).one_of('submit', 'image', 'button')][attr(:id).equals(locator) | attr(:value).contains(locator) | attr(:title).contains(locator)]
+      button = descendant(:input)[attr(:type).one_of('submit', 'reset', 'image', 'button')][attr(:id).equals(locator) | attr(:value).contains(locator) | attr(:title).contains(locator)]
       button += descendant(:button)[attr(:id).equals(locator) | attr(:value).contains(locator) | string.n.contains(locator) | attr(:title).contains(locator)]
       button += descendant(:input)[attr(:type).equals('image')][attr(:alt).contains(locator)]
     end
