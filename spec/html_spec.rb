@@ -41,6 +41,14 @@ describe XPath::HTML do
       it("finds buttons by approximate title") { get('submit title').should == 'title-submit' }
     end
 
+    context "with reset type" do
+      it("finds buttons by id")                { get('reset-with-id').should == 'id-reset' }
+      it("finds buttons by value")             { get('reset-with-value').should == 'value-reset' }
+      it("finds buttons by approximate value") { get('set-with-val').should == 'value-reset' }
+      it("finds buttons by title")             { get('My reset title').should == 'title-reset' }
+      it("finds buttons by approximate title") { get('reset title').should == 'title-reset' }
+    end
+
     context "with button type" do
       it("finds buttons by id")                { get('button-with-id').should == 'id-button' }
       it("finds buttons by value")             { get('button-with-value').should == 'value-button' }
