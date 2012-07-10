@@ -3,3 +3,4 @@
 .yardoc
 doc
 Gemfile.lock
+bundler_stubs
