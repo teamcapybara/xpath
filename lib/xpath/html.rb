@@ -10,7 +10,7 @@ module XPath
     #
     def link(locator)
       link = descendant(:a)[attr(:href)]
-      link[attr(:id).equals(locator) | string.n.is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
+      link[attr(:id).equals(locator) | string.n.contains(locator) | attr(:title).contains(locator) | descendant(:img)[attr(:alt).contains(locator)]]
     end
 
     # Match a `submit`, `image`, or `button` element.
@@ -19,9 +19,9 @@ module XPath
     #   Value, title, id, or image alt attribute of the button
     #
     def button(locator)
-      button = descendant(:input)[attr(:type).one_of('submit', 'image', 'button')][attr(:id).equals(locator) | attr(:value).is(locator) | attr(:title).is(locator)]
-      button += descendant(:button)[attr(:id).equals(locator) | attr(:value).is(locator) | string.n.is(locator) | attr(:title).is(locator)]
-      button += descendant(:input)[attr(:type).equals('image')][attr(:alt).is(locator)]
+      button = descendant(:input)[attr(:type).one_of('submit', 'reset', 'image', 'button')][attr(:id).equals(locator) | attr(:value).contains(locator) | attr(:title).contains(locator)]
+      button += descendant(:button)[attr(:id).equals(locator) | attr(:value).contains(locator) | string.n.contains(locator) | attr(:title).contains(locator)]
+      button += descendant(:input)[attr(:type).equals('image')][attr(:alt).contains(locator)]
     end
 
 
@@ -41,7 +41,7 @@ module XPath
     #   Legend or id of the fieldset
     #
     def fieldset(locator)
-      descendant(:fieldset)[attr(:id).equals(locator) | child(:legend)[string.n.is(locator)]]
+      descendant(:fieldset)[attr(:id).equals(locator) | child(:legend)[string.n.contains(locator)]]
     end
 
 
@@ -88,7 +88,7 @@ module XPath
     #   Label, id, or name of the checkbox to match
     #
     def checkbox(locator)
-      xpath = locate_field(descendant(:input)[attr(:type).equals('checkbox')], locator)
+      locate_field(descendant(:input)[attr(:type).equals('checkbox')], locator)
     end
 
 
@@ -118,7 +118,7 @@ module XPath
     #   Label for the option group
     #
     def optgroup(name)
-      descendant(:optgroup)[attr(:label).is(name)]
+      descendant(:optgroup)[attr(:label).contains(name)]
     end
 
 
@@ -128,7 +128,7 @@ module XPath
     #   Visible text of the option
     #
     def option(name)
-      descendant(:option)[string.n.is(name)]
+      descendant(:option)[string.n.contains(name)]
     end
 
 
@@ -146,8 +146,8 @@ module XPath
   protected
 
     def locate_field(xpath, locator)
-      locate_field = xpath[attr(:id).equals(locator) | attr(:name).equals(locator) | attr(:placeholder).equals(locator) | attr(:id).equals(anywhere(:label)[string.n.is(locator)].attr(:for))]
-      locate_field += descendant(:label)[string.n.is(locator)].descendant(xpath)
+      locate_field = xpath[attr(:id).equals(locator) | attr(:name).equals(locator) | attr(:placeholder).equals(locator) | attr(:id).equals(anywhere(:label)[string.n.contains(locator)].attr(:for))]
+      locate_field += descendant(:label)[string.n.contains(locator)].descendant(xpath)
     end
   end
 end

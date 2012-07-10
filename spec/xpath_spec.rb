@@ -14,8 +14,8 @@ describe XPath do
   let(:template) { File.read(File.expand_path('fixtures/simple.html', File.dirname(__FILE__))) }
   let(:doc) { Nokogiri::HTML(template) }
 
-  def xpath(predicate=nil, &block)
-    doc.xpath XPath.generate(&block).to_xpath(predicate)
+  def xpath(&block)
+    doc.xpath XPath.generate(&block).to_xpath
   end
 
   it "should work as a mixin" do
@@ -125,6 +125,25 @@ describe XPath do
     end
   end
 
+  describe '#starts_with' do
+    it "should find nodes that begin with the given string" do
+      @results = xpath do |x|
+        x.descendant(:*).where(x.attr(:id).starts_with('foo'))
+      end
+      @results.size.should == 2
+      @results[0][:id].should == "foo"
+      @results[1][:id].should == "fooDiv"
+    end
+
+    it "should find nodes that contain the given expression" do
+      @results = xpath do |x|
+        expression = x.anywhere(:div).where(x.attr(:title) == 'fooDiv').attr(:id)
+        x.descendant(:div).where(x.attr(:title).starts_with(expression))
+      end
+      @results[0][:id].should == "foo"
+    end
+  end
+
   describe '#text' do
     it "should select a node's text" do
       @results = xpath { |x| x.descendant(:p).where(x.text == 'Bax') }
@@ -162,35 +181,6 @@ describe XPath do
 
     it "should be aliased as ==" do
       xpath { |x| x.descendant(:div).where(x.attr(:id) == 'foo') }.first[:title].should == "fooDiv"
-    end
-  end
-
-  describe '#is' do
-    it "should limit the expression to only nodes that contain the given expression" do
-      @results = xpath { |x| x.descendant(:p).where(x.text.is('llama')) }
-      @results[0][:id].should == 'is-fuzzy'
-      @results[1][:id].should == 'is-exact'
-    end
-
-    it "should limit the expression to only nodes that contain the given expression if fuzzy predicate given" do
-      @results = xpath(:fuzzy) { |x| x.descendant(:p).where(x.text.is('llama')) }
-      @results[0][:id].should == 'is-fuzzy'
-      @results[1][:id].should == 'is-exact'
-    end
-
-    it "should limit the expression to only nodes that equal the given expression if exact predicate given" do
-      @results = xpath(:exact) { |x| x.descendant(:p).where(x.text.is('llama')) }
-      @results[0][:id].should == 'is-exact'
-      @results[1].should be_nil
-    end
-
-    context "with to_xpaths" do
-      it "should prefer exact matches" do
-        @xpath = XPath.generate { |x| x.descendant(:p).where(x.text.is('llama')) }
-        @results = @xpath.to_xpaths.map { |path| doc.xpath(path) }.flatten
-        @results[0][:id].should == 'is-exact'
-        @results[1][:id].should == 'is-fuzzy'
-      end
     end
   end
 

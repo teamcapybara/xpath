@@ -3,7 +3,6 @@ require 'nokogiri'
 module XPath
   autoload :Expression, 'xpath/expression'
   autoload :Literal, 'xpath/literal'
-  autoload :Convertible, 'xpath/convertible'
   autoload :Union, 'xpath/union'
   autoload :Renderer, 'xpath/renderer'
   autoload :HTML, 'xpath/html'

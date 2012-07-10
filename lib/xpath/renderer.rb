@@ -1,13 +1,7 @@
 module XPath
   class Renderer
-    attr_reader :predicate
-
-    def self.render(predicate, node)
-      new(predicate).render(node)
-    end
-
-    def initialize(predicate)
-      @predicate = predicate
+    def self.render(node)
+      new.render(node)
     end
 
     def render(node)
@@ -105,8 +99,8 @@ module XPath
     end
 
     def css(current, selector)
-      paths = Nokogiri::CSS.xpath_for(selector).map do |selector|
-        "#{current}#{selector}"
+      paths = Nokogiri::CSS.xpath_for(selector).map do |xpath_selector|
+        "#{current}#{xpath_selector}"
       end
       union(paths)
     end
@@ -123,9 +117,12 @@ module XPath
       "contains(#{current}, #{value})"
     end
 
+    def starts_with(current, value)
+      "starts-with(#{current}, #{value})"
+    end
+
     def and(one, two)
       "(#{one} and #{two})"
-
     end
 
     def or(one, two)
@@ -134,14 +131,6 @@ module XPath
 
     def one_of(current, values)
       values.map { |value| "#{current} = #{value}" }.join(' or ')
-    end
-
-    def is(one, two)
-      if predicate == :exact
-        equality(one, two)
-      else
-        contains(one, two)
-      end
     end
 
     def next_sibling(current, element_names)

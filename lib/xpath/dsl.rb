@@ -33,6 +33,10 @@ module XPath
         Expression.new(:contains, current, expression)
       end
 
+      def starts_with(expression)
+        Expression.new(:starts_with, current, expression)
+      end
+
       def text
         Expression.new(:text, current)
       end
@@ -74,10 +78,6 @@ module XPath
         Expression.new(:equality, current, expression)
       end
       alias_method :==, :equals
-
-      def is(expression)
-        Expression.new(:is, current, expression)
-      end
 
       def or(expression)
         Expression.new(:or, current, expression)
