@@ -46,13 +46,13 @@ describe XPath::Union do
   end
 
 
-  describe '#where, #apply and others' do
+  describe '#where and others' do
     it "should be delegated to the individual expressions" do
       @expr1 = XPath.generate { |x| x.descendant(:p) }
       @expr2 = XPath.generate { |x| x.descendant(:div) }
       @collection = XPath::Union.new(@expr1, @expr2)
       @xpath1 = @collection.where(XPath.attr(:id) == 'foo').to_xpath
-      @xpath2 = @collection.where(XPath.attr(:id) == XPath.varstring(:id)).apply(:id => 'fooDiv').to_xpath
+      @xpath2 = @collection.where(XPath.attr(:id) == 'fooDiv').to_xpath
       @results = doc.xpath(@xpath1)
       @results[0][:title].should == 'fooDiv'
       @results = doc.xpath(@xpath2)

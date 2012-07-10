@@ -41,20 +41,12 @@ module XPath
         Expression.new(:text, current)
       end
 
-      def var(name)
-        Expression.new(:variable, name)
-      end
-
       def string
         Expression.new(:string_function, current)
       end
 
       def css(selector)
         Expression.new(:css, current, Literal.new(selector))
-      end
-
-      def varstring(name)
-        var(name).string_literal
       end
     end
 
@@ -101,10 +93,6 @@ module XPath
 
       def string_literal
         Expression.new(:string_literal, self)
-      end
-
-      def apply(variables={})
-        Expression.new(:applied, current, Literal.new(variables))
       end
 
       def normalize

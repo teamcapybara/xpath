@@ -78,14 +78,6 @@ module XPath
       "%{#{name}}"
     end
 
-    def applied(expression, variables)
-      expression % variables
-    rescue ArgumentError # for ruby < 1.9 compat
-      expression.gsub(/%\{(\w+)\}/) do |_|
-        variables[$1.to_sym] or raise(ArgumentError, "expected variable #{$1} to be set")
-      end
-    end
-
     def text(current)
       "#{current}/text()"
     end
