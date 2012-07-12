@@ -128,7 +128,7 @@ module XPath
     #   Visible text of the option
     #
     def option(name)
-      descendant(:option)[string.n.contains(name)]
+      descendant(:option)[string.n.equals(name)]
     end
 
 

@@ -200,6 +200,7 @@ describe XPath::HTML do
   describe '#option' do
     subject{ :option }
     it("finds options by text") { get('Option with text').should == 'option-with-text-data' }
+    it("does not find option by partial text") { get('Option with').should be_nil }
   end
 
   describe "#optgroup" do
