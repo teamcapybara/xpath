@@ -13,11 +13,11 @@ Gem::Specification.new do |s|
   s.email = ["jonas.nicklas@gmail.com"]
   s.description = "XPath is a Ruby DSL for generating XPath expressions"
 
-  s.files = Dir.glob("{lib,spec}/**/*") + %w(README.rdoc)
-  s.extra_rdoc_files = ["README.rdoc"]
+  s.files = Dir.glob("{lib,spec}/**/*") + %w(README.md)
+  s.extra_rdoc_files = ["README.md"]
 
   s.homepage = "http://github.com/jnicklas/xpath"
-  s.rdoc_options = ["--main", "README.rdoc"]
+  s.rdoc_options = ["--main", "README.md"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.3.6"
   s.summary = "Generate XPath expressions from Ruby"
