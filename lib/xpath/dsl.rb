@@ -21,6 +21,14 @@ module XPath
         Expression.new(:axis, current, name, tag_name)
       end
 
+      def next_sibling(*expressions)
+        Expression.new(:next_sibling, current, expressions)
+      end
+
+      def previous_sibling(*expressions)
+        Expression.new(:previous_sibling, current, expressions)
+      end
+
       def anywhere(expression)
         Expression.new(:anywhere, expression)
       end
@@ -57,10 +65,6 @@ module XPath
         Expression.new(:where, current, expression)
       end
       alias_method :[], :where
-
-      def next_sibling(*expressions)
-        Expression.new(:next_sibling, current, expressions)
-      end
 
       def one_of(*expressions)
         Expression.new(:one_of, current, expressions)

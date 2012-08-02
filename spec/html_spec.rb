@@ -214,4 +214,10 @@ describe XPath::HTML do
     it("finds tables by caption") { get('Table with caption').should == 'table-with-caption-data' }
   end
 
+  describe "#definition_description" do
+    subject {:definition_description}
+    let(:template) {'stuff'}
+    it("find definition description by id") { get('latte').should == "with-id" }
+    it("find definition description by term") { get("Milk").should == "with-dt" }
+  end
 end

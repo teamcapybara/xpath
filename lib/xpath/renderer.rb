@@ -135,6 +135,16 @@ module XPath
       end
     end
 
+    def previous_sibling(current, element_names)
+      if element_names.length == 1
+        "#{current}/preceding-sibling::*[1]/self::#{element_names.first}"
+      elsif element_names.length > 1
+        "#{current}/preceding-sibling::*[1]/self::*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
+      else
+        "#{current}/preceding-sibling::*[1]/self::*"
+      end
+    end
+
     def inverse(current)
       "not(#{current})"
     end
