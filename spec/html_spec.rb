@@ -28,6 +28,7 @@ describe XPath::HTML do
     it("finds links by image's alt attribute")             { get('Alt link').should == 'link-img' }
     it("finds links by image's approximate alt attribute") { get('Alt').should == 'link-img' }
     it("does not find links without href attriutes")       { get('Wrong Link').should be_nil }
+    it("casts to string")                                  { get(:'some-id').should == 'link-id' }
   end
 
   describe '#button' do
@@ -82,6 +83,8 @@ describe XPath::HTML do
     context "with unkown type" do
       it("does not find the button") { get('schmoo button').should be_nil }
     end
+
+    it("casts to string") { get(:'tag-with-tex').should == 'text-btag' }
   end
 
   describe '#fieldset' do
@@ -92,6 +95,7 @@ describe XPath::HTML do
     it("finds fieldsets by legend child tags")   { get('Span Legend').should == 'fieldset-legend-span' }
     it("accepts approximate legends")            { get('Legend').should == 'fieldset-legend' }
     it("finds nested fieldsets by legend")       { get('Inner legend').should == 'fieldset-inner' }
+    it("casts to string")                        { get(:'Inner legend').should == 'fieldset-inner' }
   end
 
   describe '#field' do
@@ -153,6 +157,8 @@ describe XPath::HTML do
       it("does not find image buttons")     { get('Input image with parent label').should be_nil }
       it("does not find hidden fields")     { get('Input hidden with parent label').should be_nil }
     end
+
+    it("casts to string") { get(:'select-with-id').should == 'select-with-id-data' }
   end
 
   describe '#fillable_field' do
@@ -170,54 +176,61 @@ describe XPath::HTML do
     it("finds selects by name")           { get('select-with-name').should == 'select-with-name-data' }
     it("finds selects by label")          { get('Select with label').should == 'select-with-label-data' }
     it("finds selects by parent label")   { get('Select with parent label').should == 'select-with-parent-label-data' }
+    it("casts to string")                 { get(:'Select with parent label').should == 'select-with-parent-label-data' }
   end
 
   describe '#checkbox' do
     subject{ :checkbox }
-    it("finds checkboxes by id") { get('input-checkbox-with-id').should == 'input-checkbox-with-id-data' }
-    it("finds checkboxes by name") { get('input-checkbox-with-name').should == 'input-checkbox-with-name-data' }
-    it("finds checkboxes by label") { get('Input checkbox with label').should == 'input-checkbox-with-label-data' }
+    it("finds checkboxes by id")           { get('input-checkbox-with-id').should == 'input-checkbox-with-id-data' }
+    it("finds checkboxes by name")         { get('input-checkbox-with-name').should == 'input-checkbox-with-name-data' }
+    it("finds checkboxes by label")        { get('Input checkbox with label').should == 'input-checkbox-with-label-data' }
     it("finds checkboxes by parent label") { get('Input checkbox with parent label').should == 'input-checkbox-with-parent-label-data' }
+    it("casts to string")                  { get(:'Input checkbox with parent label').should == 'input-checkbox-with-parent-label-data' }
   end
 
   describe '#radio_button' do
     subject{ :radio_button }
-    it("finds radio buttons by id") { get('input-radio-with-id').should == 'input-radio-with-id-data' }
-    it("finds radio buttons by name") { get('input-radio-with-name').should == 'input-radio-with-name-data' }
-    it("finds radio buttons by label") { get('Input radio with label').should == 'input-radio-with-label-data' }
+    it("finds radio buttons by id")           { get('input-radio-with-id').should == 'input-radio-with-id-data' }
+    it("finds radio buttons by name")         { get('input-radio-with-name').should == 'input-radio-with-name-data' }
+    it("finds radio buttons by label")        { get('Input radio with label').should == 'input-radio-with-label-data' }
     it("finds radio buttons by parent label") { get('Input radio with parent label').should == 'input-radio-with-parent-label-data' }
-
+    it("casts to string")                     { get(:'Input radio with parent label').should == 'input-radio-with-parent-label-data' }
   end
 
   describe '#file_field' do
     subject{ :file_field }
-    it("finds file fields by id") { get('input-file-with-id').should == 'input-file-with-id-data' }
-    it("finds file fields by name") { get('input-file-with-name').should == 'input-file-with-name-data' }
-    it("finds file fields by label") { get('Input file with label').should == 'input-file-with-label-data' }
+    it("finds file fields by id")           { get('input-file-with-id').should == 'input-file-with-id-data' }
+    it("finds file fields by name")         { get('input-file-with-name').should == 'input-file-with-name-data' }
+    it("finds file fields by label")        { get('Input file with label').should == 'input-file-with-label-data' }
     it("finds file fields by parent label") { get('Input file with parent label').should == 'input-file-with-parent-label-data' }
-  end
-
-  describe '#option' do
-    subject{ :option }
-    it("finds options by text") { get('Option with text').should == 'option-with-text-data' }
-    it("does not find option by partial text") { get('Option with').should be_nil }
+    it("casts to string")                   { get(:'Input file with parent label').should == 'input-file-with-parent-label-data' }
   end
 
   describe "#optgroup" do
     subject { :optgroup }
     it("finds optgroups by label") { get('Group A').should == 'optgroup-a' }
+    it("casts to string")          { get(:'Group A').should == 'optgroup-a' }
+  end
+
+  describe '#option' do
+    subject{ :option }
+    it("finds options by text")                { get('Option with text').should == 'option-with-text-data' }
+    it("does not find option by partial text") { get('Option with').should be_nil }
+    it("casts to string")                      { get(:'Option with text').should == 'option-with-text-data' }
   end
 
   describe "#table" do
     subject {:table}
-    it("finds tables by id") { get('table-with-id').should == 'table-with-id-data' }
+    it("finds tables by id")      { get('table-with-id').should == 'table-with-id-data' }
     it("finds tables by caption") { get('Table with caption').should == 'table-with-caption-data' }
+    it("casts to string")         { get(:'Table with caption').should == 'table-with-caption-data' }
   end
 
   describe "#definition_description" do
     subject {:definition_description}
     let(:template) {'stuff'}
-    it("find definition description by id") { get('latte').should == "with-id" }
+    it("find definition description by id")   { get('latte').should == "with-id" }
     it("find definition description by term") { get("Milk").should == "with-dt" }
+    it("casts to string")                     { get(:"Milk").should == "with-dt" }
   end
 end
