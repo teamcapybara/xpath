@@ -28,7 +28,7 @@
   <input type="submit" title="My submit title" value="submit-with-title" data="title-submit">
   <input type="submit" title="Exact submit title" value="exact title submit" data="exact-title-submit">
   <input type="submit" title="Not Exact submit title" value="exact title submit" data="not-exact-title-submit">
-  
+
   <input type="reset" id="reset-with-id" data="id-reset" value="Has ID"/>
   <input type="reset" value="reset-with-value" data="value-reset"/>
   <input type="reset" value="not exact value reset" data="not-exact-value-reset"/>
@@ -36,7 +36,7 @@
   <input type="reset" title="My reset title" value="reset-with-title" data="title-reset">
   <input type="reset" title="Exact reset title" value="exact title reset" data="exact-title-reset">
   <input type="reset" title="Not Exact reset title" value="exact title reset" data="not-exact-title-reset">
-  
+
   <input type="button" id="button-with-id" data="id-button" value="Has ID"/>
   <input type="button" value="button-with-value" data="value-button"/>
   <input type="button" value="not exact value button" data="not-exact-value-button"/>
@@ -77,6 +77,8 @@
   <input type="schmoo" value="schmoo button" data="schmoo"/>
   <label for="text-with-id">Label text <input type="text" id="text-with-id" data="id-text" value="monkey"/></label>
   <label for="problem-text-with-id">Label text's got an apostrophe <input type="text" id="problem-text-with-id" data="id-problem-text" value="monkey"/></label>
+
+  <input disabled type="submit" id="disabled-submit" data="submit-disabled" value=""/>
 </p>
 
 <p>
@@ -185,4 +187,15 @@
   <label>Input hidden with parent label<input type="hidden" data="input-hidden-with-parent-label-data"/></label>
   <label>Input checkbox with parent label<input type="checkbox" data="input-checkbox-with-parent-label-data"/></label>
   <label>Input radio with parent label<input type="radio" data="input-radio-with-parent-label-data"/></label>
+
+  <h4>Disabled</h4>
+  <input disabled id="input-disabled" value="correct-value" data="input-data"/>
+  <input disabled type="text" id="input-text-disabled" data="input-text-data"/>
+  <input disabled type="file" id="input-file-disabled" data="input-file-data"/>
+  <input disabled type="password" id="input-password-disabled" data="input-password-data"/>
+  <input disabled type="custom" id="input-custom-disabled" data="input-custom-data"/>
+  <textarea disabled id="textarea-with-id-data-disabled">Correct value</textarea>
+  <select disabled id="select-with-id-data-disabled"></select>
+  <input disabled type="checkbox" id="input-checkbox-disabled" data="input-checkbox-data"/>
+  <input disabled type="radio" id="input-radio-disabled" data="input-radio-data"/>
 </p>
