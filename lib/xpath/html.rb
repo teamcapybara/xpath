@@ -10,7 +10,7 @@ module XPath
     end
 
     def content(locator)
-      child(:"descendant-or-self::*")[current.n.contains(locator)]
+      child(:"descendant-or-self::*")[current.contains(locator)]
     end
 
     def button(locator)
