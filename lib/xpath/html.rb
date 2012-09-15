@@ -18,7 +18,7 @@ module XPath
 
 
     def content(locator)
-      child(:"descendant-or-self::*")[current.n.contains(locator)]
+      child(:"descendant-or-self::*")[current.contains(locator)]
     end
 
 
