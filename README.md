@@ -16,7 +16,7 @@ XPath.generate { |x| x.descendant(:ul)[x.attr(:id) == 'foo'] }
 You can also call expression methods directly on the `XPath` module:
 
 ``` ruby
-XPath.descendant(:ul)[XPath.attr(:id) == 'foo'] }
+XPath.descendant(:ul) { [XPath.attr(:id) == 'foo'] }
 ```
 
 However for more complex expressions, it is probably more convenient to include
