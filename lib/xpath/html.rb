@@ -71,7 +71,7 @@ module XPath
     #
     def fillable_field(locator)
       locator = locator.to_s
-      xpath = descendant(:input, :textarea)[~attr(:type).one_of('submit', 'image', 'radio', 'checkbox', 'hidden', 'file')]
+      xpath =  descendant(:input, :textarea,:"*[@contenteditable]")[~attr(:type).one_of('submit', 'image', 'radio', 'checkbox', 'hidden', 'file')]
       xpath = locate_field(xpath, locator)
       xpath
     end
