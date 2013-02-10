@@ -21,8 +21,8 @@ module XPath
       XPath::Union.new(*arguments.map { |e| e.send(*args) })
     end
 
-    def to_xpath
-      Renderer.render(self)
+    def to_xpath(type=nil)
+      Renderer.render(self, type)
     end
     alias_method :to_s, :to_xpath
   end

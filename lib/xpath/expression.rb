@@ -12,8 +12,8 @@ module XPath
       self
     end
 
-    def to_xpath
-      Renderer.render(self)
+    def to_xpath(type=nil)
+      Renderer.render(self, type)
     end
     alias_method :to_s, :to_xpath
   end

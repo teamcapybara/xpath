@@ -1,7 +1,11 @@
 module XPath
   class Renderer
-    def self.render(node)
-      new.render(node)
+    def self.render(node, type)
+      new(type).render(node)
+    end
+
+    def initialize(type)
+      @type = type
     end
 
     def render(node)
@@ -72,6 +76,14 @@ module XPath
 
     def equality(one, two)
       "#{one} = #{two}"
+    end
+
+    def is(one, two)
+      if @type == :exact
+        equality(one, two)
+      else
+        contains(one, two)
+      end
     end
 
     def variable(name)

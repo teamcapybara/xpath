@@ -14,8 +14,8 @@ describe XPath do
   let(:template) { File.read(File.expand_path('fixtures/simple.html', File.dirname(__FILE__))) }
   let(:doc) { Nokogiri::HTML(template) }
 
-  def xpath(&block)
-    doc.xpath XPath.generate(&block).to_xpath
+  def xpath(type=nil, &block)
+    doc.xpath XPath.generate(&block).to_xpath(type)
   end
 
   it "should work as a mixin" do
@@ -191,6 +191,18 @@ describe XPath do
 
     it "should be aliased as ==" do
       xpath { |x| x.descendant(:div).where(x.attr(:id) == 'foo') }.first[:title].should == "fooDiv"
+    end
+  end
+
+  describe '#is' do
+    it "uses equality when :exact given" do
+      xpath(:exact) { |x| x.descendant(:div).where(x.attr(:id).is('foo')) }.first[:title].should == "fooDiv"
+      xpath(:exact) { |x| x.descendant(:div).where(x.attr(:id).is('oo')) }.first.should be_nil
+    end
+
+    it "uses substring matching otherwise" do
+      xpath { |x| x.descendant(:div).where(x.attr(:id).is('foo')) }.first[:title].should == "fooDiv"
+      xpath { |x| x.descendant(:div).where(x.attr(:id).is('oo')) }.first[:title].should == "fooDiv"
     end
   end
 
