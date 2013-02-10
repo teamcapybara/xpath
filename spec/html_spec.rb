@@ -11,7 +11,8 @@ describe XPath::HTML do
   end
 
   def all(*args)
-    doc.xpath(XPath::HTML.send(subject, *args).to_s).map { |node| node[:data] }
+    type = example.metadata[:type]
+    doc.xpath(XPath::HTML.send(subject, *args).to_xpath(type)).map { |node| node[:data] }
   end
 
   describe '#link' do
@@ -21,7 +22,7 @@ describe XPath::HTML do
     it("finds links by content")                           { get('An awesome link').should == 'link-text' }
     it("finds links by content regardless of whitespace")  { get('My whitespaced link').should == 'link-whitespace' }
     it("finds links with child tags by content")           { get('An emphatic link').should == 'link-children' }
-    it("finds links by the content of theur child tags")   { get('emphatic').should == 'link-children' }
+    it("finds links by the content of their child tags")   { get('emphatic').should == 'link-children' }
     it("finds links by approximate content")               { get('awesome').should == 'link-text' }
     it("finds links by title")                             { get('My title').should == 'link-title' }
     it("finds links by approximate title")                 { get('title').should == 'link-title' }
@@ -29,6 +30,15 @@ describe XPath::HTML do
     it("finds links by image's approximate alt attribute") { get('Alt').should == 'link-img' }
     it("does not find links without href attriutes")       { get('Wrong Link').should be_nil }
     it("casts to string")                                  { get(:'some-id').should == 'link-id' }
+
+    context "with exact match", :type => :exact do
+      it("finds links by content")                                   { get('An awesome link').should == 'link-text' }
+      it("does not find links by approximate content")               { get('awesome').should be_nil }
+      it("finds links by title")                                     { get('My title').should == 'link-title' }
+      it("does not find links by approximate title")                 { get('title').should be_nil }
+      it("finds links by image's alt attribute")                     { get('Alt link').should == 'link-img' }
+      it("does not find links by image's approximate alt attribute") { get('Alt').should be_nil }
+    end
   end
 
   describe '#button' do
@@ -40,6 +50,13 @@ describe XPath::HTML do
       it("finds buttons by approximate value") { get('mit-with-val').should == 'value-submit' }
       it("finds buttons by title")             { get('My submit title').should == 'title-submit' }
       it("finds buttons by approximate title") { get('submit title').should == 'title-submit' }
+
+      context "with exact match", :type => :exact do
+        it("finds buttons by value")                     { get('submit-with-value').should == 'value-submit' }
+        it("does not find buttons by approximate value") { get('mit-with-val').should be_nil }
+        it("finds buttons by title")                     { get('My submit title').should == 'title-submit' }
+        it("does not find buttons by approximate title") { get('submit title').should be_nil }
+      end
     end
 
     context "with reset type" do
@@ -48,6 +65,13 @@ describe XPath::HTML do
       it("finds buttons by approximate value") { get('set-with-val').should == 'value-reset' }
       it("finds buttons by title")             { get('My reset title').should == 'title-reset' }
       it("finds buttons by approximate title") { get('reset title').should == 'title-reset' }
+
+      context "with exact match", :type => :exact do
+        it("finds buttons by value")                     { get('reset-with-value').should == 'value-reset' }
+        it("does not find buttons by approximate value") { get('set-with-val').should be_nil }
+        it("finds buttons by title")                     { get('My reset title').should == 'title-reset' }
+        it("does not find buttons by approximate title") { get('reset title').should be_nil }
+      end
     end
 
     context "with button type" do
@@ -56,15 +80,32 @@ describe XPath::HTML do
       it("finds buttons by approximate value") { get('ton-with-val').should == 'value-button' }
       it("finds buttons by title")             { get('My button title').should == 'title-button' }
       it("finds buttons by approximate title") { get('button title').should == 'title-button' }
+
+      context "with exact match", :type => :exact do
+        it("finds buttons by value")                     { get('button-with-value').should == 'value-button' }
+        it("does not find buttons by approximate value") { get('ton-with-val').should be_nil }
+        it("finds buttons by title")                     { get('My button title').should == 'title-button' }
+        it("does not find buttons by approximate title") { get('button title').should be_nil }
+      end
     end
 
     context "with image type" do
-      it("finds buttons by id")                { get('imgbut-with-id').should == 'id-imgbut' }
-      it("finds buttons by value")             { get('imgbut-with-value').should == 'value-imgbut' }
-      it("finds buttons by approximate value") { get('gbut-with-val').should == 'value-imgbut' }
-      it("finds buttons by alt attribute")     { get('imgbut-with-alt').should == 'alt-imgbut' }
-      it("finds buttons by title")             { get('My imgbut title').should == 'title-imgbut' }
-      it("finds buttons by approximate title") { get('imgbut title').should == 'title-imgbut' }
+      it("finds buttons by id")                        { get('imgbut-with-id').should == 'id-imgbut' }
+      it("finds buttons by value")                     { get('imgbut-with-value').should == 'value-imgbut' }
+      it("finds buttons by approximate value")         { get('gbut-with-val').should == 'value-imgbut' }
+      it("finds buttons by alt attribute")             { get('imgbut-with-alt').should == 'alt-imgbut' }
+      it("finds buttons by approximate alt attribute") { get('mgbut-with-al').should == 'alt-imgbut' }
+      it("finds buttons by title")                     { get('My imgbut title').should == 'title-imgbut' }
+      it("finds buttons by approximate title")         { get('imgbut title').should == 'title-imgbut' }
+
+      context "with exact match", :type => :exact do
+        it("finds buttons by value")                             { get('imgbut-with-value').should == 'value-imgbut' }
+        it("does not find buttons by approximate value")         { get('gbut-with-val').should be_nil }
+        it("finds buttons by alt attribute")                     { get('imgbut-with-alt').should == 'alt-imgbut' }
+        it("does not find buttons by approximate alt attribute") { get('mgbut-with-al').should be_nil }
+        it("finds buttons by title")                             { get('My imgbut title').should == 'title-imgbut' }
+        it("does not find buttons by approximate title")         { get('imgbut title').should be_nil }
+      end
     end
 
     context "with button tag" do
@@ -78,6 +119,15 @@ describe XPath::HTML do
       it("finds buttons by text of their children")   { get('emphatic').should == 'btag-with-children' }
       it("finds buttons by title")                    { get('My btag title').should == 'title-btag' }
       it("finds buttons by approximate title")        { get('btag title').should == 'title-btag' }
+
+      context "with exact match", :type => :exact do
+        it("finds buttons by value")                     { get('btag-with-value').should == 'value-btag' }
+        it("does not find buttons by approximate value") { get('tag-with-val').should be_nil }
+        it("finds buttons by text")                      { get('btag-with-text').should == 'text-btag' }
+        it("does not find buttons by approximate text ") { get('tag-with-tex').should be_nil }
+        it("finds buttons by title")                     { get('My btag title').should == 'title-btag' }
+        it("does not find buttons by approximate title") { get('btag title').should be_nil }
+      end
     end
 
     context "with unkown type" do
@@ -97,6 +147,11 @@ describe XPath::HTML do
     it("accepts approximate legends")            { get('Legend').should == 'fieldset-legend' }
     it("finds nested fieldsets by legend")       { get('Inner legend').should == 'fieldset-inner' }
     it("casts to string")                        { get(:'Inner legend').should == 'fieldset-inner' }
+
+    context "with exact match", :type => :exact do
+      it("finds fieldsets by legend")            { get('Some Legend').should == 'fieldset-legend' }
+      it("does not find by approximate legends") { get('Legend').should be_nil }
+    end
   end
 
   describe '#field' do
@@ -222,22 +277,39 @@ describe XPath::HTML do
 
   describe "#optgroup" do
     subject { :optgroup }
-    it("finds optgroups by label") { get('Group A').should == 'optgroup-a' }
-    it("casts to string")          { get(:'Group A').should == 'optgroup-a' }
+    it("finds optgroups by label")             { get('Group A').should == 'optgroup-a' }
+    it("finds optgroups by approximate label") { get('oup A').should == 'optgroup-a' }
+    it("casts to string")                      { get(:'Group A').should == 'optgroup-a' }
+
+    context "with exact match", :type => :exact do
+      it("finds by label")                     { get('Group A').should == 'optgroup-a' }
+      it("does not find by approximate label") { get('oup A').should be_nil }
+    end
   end
 
   describe '#option' do
     subject{ :option }
-    it("finds options by text")                { get('Option with text').should == 'option-with-text-data' }
-    it("does not find option by partial text") { get('Option with').should be_nil }
-    it("casts to string")                      { get(:'Option with text').should == 'option-with-text-data' }
+    it("finds by text")             { get('Option with text').should == 'option-with-text-data' }
+    it("finds by approximate text") { get('Option with').should == 'option-with-text-data' }
+    it("casts to string")           { get(:'Option with text').should == 'option-with-text-data' }
+
+    context "with exact match", :type => :exact do
+      it("finds by text")                     { get('Option with text').should == 'option-with-text-data' }
+      it("does not find by approximate text") { get('Option with').should be_nil }
+    end
   end
 
   describe "#table" do
     subject {:table}
-    it("finds tables by id")      { get('table-with-id').should == 'table-with-id-data' }
-    it("finds tables by caption") { get('Table with caption').should == 'table-with-caption-data' }
-    it("casts to string")         { get(:'Table with caption').should == 'table-with-caption-data' }
+    it("finds by id")                  { get('table-with-id').should == 'table-with-id-data' }
+    it("finds by caption")             { get('Table with caption').should == 'table-with-caption-data' }
+    it("finds by approximate caption") { get('Table with').should == 'table-with-caption-data' }
+    it("casts to string")              { get(:'Table with caption').should == 'table-with-caption-data' }
+
+    context "with exact match", :type => :exact do
+      it("finds by caption")                     { get('Table with caption').should == 'table-with-caption-data' }
+      it("does not find by approximate caption") { get('Table with').should be_nil }
+    end
   end
 
   describe "#definition_description" do

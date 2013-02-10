@@ -11,7 +11,7 @@ module XPath
     def link(locator)
       locator = locator.to_s
       link = descendant(:a)[attr(:href)]
-      link[attr(:id).equals(locator) | string.n.contains(locator) | attr(:title).contains(locator) | descendant(:img)[attr(:alt).contains(locator)]]
+      link[attr(:id).equals(locator) | string.n.is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
     end
 
     # Match a `submit`, `image`, or `button` element.
@@ -21,9 +21,9 @@ module XPath
     #
     def button(locator)
       locator = locator.to_s
-      button = descendant(:input)[~attr(:disabled)][attr(:type).one_of('submit', 'reset', 'image', 'button')][attr(:id).equals(locator) | attr(:value).contains(locator) | attr(:title).contains(locator)]
-      button += descendant(:button)[~attr(:disabled)][attr(:id).equals(locator) | attr(:value).contains(locator) | string.n.contains(locator) | attr(:title).contains(locator)]
-      button += descendant(:input)[~attr(:disabled)][attr(:type).equals('image')][attr(:alt).contains(locator)]
+      button = descendant(:input)[~attr(:disabled)][attr(:type).one_of('submit', 'reset', 'image', 'button')][attr(:id).equals(locator) | attr(:value).is(locator) | attr(:title).is(locator)]
+      button += descendant(:button)[~attr(:disabled)][attr(:id).equals(locator) | attr(:value).is(locator) | string.n.is(locator) | attr(:title).is(locator)]
+      button += descendant(:input)[~attr(:disabled)][attr(:type).equals('image')][attr(:alt).is(locator)]
     end
 
 
@@ -44,7 +44,7 @@ module XPath
     #
     def fieldset(locator)
       locator = locator.to_s
-      descendant(:fieldset)[attr(:id).equals(locator) | child(:legend)[string.n.contains(locator)]]
+      descendant(:fieldset)[attr(:id).equals(locator) | child(:legend)[string.n.is(locator)]]
     end
 
 
@@ -128,7 +128,7 @@ module XPath
     #
     def optgroup(locator)
       locator = locator.to_s
-      descendant(:optgroup)[attr(:label).contains(locator)]
+      descendant(:optgroup)[attr(:label).is(locator)]
     end
 
 
@@ -139,7 +139,7 @@ module XPath
     #
     def option(locator)
       locator = locator.to_s
-      descendant(:option)[string.n.equals(locator)]
+      descendant(:option)[string.n.is(locator)]
     end
 
 
@@ -152,7 +152,7 @@ module XPath
     #
     def table(locator)
       locator = locator.to_s
-      descendant(:table)[attr(:id).equals(locator) | descendant(:caption).contains(locator)]
+      descendant(:table)[attr(:id).equals(locator) | descendant(:caption).is(locator)]
     end
 
     # Match any 'dd' element.
@@ -167,8 +167,8 @@ module XPath
   protected
 
     def locate_field(xpath, locator)
-      locate_field = xpath[attr(:id).equals(locator) | attr(:name).equals(locator) | attr(:placeholder).equals(locator) | attr(:id).equals(anywhere(:label)[string.n.contains(locator)].attr(:for))]
-      locate_field += descendant(:label)[string.n.contains(locator)].descendant(xpath)
+      locate_field = xpath[attr(:id).equals(locator) | attr(:name).equals(locator) | attr(:placeholder).equals(locator) | attr(:id).equals(anywhere(:label)[string.n.is(locator)].attr(:for))]
+      locate_field += descendant(:label)[string.n.is(locator)].descendant(xpath)
       locate_field[~attr(:disabled)]
     end
   end
