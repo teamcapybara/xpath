@@ -259,6 +259,7 @@ describe XPath::HTML do
     subject{ :radio_button }
     it("finds radio buttons by id")           { get('input-radio-with-id').should == 'input-radio-with-id-data' }
     it("finds radio buttons by name")         { get('input-radio-with-name').should == 'input-radio-with-name-data' }
+    it("finds radio buttons by value")        { get('input_radio_with_value').should == 'input-radio-with-value-data' }
     it("finds radio buttons by label")        { get('Input radio with label').should == 'input-radio-with-label-data' }
     it("finds radio buttons by parent label") { get('Input radio with parent label').should == 'input-radio-with-parent-label-data' }
     it("does not find disabled")              { get('input-radio-disabled').should be_nil }
@@ -290,6 +291,7 @@ describe XPath::HTML do
   describe '#option' do
     subject{ :option }
     it("finds by text")             { get('Option with text').should == 'option-with-text-data' }
+    it("finds by value")            { get('option with value').should == 'option-with-value-data' }
     it("finds by approximate text") { get('Option with').should == 'option-with-text-data' }
     it("casts to string")           { get(:'Option with text').should == 'option-with-text-data' }
 
