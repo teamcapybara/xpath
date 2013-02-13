@@ -113,8 +113,14 @@ module XPath
       expressions.join(' | ')
     end
 
-    def anywhere(tag_name)
-      "//#{tag_name}"
+    def anywhere(element_names)
+      if element_names.length == 1
+        "//#{element_names.first}"
+      elsif element_names.length > 1
+        "//*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
+      else
+        "//*"
+      end
     end
 
     def contains(current, value)
