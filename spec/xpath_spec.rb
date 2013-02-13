@@ -116,6 +116,30 @@ describe XPath do
       end
       @results[0].text.should == "Blah"
     end
+    
+    it "should find multiple kinds of nodes regardless of the context" do
+      @results = xpath do |x|
+        context=x.descendant(:div).where(x.attr(:id)=='woo')
+        context.anywhere(:p, :ul)
+      end
+      
+      @results[0].text.should == 'Blah'
+      @results[3].text.should == 'A list'
+      @results[4].text.should == 'A list'
+      @results[6].text.should == 'Bax'
+    end
+
+    it "should find all nodes when no arguments given regardless of the context" do
+      @results = xpath do |x|
+        context=x.descendant(:div).where(x.attr(:id)=='woo')
+        context.anywhere
+      end
+      @results[3].text.should == 'Blah'
+      @results[7].text.should == 'A list'
+      @results[10].text.should == 'A list'
+      @results[12].text.should == 'Bax'
+    end
+    
   end
 
   describe '#contains' do
