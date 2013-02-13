@@ -1,3 +1,4 @@
+require 'debugger'
 require 'spec_helper'
 
 require 'nokogiri'
@@ -134,10 +135,12 @@ describe XPath do
         context=x.descendant(:div).where(x.attr(:id)=='woo')
         context.anywhere
       end
-      @results[3].text.should == 'Blah'
-      @results[7].text.should == 'A list'
-      @results[10].text.should == 'A list'
-      @results[12].text.should == 'Bax'
+      @results[0].name.should == 'html'
+      @results[1].name.should == 'body'
+      @results[5].text.should == 'Blah'
+      @results[9].text.should == 'A list'
+      @results[12].text.should == 'A list'
+      @results[14].text.should == 'Bax'
     end
     
   end

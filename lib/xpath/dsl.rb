@@ -29,8 +29,8 @@ module XPath
         Expression.new(:previous_sibling, current, expressions)
       end
 
-      def anywhere(expression)
-        Expression.new(:anywhere, expression)
+      def anywhere(*expressions)
+        Expression.new(:anywhere, expressions)
       end
 
       def attr(expression)
