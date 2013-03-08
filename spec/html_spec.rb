@@ -134,7 +134,6 @@ describe XPath::HTML do
       it("does not find the button") { get('schmoo button').should be_nil }
     end
 
-    it("") { get('disabled-submit').should be_nil }
     it("casts to string") { get(:'tag-with-tex').should == 'text-btag' }
   end
 
@@ -214,15 +213,6 @@ describe XPath::HTML do
       it("does not find hidden fields")     { get('Input hidden with parent label').should be_nil }
     end
 
-    context "is diabled" do
-      it("does not find inputs with no type")       { get('input-disabled').should be_nil }
-      it("does not find inputs with text type")     { get('input-text-disabled').should be_nil }
-      it("does not find inputs with password type") { get('input-password-disabled').should be_nil }
-      it("does not find inputs with custom type")   { get('input-custom-disabled').should be_nil }
-      it("does not find textareas")                 { get('textarea-disabled').should be_nil }
-      it("does not find select boxes")              { get('select-disabled').should be_nil }
-    end
-
     it("casts to string") { get(:'select-with-id').should == 'select-with-id-data' }
   end
 
@@ -241,7 +231,6 @@ describe XPath::HTML do
     it("finds selects by name")           { get('select-with-name').should == 'select-with-name-data' }
     it("finds selects by label")          { get('Select with label').should == 'select-with-label-data' }
     it("finds selects by parent label")   { get('Select with parent label').should == 'select-with-parent-label-data' }
-    it("does not find disabled selects")  { get('select-disabled').should be_nil }
     it("casts to string")                 { get(:'Select with parent label').should == 'select-with-parent-label-data' }
   end
 
@@ -251,7 +240,6 @@ describe XPath::HTML do
     it("finds checkboxes by name")         { get('input-checkbox-with-name').should == 'input-checkbox-with-name-data' }
     it("finds checkboxes by label")        { get('Input checkbox with label').should == 'input-checkbox-with-label-data' }
     it("finds checkboxes by parent label") { get('Input checkbox with parent label').should == 'input-checkbox-with-parent-label-data' }
-    it("does not find disabled")           { get('input-checkbox-disabled').should be_nil }
     it("casts to string")                  { get(:'Input checkbox with parent label').should == 'input-checkbox-with-parent-label-data' }
   end
 
@@ -261,7 +249,6 @@ describe XPath::HTML do
     it("finds radio buttons by name")         { get('input-radio-with-name').should == 'input-radio-with-name-data' }
     it("finds radio buttons by label")        { get('Input radio with label').should == 'input-radio-with-label-data' }
     it("finds radio buttons by parent label") { get('Input radio with parent label').should == 'input-radio-with-parent-label-data' }
-    it("does not find disabled")              { get('input-radio-disabled').should be_nil }
     it("casts to string")                     { get(:'Input radio with parent label').should == 'input-radio-with-parent-label-data' }
   end
 
@@ -271,7 +258,6 @@ describe XPath::HTML do
     it("finds file fields by name")         { get('input-file-with-name').should == 'input-file-with-name-data' }
     it("finds file fields by label")        { get('Input file with label').should == 'input-file-with-label-data' }
     it("finds file fields by parent label") { get('Input file with parent label').should == 'input-file-with-parent-label-data' }
-    it("does not find disabled")            { get('input-file-disabled').should be_nil }
     it("casts to string")                   { get(:'Input file with parent label').should == 'input-file-with-parent-label-data' }
   end
 

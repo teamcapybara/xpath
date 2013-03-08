@@ -21,9 +21,9 @@ module XPath
     #
     def button(locator)
       locator = locator.to_s
-      button = descendant(:input)[~attr(:disabled)][attr(:type).one_of('submit', 'reset', 'image', 'button')][attr(:id).equals(locator) | attr(:value).is(locator) | attr(:title).is(locator)]
-      button += descendant(:button)[~attr(:disabled)][attr(:id).equals(locator) | attr(:value).is(locator) | string.n.is(locator) | attr(:title).is(locator)]
-      button += descendant(:input)[~attr(:disabled)][attr(:type).equals('image')][attr(:alt).is(locator)]
+      button = descendant(:input)[attr(:type).one_of('submit', 'reset', 'image', 'button')][attr(:id).equals(locator) | attr(:value).is(locator) | attr(:title).is(locator)]
+      button += descendant(:button)[attr(:id).equals(locator) | attr(:value).is(locator) | string.n.is(locator) | attr(:title).is(locator)]
+      button += descendant(:input)[attr(:type).equals('image')][attr(:alt).is(locator)]
     end
 
 
@@ -169,7 +169,7 @@ module XPath
     def locate_field(xpath, locator)
       locate_field = xpath[attr(:id).equals(locator) | attr(:name).equals(locator) | attr(:placeholder).equals(locator) | attr(:id).equals(anywhere(:label)[string.n.is(locator)].attr(:for))]
       locate_field += descendant(:label)[string.n.is(locator)].descendant(xpath)
-      locate_field[~attr(:disabled)]
+      locate_field
     end
   end
 end
