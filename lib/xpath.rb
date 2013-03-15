@@ -1,12 +1,13 @@
 require 'nokogiri'
 
+require 'xpath/dsl'
+require 'xpath/expression'
+require 'xpath/literal'
+require 'xpath/union'
+require 'xpath/renderer'
+require 'xpath/html'
+
 module XPath
-  autoload :Expression, 'xpath/expression'
-  autoload :Literal, 'xpath/literal'
-  autoload :Union, 'xpath/union'
-  autoload :Renderer, 'xpath/renderer'
-  autoload :HTML, 'xpath/html'
-  autoload :DSL, 'xpath/dsl'
 
   extend XPath::DSL::TopLevel
   include XPath::DSL::TopLevel
