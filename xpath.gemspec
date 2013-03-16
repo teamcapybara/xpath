@@ -27,4 +27,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rspec", ["~> 2.0"])
   s.add_development_dependency("yard", [">= 0.5.8"])
   s.add_development_dependency("rake")
+
+  if File.exist?("gem-private_key.pem")
+    s.signing_key = 'gem-private_key.pem'
+  end
+  s.cert_chain = ['gem-public_cert.pem']
 end
