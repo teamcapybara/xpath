@@ -53,6 +53,12 @@ module XPath
         Expression.new(:string_function, current)
       end
 
+      def substring(expression1, expression2=nil)
+        expressions = [expression1]
+        expressions << expression2 unless expression2.nil?
+        Expression.new(:substring_function, current, *expressions)
+      end
+
       def css(selector)
         Expression.new(:css, current, Literal.new(selector))
       end

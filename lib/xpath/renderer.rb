@@ -170,5 +170,9 @@ module XPath
     def string_function(current)
       "string(#{current})"
     end
+
+    def substring_function(current, *arguments)
+      "substring(#{current}, #{arguments.join(", ")})"
+    end
   end
 end
