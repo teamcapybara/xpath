@@ -191,6 +191,22 @@ describe XPath do
     end
   end
 
+  describe '#substring' do
+    context "when called with one argument" do
+      it "should select the part of a string after the specified character" do
+        @results = xpath { |x| x.descendant(:span).where(x.attr(:id) == "substring").text.substring(7) }
+        @results.should == "there"
+      end
+    end
+
+    context "when called with two arguments" do
+      it "should select the part of a string after the specified character, up to the given length" do
+        @results = xpath { |x| x.descendant(:span).where(x.attr(:id) == "substring").text.substring(2, 4) }
+        @results.should == "ello"
+      end
+    end
+  end
+
   describe '#where' do
     it "should limit the expression to find only certain nodes" do
       xpath { |x| x.descendant(:div).where(:"@id = 'foo'") }.first[:title].should == "fooDiv"
