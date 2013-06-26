@@ -207,6 +207,13 @@ describe XPath do
     end
   end
 
+  describe '#string_length' do
+    it "should return the length of a string" do
+      @results = xpath { |x| x.descendant(:span).where(x.attr(:id) == "string-length").text.string_length }
+      @results.should == 11
+    end
+  end
+
   describe '#where' do
     it "should limit the expression to find only certain nodes" do
       xpath { |x| x.descendant(:div).where(:"@id = 'foo'") }.first[:title].should == "fooDiv"

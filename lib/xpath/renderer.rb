@@ -174,5 +174,9 @@ module XPath
     def substring_function(current, *arguments)
       "substring(#{current}, #{arguments.join(", ")})"
     end
+
+    def string_length_function(current)
+      "string-length(#{current})"
+    end
   end
 end
