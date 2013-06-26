@@ -59,6 +59,10 @@ module XPath
         Expression.new(:substring_function, current, *expressions)
       end
 
+      def string_length
+        Expression.new(:string_length_function, current)
+      end
+
       def css(selector)
         Expression.new(:css, current, Literal.new(selector))
       end
