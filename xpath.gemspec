@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.authors = ["Jonas Nicklas"]
   s.email = ["jonas.nicklas@gmail.com"]
   s.description = "XPath is a Ruby DSL for generating XPath expressions"
+  s.license = "MIT"
 
   s.files = Dir.glob("{lib,spec}/**/*") + %w(README.md)
   s.extra_rdoc_files = ["README.md"]
