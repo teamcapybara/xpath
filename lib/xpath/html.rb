@@ -10,7 +10,7 @@ module XPath
     #
     def link(locator)
       locator = locator.to_s
-      link = descendant(:a)[attr(:href)]
+      link = descendant(:a)
       link[attr(:id).equals(locator) | string.n.is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
     end
 
