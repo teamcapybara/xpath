@@ -100,9 +100,10 @@ module XPath
 
     # normalize-space only detects these characters: x20 x09 x0D x0A. This adds
     # other whitespace characters to the list that will be normalised into x20
-    # (space). 0xC2 0xA0 is a utf-8 non-breaking space.
+    # (space). 160 is a unicode non-breaking space.
     def replace_spaces(current)
-      "translate(normalize-space(#{current}),'\xC2\xA0',' ')"
+      nbsp = [160].pack("U")
+      "translate(normalize-space(#{current}),'#{nbsp}',' ')"
     end
 
     def literal(node)
