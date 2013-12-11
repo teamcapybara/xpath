@@ -11,7 +11,7 @@ module XPath
     def link(locator)
       locator = locator.to_s
       link = descendant(:a)[attr(:href)]
-      link[attr(:id).equals(locator) | string.n.is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
+      link[attr(:id).equals(locator) | string.replace_spaces.is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
     end
 
     # Match a `submit`, `image`, or `button` element.

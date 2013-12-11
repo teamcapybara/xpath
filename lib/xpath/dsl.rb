@@ -117,6 +117,10 @@ module XPath
         Expression.new(:normalized_space, current)
       end
       alias_method :n, :normalize
+
+      def replace_spaces
+        Expression.new(:replace_spaces, current)
+      end
     end
   end
 end

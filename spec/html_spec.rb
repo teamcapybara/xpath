@@ -21,6 +21,7 @@ describe XPath::HTML do
     it("finds links by id")                                { get('some-id').should == 'link-id' }
     it("finds links by content")                           { get('An awesome link').should == 'link-text' }
     it("finds links by content regardless of whitespace")  { get('My whitespaced link').should == 'link-whitespace' }
+    it("finds links by content regardless of nbsp")        { get('My nbsp link').should == 'link-nbsp' }
     it("finds links with child tags by content")           { get('An emphatic link').should == 'link-children' }
     it("finds links by the content of their child tags")   { get('emphatic').should == 'link-children' }
     it("finds links by approximate content")               { get('awesome').should == 'link-text' }
