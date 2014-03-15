@@ -5,5 +5,4 @@
 .yardoc
 doc
 Gemfile.lock
-bundler_stubis
 gem-private_key.pem
