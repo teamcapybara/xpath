@@ -1,7 +1,8 @@
 .rvmrc
+.ruby-version
+.ruby-gemset
 .bundle
 .yardoc
 doc
 Gemfile.lock
-bundler_stubis
 gem-private_key.pem

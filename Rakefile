@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'rspec/core/rake_task'
 require 'yard'
 
@@ -9,7 +8,7 @@ RSpec::Core::RakeTask.new(:spec) do |t|
 end
 
 YARD::Rake::YardocTask.new do |t|
-  t.files   = ['lib/**/*.rb', 'README.rdoc']
+  t.files   = ['lib/**/*.rb', 'README.md']
   #t.options = ['--any', '--extra', '--opts'] # optional
 end
 

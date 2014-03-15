@@ -95,7 +95,7 @@ module XPath
     end
 
     def normalized_space(current)
-      "normalize-space(#{current})"
+      %{normalize-space(translate(#{current},"\u00a0",' '))}
     end
 
     def literal(node)
