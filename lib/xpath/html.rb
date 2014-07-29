@@ -102,7 +102,7 @@ module XPath
     # Match any `input` element of type `radio`.
     #
     # @param [String] locator
-    #   Label, id, or name of the radio button to match
+    #   Label, id, name, or value of the radio button to match
     #
     def radio_button(locator)
       locator = locator.to_s
@@ -134,12 +134,12 @@ module XPath
 
     # Match an `option` element.
     #
-    # @param [String] name
-    #   Visible text of the option
+    # @param [String] locator
+    #   Text or value of the option
     #
     def option(locator)
       locator = locator.to_s
-      descendant(:option)[string.n.is(locator)]
+      descendant(:option)[string.n.is(locator) | attr(:value).equals(locator)]
     end
 
 
@@ -167,7 +167,7 @@ module XPath
   protected
 
     def locate_field(xpath, locator)
-      locate_field = xpath[attr(:id).equals(locator) | attr(:name).equals(locator) | attr(:placeholder).equals(locator) | attr(:id).equals(anywhere(:label)[string.n.is(locator)].attr(:for))]
+      locate_field = xpath[attr(:id).equals(locator) | attr(:name).equals(locator) | attr(:placeholder).equals(locator) | attr(:value).equals(locator) | attr(:id).equals(anywhere(:label)[string.n.is(locator)].attr(:for))]
       locate_field += descendant(:label)[string.n.is(locator)].descendant(xpath)
       locate_field
     end
