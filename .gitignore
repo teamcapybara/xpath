@@ -1,6 +1,7 @@
 .rvmrc
 .bundle
 .yardoc
+.idea
 doc
 Gemfile.lock
 bundler_stubis
