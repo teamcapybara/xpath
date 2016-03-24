@@ -39,6 +39,10 @@ describe XPath::HTML do
       it("finds links by image's alt attribute")                     { get('Alt link').should == 'link-img' }
       it("does not find links by image's approximate alt attribute") { get('Alt').should be_nil }
     end
+
+    context "with nil locator" do
+      it("finds all") { all(nil).count.should == 11 }
+    end
   end
 
   describe '#button' do
@@ -134,6 +138,10 @@ describe XPath::HTML do
       it("does not find the button") { get('schmoo button').should be_nil }
     end
 
+    context "with nil locator" do
+      it("finds all") { all(nil).count.should == 50 }
+    end
+
     it("casts to string") { get(:'tag-with-tex').should == 'text-btag' }
   end
 
@@ -150,6 +158,10 @@ describe XPath::HTML do
     context "with exact match", :type => :exact do
       it("finds fieldsets by legend")            { get('Some Legend').should == 'fieldset-legend' }
       it("does not find by approximate legends") { get('Legend').should be_nil }
+    end
+
+    context "with nil locator" do
+      it("finds all") { all(nil).count.should == 7 }
     end
   end
 
@@ -213,6 +225,10 @@ describe XPath::HTML do
       it("does not find hidden fields")     { get('Input hidden with parent label').should be_nil }
     end
 
+    context "with nil locator" do
+      it("finds all") { all(nil).count.should == 68 }
+    end
+
     it("casts to string") { get(:'select-with-id').should == 'select-with-id-data' }
   end
 
@@ -223,6 +239,9 @@ describe XPath::HTML do
       it("finds inputs where label has problem chars")     { get("Label text's got an apostrophe").should == 'id-problem-text' }
     end
 
+    context "with nil locator" do
+      it("finds all") { all(nil).count.should == 47 }
+    end
   end
 
   describe '#select' do
@@ -232,6 +251,10 @@ describe XPath::HTML do
     it("finds selects by label")          { get('Select with label').should == 'select-with-label-data' }
     it("finds selects by parent label")   { get('Select with parent label').should == 'select-with-parent-label-data' }
     it("casts to string")                 { get(:'Select with parent label').should == 'select-with-parent-label-data' }
+
+    context "with nil locator" do
+      it("finds all") { all(nil).count.should == 6 }
+    end
   end
 
   describe '#checkbox' do
@@ -241,6 +264,10 @@ describe XPath::HTML do
     it("finds checkboxes by label")        { get('Input checkbox with label').should == 'input-checkbox-with-label-data' }
     it("finds checkboxes by parent label") { get('Input checkbox with parent label').should == 'input-checkbox-with-parent-label-data' }
     it("casts to string")                  { get(:'Input checkbox with parent label').should == 'input-checkbox-with-parent-label-data' }
+
+    context "with nil locator" do
+      it("finds all") { all(nil).count.should == 5 }
+    end
   end
 
   describe '#radio_button' do
@@ -250,6 +277,10 @@ describe XPath::HTML do
     it("finds radio buttons by label")        { get('Input radio with label').should == 'input-radio-with-label-data' }
     it("finds radio buttons by parent label") { get('Input radio with parent label').should == 'input-radio-with-parent-label-data' }
     it("casts to string")                     { get(:'Input radio with parent label').should == 'input-radio-with-parent-label-data' }
+
+    context "with nil locator" do
+      it("finds all") { all(nil).count.should == 5 }
+    end
   end
 
   describe '#file_field' do
@@ -259,6 +290,10 @@ describe XPath::HTML do
     it("finds file fields by label")        { get('Input file with label').should == 'input-file-with-label-data' }
     it("finds file fields by parent label") { get('Input file with parent label').should == 'input-file-with-parent-label-data' }
     it("casts to string")                   { get(:'Input file with parent label').should == 'input-file-with-parent-label-data' }
+
+    context "with nil locator" do
+      it("finds all") { all(nil).count.should == 5 }
+    end
   end
 
   describe "#optgroup" do
@@ -271,6 +306,10 @@ describe XPath::HTML do
       it("finds by label")                     { get('Group A').should == 'optgroup-a' }
       it("does not find by approximate label") { get('oup A').should be_nil }
     end
+
+    context "with nil locator" do
+      it("finds all") { all(nil).count.should == 2 }
+    end
   end
 
   describe '#option' do
@@ -282,6 +321,10 @@ describe XPath::HTML do
     context "with exact match", :type => :exact do
       it("finds by text")                     { get('Option with text').should == 'option-with-text-data' }
       it("does not find by approximate text") { get('Option with').should be_nil }
+    end
+
+    context "with nil locator" do
+      it("finds all") { all(nil).count.should == 1 }
     end
   end
 
@@ -296,6 +339,10 @@ describe XPath::HTML do
       it("finds by caption")                     { get('Table with caption').should == 'table-with-caption-data' }
       it("does not find by approximate caption") { get('Table with').should be_nil }
     end
+
+    context "with nil locator" do
+      it("finds all") { all(nil).count.should == 3 }
+    end
   end
 
   describe "#definition_description" do
@@ -304,5 +351,9 @@ describe XPath::HTML do
     it("find definition description by id")   { get('latte').should == "with-id" }
     it("find definition description by term") { get("Milk").should == "with-dt" }
     it("casts to string")                     { get(:"Milk").should == "with-dt" }
+
+    context "with nil locator" do
+      it("finds all") { all(nil).count.should == 2 }
+    end
   end
 end
