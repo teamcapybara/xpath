@@ -11,8 +11,12 @@ describe XPath::HTML do
   end
 
   def all(*args)
-    type = example.metadata[:type]
+    type = @example.metadata[:type]
     doc.xpath(XPath::HTML.send(subject, *args).to_xpath(type)).map { |node| node[:data] }
+  end
+
+  before(:each) do |example|
+    @example = example
   end
 
   describe '#link' do
