@@ -5,13 +5,13 @@ describe XPath::HTML do
   let(:template) { 'form' }
   let(:template_path) { File.read(File.expand_path("fixtures/#{template}.html", File.dirname(__FILE__))) }
   let(:doc) { Nokogiri::HTML(template_path) }
+  let(:type) { |example| example.metadata[:type] }
 
   def get(*args)
     all(*args).first
   end
 
   def all(*args)
-    type = example.metadata[:type]
     doc.xpath(XPath::HTML.send(subject, *args).to_xpath(type)).map { |node| node[:data] }
   end
 
