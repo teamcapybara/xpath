@@ -47,6 +47,26 @@ module XPath
         "#{parent}//*"
       end
     end
+    
+    def descendant_or_self(parent, element_names)
+      if element_names.length == 1
+        "#{parent}/descendant-or-self::#{element_names.first}"
+      elsif element_names.length > 1
+        "#{parent}//*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
+      else
+        "#{parent}/descendant-or-self::*"
+      end
+    end
+
+    def ancestor(parent, element_names)
+      if element_names.length == 1
+        "#{parent}/ancestor::#{element_names.first}"
+      elsif element_names.length > 1
+        "#{parent}/ancestor::*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
+      else
+        "#{parent}/ancestor::*"
+      end
+    end
 
     def child(parent, element_names)
       if element_names.length == 1
