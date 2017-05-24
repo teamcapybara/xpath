@@ -406,4 +406,81 @@ describe XPath do
       @results[0][:id].should == "preference"
     end
   end
+
+  describe "#lte" do
+    it "checks lesser than or equal" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() <= 2] }
+      @results[0].text.should == "Blah"
+      @results[1].text.should == "Bax"
+      @results[2][:title].should == "gorilla"
+      @results[3].text.should == "Bax"
+    end
+  end
+
+  describe "#lt" do
+    it "checks lesser than" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() < 2] }
+      @results[0].text.should == "Blah"
+      @results[1][:title].should == "gorilla"
+    end
+  end
+
+  describe "#gte" do
+    it "checks greater than or equal" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() >= 2] }
+      @results[0].text.should == "Bax"
+      @results[1][:title].should == "monkey"
+      @results[2].text.should == "Bax"
+      @results[3].text.should == "Blah"
+    end
+  end
+
+  describe "#gt" do
+    it "checks greater than" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() > 2] }
+      @results[0][:title].should == "monkey"
+      @results[1].text.should == "Blah"
+    end
+  end
+
+  describe "#plus" do
+    it "adds stuff" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position().plus(1) == 2] }
+      @results[0][:id].should == "fooDiv"
+      @results[1][:title].should == "gorilla"
+    end
+  end
+
+  describe "#minus" do
+    it "subtracts stuff" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position().minus(1) == 0] }
+      @results[0][:id].should == "fooDiv"
+      @results[1][:title].should == "gorilla"
+    end
+  end
+
+  describe "#multiply" do
+    it "multiplies stuff" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() * 3 == 3] }
+      @results[0][:id].should == "fooDiv"
+      @results[1][:title].should == "gorilla"
+    end
+  end
+
+  describe "#divide" do
+    it "divides stuff" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() / 2 == 1] }
+      @results[0].text.should == "Bax"
+      @results[1].text.should == "Bax"
+    end
+  end
+
+  describe "#mod" do
+    it "take modulo" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() % 2 == 1] }
+      @results[0].text.should == "Blah"
+      @results[1][:title].should == "monkey"
+      @results[2][:title].should == "gorilla"
+    end
+  end
 end

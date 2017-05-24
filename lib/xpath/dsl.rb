@@ -119,6 +119,49 @@ module XPath
     end
     alias_method :&, :and
 
+    def lte(rhs)
+      binary_operator(:<=, rhs)
+    end
+    alias_method :<=, :lte
+
+    def lt(rhs)
+      binary_operator(:<, rhs)
+    end
+    alias_method :<, :lt
+
+    def gte(rhs)
+      binary_operator(:>=, rhs)
+    end
+    alias_method :>=, :gte
+
+    def gt(rhs)
+      binary_operator(:>, rhs)
+    end
+    alias_method :>, :gt
+
+    def plus(rhs)
+      binary_operator(:+, rhs)
+    end
+
+    def minus(rhs)
+      binary_operator(:-, rhs)
+    end
+
+    def multiply(rhs)
+      binary_operator(:*, rhs)
+    end
+    alias_method :*, :multiply
+
+    def divide(rhs)
+      binary_operator(:div, rhs)
+    end
+    alias_method :/, :divide
+
+    def mod(rhs)
+      binary_operator(:mod, rhs)
+    end
+    alias_method :%, :mod
+
     def one_of(*expressions)
       expressions.map do |e|
         current.equals(e)
