@@ -17,16 +17,16 @@ module XPath
         Expression.new(:child, current, expressions)
       end
 
-      def axis(name, tag_name=:*)
-        Expression.new(:axis, current, name, tag_name)
+      def axis(name, *element_names)
+        Expression.new(:axis, current, name, element_names)
       end
 
       def next_sibling(*expressions)
-        Expression.new(:next_sibling, current, expressions)
+        axis(literal("following-sibling"))[1].axis(literal("self"), *expressions)
       end
 
       def previous_sibling(*expressions)
-        Expression.new(:previous_sibling, current, expressions)
+        axis(literal("preceding-sibling"))[1].axis(literal("self"), *expressions)
       end
 
       def anywhere(*expressions)
@@ -62,7 +62,7 @@ module XPath
       end
 
       def css(selector)
-        Expression.new(:css, current, Literal.new(selector))
+        Expression.new(:css, current, literal(selector))
       end
 
       def function(name, *arguments)
@@ -71,6 +71,10 @@ module XPath
 
       def method(name, *arguments)
         Expression.new(:function, name, current, *arguments)
+      end
+
+      def literal(value)
+        Literal.new(value)
       end
     end
 
@@ -84,14 +88,14 @@ module XPath
 
       def one_of(*expressions)
         expressions.map do |e|
-          Expression.new(:binary_operator, Literal.new("="), current, e)
+          Expression.new(:binary_operator, literal("="), current, e)
         end.reduce do |a, b|
-          Expression.new(:binary_operator, Literal.new("or"), a, b)
+          Expression.new(:binary_operator, literal("or"), a, b)
         end
       end
 
       def equals(expression)
-        Expression.new(:binary_operator, Literal.new("="), current, expression)
+        Expression.new(:binary_operator, literal("="), current, expression)
       end
       alias_method :==, :equals
 
@@ -100,12 +104,12 @@ module XPath
       end
 
       def or(expression)
-        Expression.new(:binary_operator, Literal.new("or"), current, expression)
+        Expression.new(:binary_operator, literal("or"), current, expression)
       end
       alias_method :|, :or
 
       def and(expression)
-        Expression.new(:binary_operator, Literal.new("and"), current, expression)
+        Expression.new(:binary_operator, literal("and"), current, expression)
       end
       alias_method :&, :and
 

@@ -58,8 +58,24 @@ module XPath
       end
     end
 
-    def axis(parent, name, tag_name)
-      "#{parent}/#{name}::#{tag_name}"
+    def axis(current, name, element_names)
+      if element_names.length == 1
+        "#{current}/#{name}::#{element_names.first}"
+      elsif element_names.length > 1
+        "#{current}/#{name}::*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
+      else
+        "#{current}/#{name}::*"
+      end
+    end
+
+    def anywhere(element_names)
+      if element_names.length == 1
+        "//#{element_names.first}"
+      elsif element_names.length > 1
+        "//*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
+      else
+        "//*"
+      end
     end
 
     def where(on, condition)
@@ -103,36 +119,6 @@ module XPath
 
     def union(*expressions)
       expressions.join(' | ')
-    end
-
-    def anywhere(element_names)
-      if element_names.length == 1
-        "//#{element_names.first}"
-      elsif element_names.length > 1
-        "//*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
-      else
-        "//*"
-      end
-    end
-
-    def next_sibling(current, element_names)
-      if element_names.length == 1
-        "#{current}/following-sibling::*[1]/self::#{element_names.first}"
-      elsif element_names.length > 1
-        "#{current}/following-sibling::*[1]/self::*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
-      else
-        "#{current}/following-sibling::*[1]/self::*"
-      end
-    end
-
-    def previous_sibling(current, element_names)
-      if element_names.length == 1
-        "#{current}/preceding-sibling::*[1]/self::#{element_names.first}"
-      elsif element_names.length > 1
-        "#{current}/preceding-sibling::*[1]/self::*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
-      else
-        "#{current}/preceding-sibling::*[1]/self::*"
-      end
     end
 
     def function(name, *arguments)
