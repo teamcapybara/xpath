@@ -1,13 +1,11 @@
-# -*- encoding: utf-8 -*-
 lib = File.expand_path('lib', File.dirname(__FILE__))
 $:.unshift lib unless $:.include?(lib)
-
 require 'xpath/version'
 
 Gem::Specification.new do |s|
   s.name = "xpath"
-  s.rubyforge_project = "xpath"
   s.version = XPath::VERSION
+  s.required_ruby_version = ">= 1.9.3"
 
   s.authors = ["Jonas Nicklas"]
   s.email = ["jonas.nicklas@gmail.com"]
@@ -15,12 +13,8 @@ Gem::Specification.new do |s|
   s.license = "MIT"
 
   s.files = Dir.glob("{lib,spec}/**/*") + %w(README.md)
-  s.extra_rdoc_files = ["README.md"]
 
-  s.homepage = "http://github.com/jnicklas/xpath"
-  s.rdoc_options = ["--main", "README.md"]
-  s.require_paths = ["lib"]
-  s.rubygems_version = "1.3.6"
+  s.homepage = "https://github.com/jnicklas/xpath"
   s.summary = "Generate XPath expressions from Ruby"
 
   s.add_dependency("nokogiri", ["~> 1.3"])

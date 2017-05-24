@@ -3,6 +3,7 @@
 XPath is a Ruby DSL around a subset of XPath 1.0. Its primary purpose is to
 facilitate writing complex XPath queries from Ruby code.
 
+[![Gem Version](https://badge.fury.io/rb/xpath.png)](http://badge.fury.io/rb/xpath)
 [![Build Status](https://secure.travis-ci.org/jnicklas/xpath.png?branch=master)](http://travis-ci.org/jnicklas/xpath)
 
 ## Generating expressions
