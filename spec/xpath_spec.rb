@@ -382,4 +382,28 @@ describe XPath do
       @results[0][:id].should == 'fooDiv'
     end
   end
+
+  describe "#last" do
+    it "returns the number of elements in the context" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() == XPath.last()] }
+      @results[0].text.should == "Bax"
+      @results[1].text.should == "Blah"
+      @results[2].text.should == "llama"
+    end
+  end
+
+  describe "#position" do
+    it "returns the position of elements in the context" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() == 2] }
+      @results[0].text.should == "Bax"
+      @results[1].text.should == "Bax"
+    end
+  end
+
+  describe "#count" do
+    it "counts the number of occurrences" do
+      @results = xpath { |x| x.descendant(:div)[x.descendant(:p).count == 2] }
+      @results[0][:id].should == "preference"
+    end
+  end
 end

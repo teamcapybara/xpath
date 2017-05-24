@@ -62,6 +62,18 @@ module XPath
     end
     alias_method :+, :union
 
+    def last
+      function(:last)
+    end
+
+    def position
+      function(:position)
+    end
+
+    def count
+      method(:count)
+    end
+
     def contains(expression)
       method(:contains, expression)
     end
