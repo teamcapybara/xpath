@@ -22,11 +22,11 @@ module XPath
       end
 
       def next_sibling(*expressions)
-        axis(literal("following-sibling"))[1].axis(literal("self"), *expressions)
+        axis(:"following-sibling")[1].axis(:self, *expressions)
       end
 
       def previous_sibling(*expressions)
-        axis(literal("preceding-sibling"))[1].axis(literal("self"), *expressions)
+        axis(:"preceding-sibling")[1].axis(:self, *expressions)
       end
 
       def anywhere(*expressions)
@@ -42,7 +42,7 @@ module XPath
       end
 
       def starts_with(expression)
-        Expression.new(:function, :starts_with, current, expression)
+        Expression.new(:function, :"starts-with", current, expression)
       end
 
       def text
@@ -58,11 +58,11 @@ module XPath
       end
 
       def string_length
-        Expression.new(:function, :string_length, current)
+        Expression.new(:function, :"string-length", current)
       end
 
       def css(selector)
-        Expression.new(:css, current, literal(selector))
+        Expression.new(:css, current, Literal.new(selector))
       end
 
       def function(name, *arguments)
@@ -71,10 +71,6 @@ module XPath
 
       def method(name, *arguments)
         Expression.new(:function, name, current, *arguments)
-      end
-
-      def literal(value)
-        Literal.new(value)
       end
     end
 
@@ -88,14 +84,14 @@ module XPath
 
       def one_of(*expressions)
         expressions.map do |e|
-          Expression.new(:binary_operator, literal("="), current, e)
+          current.equals(e)
         end.reduce do |a, b|
-          Expression.new(:binary_operator, literal("or"), a, b)
+          a.or(b)
         end
       end
 
       def equals(expression)
-        Expression.new(:binary_operator, literal("="), current, expression)
+        Expression.new(:binary_operator, :"=", current, expression)
       end
       alias_method :==, :equals
 
@@ -104,12 +100,12 @@ module XPath
       end
 
       def or(expression)
-        Expression.new(:binary_operator, literal("or"), current, expression)
+        Expression.new(:binary_operator, :or, current, expression)
       end
       alias_method :|, :or
 
       def and(expression)
-        Expression.new(:binary_operator, literal("and"), current, expression)
+        Expression.new(:binary_operator, :and, current, expression)
       end
       alias_method :&, :and
 
@@ -128,7 +124,7 @@ module XPath
       end
 
       def normalize
-        Expression.new(:function, :normalize_space, current)
+        Expression.new(:function, :"normalize-space", current)
       end
       alias_method :n, :normalize
     end

@@ -98,7 +98,7 @@ module XPath
     end
 
     def function(name, *arguments)
-      "#{name.to_s.gsub("_", "-")}(#{arguments.join(", ")})"
+      "#{name}(#{arguments.join(", ")})"
     end
 
   private

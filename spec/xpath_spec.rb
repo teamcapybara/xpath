@@ -216,7 +216,7 @@ describe XPath do
 
   describe '#method' do
     it "should call the given xpath function with the current node as the first argument" do
-      @results = xpath { |x| x.descendant(:span).where(x.attr(:id) == "string-length").text.method(:string_length) }
+      @results = xpath { |x| x.descendant(:span).where(x.attr(:id) == "string-length").text.method(:"string-length") }
       @results.should == 11
     end
   end
