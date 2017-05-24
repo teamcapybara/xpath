@@ -119,10 +119,6 @@ module XPath
       end
       alias_method :~, :inverse
 
-      def string_literal
-        Expression.new(:string_literal, self)
-      end
-
       def normalize
         Expression.new(:function, :"normalize-space", current)
       end
