@@ -73,42 +73,6 @@ XPath.descendant(:p)[1]
 Keep in mind that XPath is 1-indexed and not 0-indexed like most other
 programming languages, including Ruby.
 
-Hashes are automatically converted to equality expressions, so the above
-example could be written as:
-
-``` ruby
-XPath.descendant(:p)[:@id => 'foo']
-```
-
-Which would generate the same expression:
-
-```
-.//p[@id = 'foo']
-```
-
-Note that the same rules apply here, both the keys and values in the hash are
-treated the same way as any other expression in XPath. Thus the following are
-not equivalent:
-
-``` ruby
-XPath.descendant(:p)[:@id => 'foo'] # => .//p[@id = 'foo']
-XPath.descendant(:p)[:id => 'foo']  # => .//p[id = 'foo']
-XPath.descendant(:p)['id' => 'foo'] # => .//p['id' = 'foo']
-```
-
-## HTML
-
-XPath comes with a set of premade XPaths for use with HTML documents.
-
-You can generate these like this:
-
-``` ruby
-XPath::HTML.link('Home')
-XPath::HTML.field('Name')
-```
-
-See `XPath::HTML` for all available matchers.
-
 ## License
 
 See [LICENSE](LICENSE).
