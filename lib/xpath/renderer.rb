@@ -38,44 +38,20 @@ module XPath
       '.'
     end
 
-    def descendant(parent, element_names)
-      if element_names.length == 1
-        "#{parent}//#{element_names.first}"
-      elsif element_names.length > 1
-        "#{parent}//*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
-      else
-        "#{parent}//*"
-      end
+    def descendant(current, element_names)
+      with_element_conditions("#{current}//", element_names)
     end
 
-    def child(parent, element_names)
-      if element_names.length == 1
-        "#{parent}/#{element_names.first}"
-      elsif element_names.length > 1
-        "#{parent}/*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
-      else
-        "#{parent}/*"
-      end
+    def child(current, element_names)
+      with_element_conditions("#{current}/", element_names)
     end
 
     def axis(current, name, element_names)
-      if element_names.length == 1
-        "#{current}/#{name}::#{element_names.first}"
-      elsif element_names.length > 1
-        "#{current}/#{name}::*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
-      else
-        "#{current}/#{name}::*"
-      end
+      with_element_conditions("#{current}/#{name}::", element_names)
     end
 
     def anywhere(element_names)
-      if element_names.length == 1
-        "//#{element_names.first}"
-      elsif element_names.length > 1
-        "//*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
-      else
-        "//*"
-      end
+      with_element_conditions("//", element_names)
     end
 
     def where(on, condition)
@@ -123,6 +99,18 @@ module XPath
 
     def function(name, *arguments)
       "#{name.to_s.gsub("_", "-")}(#{arguments.join(", ")})"
+    end
+
+  private
+
+    def with_element_conditions(expression, element_names)
+      if element_names.length == 1
+        "#{expression}#{element_names.first}"
+      elsif element_names.length > 1
+        "#{expression}*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
+      else
+        "#{expression}*"
+      end
     end
   end
 end
