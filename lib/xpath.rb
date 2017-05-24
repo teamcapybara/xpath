@@ -8,7 +8,6 @@ require 'xpath/renderer'
 require 'xpath/html'
 
 module XPath
-
   extend XPath::DSL
   include XPath::DSL
 
