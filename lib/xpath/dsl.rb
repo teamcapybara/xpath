@@ -6,7 +6,7 @@ module XPath
       end
 
       def name
-        Expression.new(:node_name, current)
+        Expression.new(:function, :name, current)
       end
 
       def descendant(*expressions)
@@ -38,11 +38,11 @@ module XPath
       end
 
       def contains(expression)
-        Expression.new(:contains, current, expression)
+        Expression.new(:function, :contains, current, expression)
       end
 
       def starts_with(expression)
-        Expression.new(:starts_with, current, expression)
+        Expression.new(:function, :starts_with, current, expression)
       end
 
       def text
@@ -50,17 +50,15 @@ module XPath
       end
 
       def string
-        Expression.new(:string_function, current)
+        Expression.new(:function, :string, current)
       end
 
-      def substring(expression1, expression2=nil)
-        expressions = [expression1]
-        expressions << expression2 unless expression2.nil?
-        Expression.new(:substring_function, current, *expressions)
+      def substring(*expressions)
+        Expression.new(:function, :substring, current, *expressions)
       end
 
       def string_length
-        Expression.new(:string_length_function, current)
+        Expression.new(:function, :string_length, current)
       end
 
       def css(selector)
@@ -113,7 +111,7 @@ module XPath
       alias_method :+, :union
 
       def inverse
-        Expression.new(:inverse, current)
+        Expression.new(:function, :not, current)
       end
       alias_method :~, :inverse
 
@@ -122,7 +120,7 @@ module XPath
       end
 
       def normalize
-        Expression.new(:normalized_space, current)
+        Expression.new(:function, :normalize_space, current)
       end
       alias_method :n, :normalize
     end

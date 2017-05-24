@@ -62,10 +62,6 @@ module XPath
       "#{parent}/#{name}::#{tag_name}"
     end
 
-    def node_name(current)
-      "name(#{current})"
-    end
-
     def where(on, condition)
       "#{on}[#{condition}]"
     end
@@ -82,7 +78,7 @@ module XPath
       if @type == :exact
         equality(one, two)
       else
-        contains(one, two)
+        function(:contains, one, two)
       end
     end
 
@@ -92,10 +88,6 @@ module XPath
 
     def text(current)
       "#{current}/text()"
-    end
-
-    def normalized_space(current)
-      "normalize-space(#{current})"
     end
 
     def literal(node)
@@ -121,14 +113,6 @@ module XPath
       else
         "//*"
       end
-    end
-
-    def contains(current, value)
-      "contains(#{current}, #{value})"
-    end
-
-    def starts_with(current, value)
-      "starts-with(#{current}, #{value})"
     end
 
     def and(one, two)
@@ -165,22 +149,6 @@ module XPath
 
     def function(name, *arguments)
       "#{name.to_s.gsub("_", "-")}(#{arguments.join(", ")})"
-    end
-
-    def inverse(current)
-      "not(#{current})"
-    end
-
-    def string_function(current)
-      "string(#{current})"
-    end
-
-    def substring_function(current, *arguments)
-      "substring(#{current}, #{arguments.join(", ")})"
-    end
-
-    def string_length_function(current)
-      "string-length(#{current})"
     end
   end
 end
