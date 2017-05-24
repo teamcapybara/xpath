@@ -66,6 +66,14 @@ module XPath
       def css(selector)
         Expression.new(:css, current, Literal.new(selector))
       end
+
+      def function(name, *arguments)
+        Expression.new(:function, name, *arguments)
+      end
+
+      def method(name, *arguments)
+        Expression.new(:function, name, current, *arguments)
+      end
     end
 
     module ExpressionLevel

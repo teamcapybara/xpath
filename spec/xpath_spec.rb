@@ -207,6 +207,20 @@ describe XPath do
     end
   end
 
+  describe '#function' do
+    it "should call the given xpath function" do
+      @results = xpath { |x| x.function(:boolean, x.function(:true) == x.function(:false)) }
+      @results.should == false
+    end
+  end
+
+  describe '#method' do
+    it "should call the given xpath function with the current node as the first argument" do
+      @results = xpath { |x| x.descendant(:span).where(x.attr(:id) == "string-length").text.method(:string_length) }
+      @results.should == 11
+    end
+  end
+
   describe '#string_length' do
     it "should return the length of a string" do
       @results = xpath { |x| x.descendant(:span).where(x.attr(:id) == "string-length").text.string_length }

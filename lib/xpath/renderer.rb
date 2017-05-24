@@ -163,6 +163,10 @@ module XPath
       end
     end
 
+    def function(name, *arguments)
+      "#{name.to_s.gsub("_", "-")}(#{arguments.join(", ")})"
+    end
+
     def inverse(current)
       "not(#{current})"
     end
