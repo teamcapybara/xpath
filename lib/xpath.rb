@@ -9,8 +9,8 @@ require 'xpath/html'
 
 module XPath
 
-  extend XPath::DSL::TopLevel
-  include XPath::DSL::TopLevel
+  extend XPath::DSL
+  include XPath::DSL
 
   def self.generate
     yield(self)

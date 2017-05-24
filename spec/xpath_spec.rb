@@ -382,5 +382,4 @@ describe XPath do
       @results[0][:id].should == 'fooDiv'
     end
   end
-
 end

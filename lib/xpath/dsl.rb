@@ -1,128 +1,126 @@
 module XPath
   module DSL
-    module TopLevel
-      def current
-        Expression.new(:this_node)
-      end
+    def current
+      Expression.new(:this_node)
+    end
 
-      def name
-        Expression.new(:function, :name, current)
-      end
+    def name
+      Expression.new(:function, :name, current)
+    end
 
-      def descendant(*expressions)
-        Expression.new(:descendant, current, expressions)
-      end
+    def descendant(*expressions)
+      Expression.new(:descendant, current, expressions)
+    end
 
-      def child(*expressions)
-        Expression.new(:child, current, expressions)
-      end
+    def child(*expressions)
+      Expression.new(:child, current, expressions)
+    end
 
-      def axis(name, *element_names)
-        Expression.new(:axis, current, name, element_names)
-      end
+    def axis(name, *element_names)
+      Expression.new(:axis, current, name, element_names)
+    end
 
-      def next_sibling(*expressions)
-        axis(:"following-sibling")[1].axis(:self, *expressions)
-      end
+    def anywhere(*expressions)
+      Expression.new(:anywhere, expressions)
+    end
 
-      def previous_sibling(*expressions)
-        axis(:"preceding-sibling")[1].axis(:self, *expressions)
-      end
+    def attr(expression)
+      Expression.new(:attribute, current, expression)
+    end
 
-      def anywhere(*expressions)
-        Expression.new(:anywhere, expressions)
-      end
+    def text
+      Expression.new(:text, current)
+    end
 
-      def attr(expression)
-        Expression.new(:attribute, current, expression)
-      end
+    def css(selector)
+      Expression.new(:css, current, Literal.new(selector))
+    end
 
-      def contains(expression)
-        Expression.new(:function, :contains, current, expression)
-      end
+    def function(name, *arguments)
+      Expression.new(:function, name, *arguments)
+    end
 
-      def starts_with(expression)
-        Expression.new(:function, :"starts-with", current, expression)
-      end
+    def method(name, *arguments)
+      Expression.new(:function, name, current, *arguments)
+    end
 
-      def text
-        Expression.new(:text, current)
-      end
+    def where(expression)
+      Expression.new(:where, current, expression)
+    end
+    alias_method :[], :where
 
-      def string
-        Expression.new(:function, :string, current)
-      end
+    def is(expression)
+      Expression.new(:is, current, expression)
+    end
 
-      def substring(*expressions)
-        Expression.new(:function, :substring, current, *expressions)
-      end
+    def binary_operator(name, rhs)
+      Expression.new(:binary_operator, name, current, rhs)
+    end
 
-      def string_length
-        Expression.new(:function, :"string-length", current)
-      end
+    def union(*expressions)
+      Union.new(*[self, expressions].flatten)
+    end
+    alias_method :+, :union
 
-      def css(selector)
-        Expression.new(:css, current, Literal.new(selector))
-      end
+    def contains(expression)
+      method(:contains, expression)
+    end
 
-      def function(name, *arguments)
-        Expression.new(:function, name, *arguments)
-      end
+    def starts_with(expression)
+      method(:"starts-with", expression)
+    end
 
-      def method(name, *arguments)
-        Expression.new(:function, name, current, *arguments)
+    def string
+      method(:string)
+    end
+
+    def substring(*expressions)
+      method(:substring, *expressions)
+    end
+
+    def string_length
+      method(:"string-length")
+    end
+
+    def inverse
+      method(:not)
+    end
+    alias_method :~, :inverse
+
+    def normalize
+      method(:"normalize-space")
+    end
+    alias_method :n, :normalize
+
+    def equals(rhs)
+      binary_operator(:"=", rhs)
+    end
+    alias_method :==, :equals
+
+    def or(rhs)
+      binary_operator(:or, rhs)
+    end
+    alias_method :|, :or
+
+    def and(rhs)
+      binary_operator(:and, rhs)
+    end
+    alias_method :&, :and
+
+    def one_of(*expressions)
+      expressions.map do |e|
+        current.equals(e)
+      end.reduce do |a, b|
+        a.or(b)
       end
     end
 
-    module ExpressionLevel
-      include XPath::DSL::TopLevel
+    def next_sibling(*expressions)
+      axis(:"following-sibling")[1].axis(:self, *expressions)
+    end
 
-      def where(expression)
-        Expression.new(:where, current, expression)
-      end
-      alias_method :[], :where
-
-      def one_of(*expressions)
-        expressions.map do |e|
-          current.equals(e)
-        end.reduce do |a, b|
-          a.or(b)
-        end
-      end
-
-      def equals(expression)
-        Expression.new(:binary_operator, :"=", current, expression)
-      end
-      alias_method :==, :equals
-
-      def is(expression)
-        Expression.new(:is, current, expression)
-      end
-
-      def or(expression)
-        Expression.new(:binary_operator, :or, current, expression)
-      end
-      alias_method :|, :or
-
-      def and(expression)
-        Expression.new(:binary_operator, :and, current, expression)
-      end
-      alias_method :&, :and
-
-      def union(*expressions)
-        Union.new(*[self, expressions].flatten)
-      end
-      alias_method :+, :union
-
-      def inverse
-        Expression.new(:function, :not, current)
-      end
-      alias_method :~, :inverse
-
-      def normalize
-        Expression.new(:function, :"normalize-space", current)
-      end
-      alias_method :n, :normalize
+    def previous_sibling(*expressions)
+      axis(:"preceding-sibling")[1].axis(:self, *expressions)
     end
   end
 end
