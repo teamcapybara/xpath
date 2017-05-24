@@ -83,11 +83,15 @@ module XPath
       alias_method :[], :where
 
       def one_of(*expressions)
-        Expression.new(:one_of, current, expressions)
+        expressions.map do |e|
+          Expression.new(:binary_operator, Literal.new("="), current, e)
+        end.reduce do |a, b|
+          Expression.new(:binary_operator, Literal.new("or"), a, b)
+        end
       end
 
       def equals(expression)
-        Expression.new(:equality, current, expression)
+        Expression.new(:binary_operator, Literal.new("="), current, expression)
       end
       alias_method :==, :equals
 
@@ -96,12 +100,12 @@ module XPath
       end
 
       def or(expression)
-        Expression.new(:or, current, expression)
+        Expression.new(:binary_operator, Literal.new("or"), current, expression)
       end
       alias_method :|, :or
 
       def and(expression)
-        Expression.new(:and, current, expression)
+        Expression.new(:binary_operator, Literal.new("and"), current, expression)
       end
       alias_method :&, :and
 

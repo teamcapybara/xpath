@@ -70,13 +70,13 @@ module XPath
       "#{current}/@#{name}"
     end
 
-    def equality(one, two)
-      "#{one} = #{two}"
+    def binary_operator(name, left, right)
+      "(#{left} #{name} #{right})"
     end
 
     def is(one, two)
       if @type == :exact
-        equality(one, two)
+        binary_operator("=", one, two)
       else
         function(:contains, one, two)
       end
@@ -113,18 +113,6 @@ module XPath
       else
         "//*"
       end
-    end
-
-    def and(one, two)
-      "(#{one} and #{two})"
-    end
-
-    def or(one, two)
-      "(#{one} or #{two})"
-    end
-
-    def one_of(current, values)
-      values.map { |value| "#{current} = #{value}" }.join(' or ')
     end
 
     def next_sibling(current, element_names)
