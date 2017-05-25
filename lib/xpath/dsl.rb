@@ -170,6 +170,27 @@ module XPath
       end
     end
 
+    AXES = [
+      :ancestor,
+      :ancestor_or_self,
+      :attribute,
+      :descendant_or_self,
+      :following,
+      :following_sibling,
+      :namespace,
+      :parent,
+      :preceding,
+      :preceding_sibling,
+      :self,
+    ]
+
+    AXES.each do |key|
+      name = key.to_s.gsub("_", "-").to_sym
+      define_method key do |*element_names|
+        axis(name, *element_names)
+      end
+    end
+
     def next_sibling(*expressions)
       axis(:"following-sibling")[1].axis(:self, *expressions)
     end
