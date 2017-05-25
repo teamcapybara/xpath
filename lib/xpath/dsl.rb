@@ -4,10 +4,6 @@ module XPath
       Expression.new(:this_node)
     end
 
-    def name
-      Expression.new(:function, :name, current)
-    end
-
     def descendant(*expressions)
       Expression.new(:descendant, current, expressions)
     end
@@ -70,97 +66,67 @@ module XPath
       function(:position)
     end
 
-    def count
-      method(:count)
+    METHODS = [
+      # node set
+      :count, :id, :local_name, :namespace_uri, :name,
+      # string
+      :string, :concat, :starts_with, :contains, :substring_before,
+      :substring_after, :substring, :string_length, :normalize_space,
+      :translate,
+      # boolean
+      :boolean, :not, :true, :false, :lang,
+      # number
+      :number, :sum, :floor, :ceiling, :round,
+    ]
+
+    METHODS.each do |key|
+      name = key.to_s.gsub("_", "-").to_sym
+      define_method key do |*args|
+        method(name, *args)
+      end
     end
 
-    def contains(expression)
-      method(:contains, expression)
+    alias_method :inverse, :not
+    alias_method :~, :not
+    alias_method :normalize, :normalize_space
+    alias_method :n, :normalize_space
+
+    OPERATORS = [
+      [:equals, :"=", :==],
+      [:or, :or, :|],
+      [:and, :and, :&],
+      [:lte, :<=, :<=],
+      [:lt, :<, :<],
+      [:gte, :>=, :>=],
+      [:gt, :>, :>],
+      [:plus, :+],
+      [:minus, :-],
+      [:multiply, :*, :*],
+      [:divide, :div, :/],
+      [:mod, :mod, :%],
+    ]
+
+    OPERATORS.each do |(name, operator, alias_name)|
+      define_method name do |rhs|
+        binary_operator(operator, rhs)
+      end
+      alias_method alias_name, name if alias_name
     end
 
-    def starts_with(expression)
-      method(:"starts-with", expression)
+    AXES = [
+      :ancestor, :ancestor_or_self, :attribute, :descendant_or_self,
+      :following, :following_sibling, :namespace, :parent, :preceding,
+      :preceding_sibling, :self,
+    ]
+
+    AXES.each do |key|
+      name = key.to_s.gsub("_", "-").to_sym
+      define_method key do |*element_names|
+        axis(name, *element_names)
+      end
     end
 
-    def string
-      method(:string)
-    end
-
-    def substring(*expressions)
-      method(:substring, *expressions)
-    end
-
-    def string_length
-      method(:"string-length")
-    end
-
-    def inverse
-      method(:not)
-    end
-    alias_method :~, :inverse
-
-    def normalize
-      method(:"normalize-space")
-    end
-    alias_method :n, :normalize
-
-    def equals(rhs)
-      binary_operator(:"=", rhs)
-    end
-    alias_method :==, :equals
-
-    def or(rhs)
-      binary_operator(:or, rhs)
-    end
-    alias_method :|, :or
-
-    def and(rhs)
-      binary_operator(:and, rhs)
-    end
-    alias_method :&, :and
-
-    def lte(rhs)
-      binary_operator(:<=, rhs)
-    end
-    alias_method :<=, :lte
-
-    def lt(rhs)
-      binary_operator(:<, rhs)
-    end
-    alias_method :<, :lt
-
-    def gte(rhs)
-      binary_operator(:>=, rhs)
-    end
-    alias_method :>=, :gte
-
-    def gt(rhs)
-      binary_operator(:>, rhs)
-    end
-    alias_method :>, :gt
-
-    def plus(rhs)
-      binary_operator(:+, rhs)
-    end
-
-    def minus(rhs)
-      binary_operator(:-, rhs)
-    end
-
-    def multiply(rhs)
-      binary_operator(:*, rhs)
-    end
-    alias_method :*, :multiply
-
-    def divide(rhs)
-      binary_operator(:div, rhs)
-    end
-    alias_method :/, :divide
-
-    def mod(rhs)
-      binary_operator(:mod, rhs)
-    end
-    alias_method :%, :mod
+    alias_method :self_axis, :self
 
     def one_of(*expressions)
       expressions.map do |e|

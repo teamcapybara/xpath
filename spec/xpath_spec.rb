@@ -483,4 +483,13 @@ describe XPath do
       @results[2][:title].should == "gorilla"
     end
   end
+
+  describe "#ancestor" do
+    it "finds ancestor nodes" do
+      @results = xpath { |x| x.descendant(:p)[1].ancestor }
+      @results[0].node_name.should == "html"
+      @results[1].node_name.should == "body"
+      @results[2][:id].should == "foo"
+    end
+  end
 end
