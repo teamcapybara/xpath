@@ -4,10 +4,6 @@ module XPath
       Expression.new(:this_node)
     end
 
-    def name
-      Expression.new(:function, :name, current)
-    end
-
     def descendant(*expressions)
       Expression.new(:descendant, current, expressions)
     end
@@ -71,14 +67,16 @@ module XPath
     end
 
     METHODS = [
-      :count,
-      :contains,
-      :starts_with,
-      :string,
-      :substring,
-      :string_length,
-      :not,
-      :normalize_space,
+      # node set
+      :count, :id, :local_name, :namespace_uri, :name,
+      # string
+      :string, :concat, :starts_with, :contains, :substring_before,
+      :substring_after, :substring, :string_length, :normalize_space,
+      :translate,
+      # boolean
+      :boolean, :not, :true, :false, :lang,
+      # number
+      :number, :sum, :floor, :ceiling, :round,
     ]
 
     METHODS.each do |key|
@@ -116,17 +114,9 @@ module XPath
     end
 
     AXES = [
-      :ancestor,
-      :ancestor_or_self,
-      :attribute,
-      :descendant_or_self,
-      :following,
-      :following_sibling,
-      :namespace,
-      :parent,
-      :preceding,
-      :preceding_sibling,
-      :self,
+      :ancestor, :ancestor_or_self, :attribute, :descendant_or_self,
+      :following, :following_sibling, :namespace, :parent, :preceding,
+      :preceding_sibling, :self,
     ]
 
     AXES.each do |key|
