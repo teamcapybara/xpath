@@ -207,6 +207,20 @@ describe XPath do
     end
   end
 
+  describe '#function' do
+    it "should call the given xpath function" do
+      @results = xpath { |x| x.function(:boolean, x.function(:true) == x.function(:false)) }
+      @results.should == false
+    end
+  end
+
+  describe '#method' do
+    it "should call the given xpath function with the current node as the first argument" do
+      @results = xpath { |x| x.descendant(:span).where(x.attr(:id) == "string-length").text.method(:"string-length") }
+      @results.should == 11
+    end
+  end
+
   describe '#string_length' do
     it "should return the length of a string" do
       @results = xpath { |x| x.descendant(:span).where(x.attr(:id) == "string-length").text.string_length }
@@ -369,4 +383,104 @@ describe XPath do
     end
   end
 
+  describe "#last" do
+    it "returns the number of elements in the context" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() == XPath.last()] }
+      @results[0].text.should == "Bax"
+      @results[1].text.should == "Blah"
+      @results[2].text.should == "llama"
+    end
+  end
+
+  describe "#position" do
+    it "returns the position of elements in the context" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() == 2] }
+      @results[0].text.should == "Bax"
+      @results[1].text.should == "Bax"
+    end
+  end
+
+  describe "#count" do
+    it "counts the number of occurrences" do
+      @results = xpath { |x| x.descendant(:div)[x.descendant(:p).count == 2] }
+      @results[0][:id].should == "preference"
+    end
+  end
+
+  describe "#lte" do
+    it "checks lesser than or equal" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() <= 2] }
+      @results[0].text.should == "Blah"
+      @results[1].text.should == "Bax"
+      @results[2][:title].should == "gorilla"
+      @results[3].text.should == "Bax"
+    end
+  end
+
+  describe "#lt" do
+    it "checks lesser than" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() < 2] }
+      @results[0].text.should == "Blah"
+      @results[1][:title].should == "gorilla"
+    end
+  end
+
+  describe "#gte" do
+    it "checks greater than or equal" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() >= 2] }
+      @results[0].text.should == "Bax"
+      @results[1][:title].should == "monkey"
+      @results[2].text.should == "Bax"
+      @results[3].text.should == "Blah"
+    end
+  end
+
+  describe "#gt" do
+    it "checks greater than" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() > 2] }
+      @results[0][:title].should == "monkey"
+      @results[1].text.should == "Blah"
+    end
+  end
+
+  describe "#plus" do
+    it "adds stuff" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position().plus(1) == 2] }
+      @results[0][:id].should == "fooDiv"
+      @results[1][:title].should == "gorilla"
+    end
+  end
+
+  describe "#minus" do
+    it "subtracts stuff" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position().minus(1) == 0] }
+      @results[0][:id].should == "fooDiv"
+      @results[1][:title].should == "gorilla"
+    end
+  end
+
+  describe "#multiply" do
+    it "multiplies stuff" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() * 3 == 3] }
+      @results[0][:id].should == "fooDiv"
+      @results[1][:title].should == "gorilla"
+    end
+  end
+
+  describe "#divide" do
+    it "divides stuff" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() / 2 == 1] }
+      @results[0].text.should == "Bax"
+      @results[1].text.should == "Bax"
+    end
+  end
+
+  describe "#mod" do
+    it "take modulo" do
+      @results = xpath { |x| x.descendant(:p)[XPath.position() % 2 == 1] }
+      @results[0].text.should == "Blah"
+      @results[1][:title].should == "monkey"
+      @results[2][:title].should == "gorilla"
+    end
+  end
 end

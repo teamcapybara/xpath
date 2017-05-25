@@ -1,6 +1,6 @@
 module XPath
   module HTML
-    include XPath::DSL::TopLevel
+    include XPath::DSL
     extend self
 
     # Match an `a` link element.

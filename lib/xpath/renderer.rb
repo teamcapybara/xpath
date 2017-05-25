@@ -38,32 +38,20 @@ module XPath
       '.'
     end
 
-    def descendant(parent, element_names)
-      if element_names.length == 1
-        "#{parent}//#{element_names.first}"
-      elsif element_names.length > 1
-        "#{parent}//*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
-      else
-        "#{parent}//*"
-      end
+    def descendant(current, element_names)
+      with_element_conditions("#{current}//", element_names)
     end
 
-    def child(parent, element_names)
-      if element_names.length == 1
-        "#{parent}/#{element_names.first}"
-      elsif element_names.length > 1
-        "#{parent}/*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
-      else
-        "#{parent}/*"
-      end
+    def child(current, element_names)
+      with_element_conditions("#{current}/", element_names)
     end
 
-    def axis(parent, name, tag_name)
-      "#{parent}/#{name}::#{tag_name}"
+    def axis(current, name, element_names)
+      with_element_conditions("#{current}/#{name}::", element_names)
     end
 
-    def node_name(current)
-      "name(#{current})"
+    def anywhere(element_names)
+      with_element_conditions("//", element_names)
     end
 
     def where(on, condition)
@@ -74,15 +62,15 @@ module XPath
       "#{current}/@#{name}"
     end
 
-    def equality(one, two)
-      "#{one} = #{two}"
+    def binary_operator(name, left, right)
+      "(#{left} #{name} #{right})"
     end
 
     def is(one, two)
       if @type == :exact
-        equality(one, two)
+        binary_operator("=", one, two)
       else
-        contains(one, two)
+        function(:contains, one, two)
       end
     end
 
@@ -92,10 +80,6 @@ module XPath
 
     def text(current)
       "#{current}/text()"
-    end
-
-    def normalized_space(current)
-      "normalize-space(#{current})"
     end
 
     def literal(node)
@@ -113,70 +97,20 @@ module XPath
       expressions.join(' | ')
     end
 
-    def anywhere(element_names)
+    def function(name, *arguments)
+      "#{name}(#{arguments.join(", ")})"
+    end
+
+  private
+
+    def with_element_conditions(expression, element_names)
       if element_names.length == 1
-        "//#{element_names.first}"
+        "#{expression}#{element_names.first}"
       elsif element_names.length > 1
-        "//*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
+        "#{expression}*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
       else
-        "//*"
+        "#{expression}*"
       end
-    end
-
-    def contains(current, value)
-      "contains(#{current}, #{value})"
-    end
-
-    def starts_with(current, value)
-      "starts-with(#{current}, #{value})"
-    end
-
-    def and(one, two)
-      "(#{one} and #{two})"
-    end
-
-    def or(one, two)
-      "(#{one} or #{two})"
-    end
-
-    def one_of(current, values)
-      values.map { |value| "#{current} = #{value}" }.join(' or ')
-    end
-
-    def next_sibling(current, element_names)
-      if element_names.length == 1
-        "#{current}/following-sibling::*[1]/self::#{element_names.first}"
-      elsif element_names.length > 1
-        "#{current}/following-sibling::*[1]/self::*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
-      else
-        "#{current}/following-sibling::*[1]/self::*"
-      end
-    end
-
-    def previous_sibling(current, element_names)
-      if element_names.length == 1
-        "#{current}/preceding-sibling::*[1]/self::#{element_names.first}"
-      elsif element_names.length > 1
-        "#{current}/preceding-sibling::*[1]/self::*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
-      else
-        "#{current}/preceding-sibling::*[1]/self::*"
-      end
-    end
-
-    def inverse(current)
-      "not(#{current})"
-    end
-
-    def string_function(current)
-      "string(#{current})"
-    end
-
-    def substring_function(current, *arguments)
-      "substring(#{current}, #{arguments.join(", ")})"
-    end
-
-    def string_length_function(current)
-      "string-length(#{current})"
     end
   end
 end
