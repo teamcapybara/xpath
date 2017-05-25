@@ -51,6 +51,34 @@ describe XPath do
     end
   end
 
+  describe '#descendant_or_self' do
+    it "should find nodes that are nested below the current node" do
+      @results = xpath { |x| x.descendant_or_self(:p) }
+      @results[0].text.should == "Blah"
+      @results[1].text.should == "Bax"
+    end
+
+    it "should not find nodes outside the context" do
+      @results = xpath do |x|
+        foo_div = x.descendant_or_self(:div).where(x.attr(:id) == 'foo')
+        x.descendant_or_self(:p).where(x.attr(:id) == foo_div.attr(:title))
+      end
+      @results[0].should be_nil
+    end
+
+    it "should find multiple kinds of nodes" do
+      @results = xpath { |x| x.descendant_or_self(:p, :ul) }
+      @results[0].text.should == 'Blah'
+      @results[3].text.should == 'A list'
+    end
+
+    it "should find all nodes when no arguments given" do
+      @results = xpath { |x| x.descendant_or_self[x.attr(:id) == 'foo'].descendant_or_self }
+      @results[0].text.should == 'Blah'
+      @results[4].text.should == 'A list'
+    end
+  end
+
   describe '#child' do
     it "should find nodes that are nested directly below the current node" do
       @results = xpath { |x| x.descendant(:div).child(:p) }

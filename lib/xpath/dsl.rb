@@ -12,6 +12,14 @@ module XPath
       def descendant(*expressions)
         Expression.new(:descendant, current, expressions)
       end
+      
+      def descendant_or_self(*expressions)
+        Expression.new(:descendant_or_self, current, expressions)
+      end
+
+      def ancestor(*expressions)
+        Expression.new(:ancestor, current, expressions)
+      end
 
       def child(*expressions)
         Expression.new(:child, current, expressions)
