@@ -37,6 +37,10 @@ module XPath
         Expression.new(:attribute, current, expression)
       end
 
+      def data(expression)
+        Expression.new(:attribute, current, :"data-#{expression}")
+      end
+
       def contains(expression)
         Expression.new(:contains, current, expression)
       end

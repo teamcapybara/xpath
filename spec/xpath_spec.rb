@@ -310,6 +310,14 @@ describe XPath do
     end
   end
 
+  describe '#data' do
+    it "should be a data attribute" do
+      @results = xpath { |x| x.descendant(:div).where(x.data(:foo)) }
+      @results[0][:title].should == "buzDiv"
+      @results[1][:title].should == "fuzDiv"
+    end
+  end
+
   describe '#css' do
     it "should find nodes by the given CSS selector" do
       @results = xpath { |x| x.css('#preference p') }
