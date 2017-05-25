@@ -45,6 +45,10 @@ module XPath
         Expression.new(:starts_with, current, expression)
       end
 
+      def ends_with(expression)
+        Expression.new(:ends_with, current, expression)
+      end
+
       def text
         Expression.new(:text, current)
       end
