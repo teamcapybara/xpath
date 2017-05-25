@@ -126,6 +126,8 @@ module XPath
       end
     end
 
+    alias_method :self_axis, :self
+
     def one_of(*expressions)
       expressions.map do |e|
         current.equals(e)
