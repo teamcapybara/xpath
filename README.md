@@ -4,7 +4,7 @@ XPath is a Ruby DSL around a subset of XPath 1.0. Its primary purpose is to
 facilitate writing complex XPath queries from Ruby code.
 
 [![Gem Version](https://badge.fury.io/rb/xpath.png)](http://badge.fury.io/rb/xpath)
-[![Build Status](https://secure.travis-ci.org/jnicklas/xpath.png?branch=master)](http://travis-ci.org/jnicklas/xpath)
+[![Build Status](https://secure.travis-ci.org/teamcapybara/xpath.png?branch=master)](http://travis-ci.org/teamcapybara/xpath)
 
 ## Generating expressions
 
@@ -37,11 +37,9 @@ module MyXPaths
 end
 ```
 
-Both ways return an
-[`XPath::Expression`](http://rdoc.info/github/jnicklas/xpath/XPath/Expression)
-instance, which can be further modified.  To convert the expression to a
-string, just call `#to_s` on it. All available expressions are defined in
-[`XPath::DSL`](http://rdoc.info/github/jnicklas/xpath/XPath/DSL).
+Both ways return an `XPath::Expression` instance, which can be further
+modified. To convert the expression to a string, just call `#to_s` on it. All
+available expressions are defined in `XPath::DSL`.
 
 ## String, Hashes and Symbols
 
@@ -109,8 +107,7 @@ XPath::HTML.link('Home')
 XPath::HTML.field('Name')
 ```
 
-See [`XPath::HTML`](http://rdoc.info/github/jnicklas/xpath/XPath/HTML) for all
-available matchers.
+See `XPath::HTML` for all available matchers.
 
 ## License
 

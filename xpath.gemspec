@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir.glob("{lib,spec}/**/*") + %w(README.md)
 
-  s.homepage = "https://github.com/jnicklas/xpath"
+  s.homepage = "https://github.com/teamcapybara/xpath"
   s.summary = "Generate XPath expressions from Ruby"
 
   s.add_dependency("nokogiri", ["~> 1.3"])
