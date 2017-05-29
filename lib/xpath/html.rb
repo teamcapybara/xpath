@@ -139,7 +139,7 @@ module XPath
     #
     def option(locator)
       locator = locator.to_s
-      descendant(:option)[string.n.is(locator)]
+      descendant(:option)[string.n.is(locator) | attr(:value).equals(locator)]
     end
 
 
@@ -167,7 +167,7 @@ module XPath
   protected
 
     def locate_field(xpath, locator)
-      locate_field = xpath[attr(:id).equals(locator) | attr(:name).equals(locator) | attr(:placeholder).equals(locator) | attr(:id).equals(anywhere(:label)[string.n.is(locator)].attr(:for))]
+      locate_field = xpath[attr(:id).equals(locator) | attr(:name).equals(locator) | attr(:value).equals(locator) | attr(:placeholder).equals(locator) | attr(:id).equals(anywhere(:label)[string.n.is(locator)].attr(:for))]
       locate_field += descendant(:label)[string.n.is(locator)].descendant(xpath)
       locate_field
     end
