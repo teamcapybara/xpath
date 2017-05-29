@@ -3,6 +3,7 @@
 .ruby-gemset
 .bundle
 .yardoc
+.idea
 doc
 Gemfile.lock
 gem-private_key.pem
