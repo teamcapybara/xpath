@@ -221,6 +221,7 @@ describe XPath::HTML do
     context "by parent label" do
       it("finds inputs with text type")                    { get('Label text').should == 'id-text' }
       it("finds inputs where label has problem chars")     { get("Label text's got an apostrophe").should == 'id-problem-text' }
+      it("finds contenteditable elements")                 { get('content').should == 'an-editable-content-div' }
     end
 
   end
