@@ -11,7 +11,7 @@ module XPath
     def link(locator)
       locator = locator.to_s
       link = descendant(:a)[attr(:href)]
-      link[attr(:id).equals(locator) | string.n.is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
+      link[attr(:id).equals(locator) | string.n.is(locator) | attr(:'aria-label').is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
     end
 
     # Match a `submit`, `image`, or `button` element.
@@ -21,8 +21,8 @@ module XPath
     #
     def button(locator)
       locator = locator.to_s
-      button = descendant(:input)[attr(:type).one_of('submit', 'reset', 'image', 'button')][attr(:id).equals(locator) | attr(:value).is(locator) | attr(:title).is(locator)]
-      button += descendant(:button)[attr(:id).equals(locator) | attr(:value).is(locator) | string.n.is(locator) | attr(:title).is(locator)]
+      button = descendant(:input)[attr(:type).one_of('submit', 'reset', 'image', 'button')][attr(:id).equals(locator) | attr(:value).is(locator) | attr(:'aria-label').is(locator) | attr(:title).is(locator)]
+      button += descendant(:button)[attr(:id).equals(locator) | attr(:value).is(locator) | string.n.is(locator) | attr(:'aria-label').is(locator) | attr(:title).is(locator)]
       button += descendant(:input)[attr(:type).equals('image')][attr(:alt).is(locator)]
     end
 

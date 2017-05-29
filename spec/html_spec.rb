@@ -24,6 +24,7 @@ describe XPath::HTML do
     it("finds links with child tags by content")           { get('An emphatic link').should == 'link-children' }
     it("finds links by the content of their child tags")   { get('emphatic').should == 'link-children' }
     it("finds links by approximate content")               { get('awesome').should == 'link-text' }
+    it("finds links by aria-label")                        { get('Aria link').should == 'link-aria' }
     it("finds links by title")                             { get('My title').should == 'link-title' }
     it("finds links by approximate title")                 { get('title').should == 'link-title' }
     it("finds links by image's alt attribute")             { get('Alt link').should == 'link-img' }
@@ -34,6 +35,7 @@ describe XPath::HTML do
     context "with exact match", :type => :exact do
       it("finds links by content")                                   { get('An awesome link').should == 'link-text' }
       it("does not find links by approximate content")               { get('awesome').should be_nil }
+      it("finds links by aria-label")                                { get('Aria link').should == 'link-aria' }
       it("finds links by title")                                     { get('My title').should == 'link-title' }
       it("does not find links by approximate title")                 { get('title').should be_nil }
       it("finds links by image's alt attribute")                     { get('Alt link').should == 'link-img' }
@@ -48,12 +50,14 @@ describe XPath::HTML do
       it("finds buttons by id")                { get('submit-with-id').should == 'id-submit' }
       it("finds buttons by value")             { get('submit-with-value').should == 'value-submit' }
       it("finds buttons by approximate value") { get('mit-with-val').should == 'value-submit' }
+      it("finds buttons by aria-label")        { get('Aria submit').should == 'aria-submit' }
       it("finds buttons by title")             { get('My submit title').should == 'title-submit' }
       it("finds buttons by approximate title") { get('submit title').should == 'title-submit' }
 
       context "with exact match", :type => :exact do
         it("finds buttons by value")                     { get('submit-with-value').should == 'value-submit' }
         it("does not find buttons by approximate value") { get('mit-with-val').should be_nil }
+        it("finds buttons by aria-label")                { get('Aria submit').should == 'aria-submit' }
         it("finds buttons by title")                     { get('My submit title').should == 'title-submit' }
         it("does not find buttons by approximate title") { get('submit title').should be_nil }
       end
@@ -63,12 +67,14 @@ describe XPath::HTML do
       it("finds buttons by id")                { get('reset-with-id').should == 'id-reset' }
       it("finds buttons by value")             { get('reset-with-value').should == 'value-reset' }
       it("finds buttons by approximate value") { get('set-with-val').should == 'value-reset' }
+      it("finds buttons by aria-label")        { get('Aria reset').should == 'aria-reset' }
       it("finds buttons by title")             { get('My reset title').should == 'title-reset' }
       it("finds buttons by approximate title") { get('reset title').should == 'title-reset' }
 
       context "with exact match", :type => :exact do
         it("finds buttons by value")                     { get('reset-with-value').should == 'value-reset' }
         it("does not find buttons by approximate value") { get('set-with-val').should be_nil }
+        it("finds buttons by aria-label")                { get('Aria reset').should == 'aria-reset' }
         it("finds buttons by title")                     { get('My reset title').should == 'title-reset' }
         it("does not find buttons by approximate title") { get('reset title').should be_nil }
       end
@@ -78,12 +84,14 @@ describe XPath::HTML do
       it("finds buttons by id")                { get('button-with-id').should == 'id-button' }
       it("finds buttons by value")             { get('button-with-value').should == 'value-button' }
       it("finds buttons by approximate value") { get('ton-with-val').should == 'value-button' }
+      it("finds buttons by aria-label")        { get('Aria button').should == 'aria-button' }
       it("finds buttons by title")             { get('My button title').should == 'title-button' }
       it("finds buttons by approximate title") { get('button title').should == 'title-button' }
 
       context "with exact match", :type => :exact do
         it("finds buttons by value")                     { get('button-with-value').should == 'value-button' }
         it("does not find buttons by approximate value") { get('ton-with-val').should be_nil }
+        it("finds buttons by aria-label")                { get('Aria button').should == 'aria-button' }
         it("finds buttons by title")                     { get('My button title').should == 'title-button' }
         it("does not find buttons by approximate title") { get('button title').should be_nil }
       end
@@ -95,6 +103,7 @@ describe XPath::HTML do
       it("finds buttons by approximate value")         { get('gbut-with-val').should == 'value-imgbut' }
       it("finds buttons by alt attribute")             { get('imgbut-with-alt').should == 'alt-imgbut' }
       it("finds buttons by approximate alt attribute") { get('mgbut-with-al').should == 'alt-imgbut' }
+      it("finds buttons by aria-label")                { get('Aria imgbut').should == 'aria-imgbut' }
       it("finds buttons by title")                     { get('My imgbut title').should == 'title-imgbut' }
       it("finds buttons by approximate title")         { get('imgbut title').should == 'title-imgbut' }
 
@@ -103,6 +112,7 @@ describe XPath::HTML do
         it("does not find buttons by approximate value")         { get('gbut-with-val').should be_nil }
         it("finds buttons by alt attribute")                     { get('imgbut-with-alt').should == 'alt-imgbut' }
         it("does not find buttons by approximate alt attribute") { get('mgbut-with-al').should be_nil }
+        it("finds buttons by aria-label")                        { get('Aria imgbut').should == 'aria-imgbut' }
         it("finds buttons by title")                             { get('My imgbut title').should == 'title-imgbut' }
         it("does not find buttons by approximate title")         { get('imgbut title').should be_nil }
       end
@@ -117,6 +127,7 @@ describe XPath::HTML do
       it("finds buttons by approximate text ")        { get('tag-with-tex').should == 'text-btag' }
       it("finds buttons with child tags by text")     { get('An emphatic button').should == 'btag-with-children' }
       it("finds buttons by text of their children")   { get('emphatic').should == 'btag-with-children' }
+      it("finds buttons by aria-label")               { get('Aria btag').should == 'aria-btag' }
       it("finds buttons by title")                    { get('My btag title').should == 'title-btag' }
       it("finds buttons by approximate title")        { get('btag title').should == 'title-btag' }
 
@@ -125,6 +136,7 @@ describe XPath::HTML do
         it("does not find buttons by approximate value") { get('tag-with-val').should be_nil }
         it("finds buttons by text")                      { get('btag-with-text').should == 'text-btag' }
         it("does not find buttons by approximate text ") { get('tag-with-tex').should be_nil }
+        it("finds buttons by aria-label")                { get('Aria btag').should == 'aria-btag' }
         it("finds buttons by title")                     { get('My btag title').should == 'title-btag' }
         it("does not find buttons by approximate title") { get('btag title').should be_nil }
       end
