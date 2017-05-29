@@ -28,6 +28,7 @@ describe XPath::HTML do
     it("finds links by approximate title")                 { get('title').should == 'link-title' }
     it("finds links by image's alt attribute")             { get('Alt link').should == 'link-img' }
     it("finds links by image's approximate alt attribute") { get('Alt').should == 'link-img' }
+    it("finds links without href")                         { get('link-without-href').should == 'no-href' }
     it("does not find links without href attriutes")       { get('Wrong Link').should be_nil }
     it("casts to string")                                  { get(:'some-id').should == 'link-id' }
 
