@@ -9,9 +9,12 @@ module XPath
     #   Text, id, title, or image alt attribute of the link
     #
     def link(locator)
-      locator = locator.to_s
       link = descendant(:a)[attr(:href)]
-      link[attr(:id).equals(locator) | string.n.is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
+      unless locator.nil?
+        locator = locator.to_s
+        link = link[attr(:id).equals(locator) | string.n.is(locator) | attr(:title).is(locator) | descendant(:img)[attr(:alt).is(locator)]]
+      end
+      link
     end
 
     # Match a `submit`, `image`, or `button` element.
@@ -20,10 +23,18 @@ module XPath
     #   Value, title, id, or image alt attribute of the button
     #
     def button(locator)
-      locator = locator.to_s
-      button = descendant(:input)[attr(:type).one_of('submit', 'reset', 'image', 'button')][attr(:id).equals(locator) | attr(:value).is(locator) | attr(:title).is(locator)]
-      button += descendant(:button)[attr(:id).equals(locator) | attr(:value).is(locator) | string.n.is(locator) | attr(:title).is(locator)]
-      button += descendant(:input)[attr(:type).equals('image')][attr(:alt).is(locator)]
+      input_button = descendant(:input)[attr(:type).one_of('submit', 'reset', 'image', 'button')]
+      button = descendant(:button)
+      image_button = descendant(:input)[attr(:type).equals('image')]
+
+      unless locator.nil?
+        locator = locator.to_s
+        input_button = input_button[attr(:id).equals(locator) | attr(:value).is(locator) | attr(:title).is(locator)]
+        button = button[attr(:id).equals(locator) | attr(:value).is(locator) | string.n.is(locator) | attr(:title).is(locator)]
+        image_button = image_button[attr(:alt).is(locator)]
+      end
+
+      input_button + button + image_button
     end
 
 
@@ -43,8 +54,12 @@ module XPath
     #   Legend or id of the fieldset
     #
     def fieldset(locator)
-      locator = locator.to_s
-      descendant(:fieldset)[attr(:id).equals(locator) | child(:legend)[string.n.is(locator)]]
+      fieldset = descendant(:fieldset)
+      unless locator.nil?
+        locator = locator.to_s
+        fieldset = fieldset[attr(:id).equals(locator) | child(:legend)[string.n.is(locator)]]
+      end
+      fieldset
     end
 
 
@@ -55,9 +70,8 @@ module XPath
     #   Label, id, or name of field to match
     #
     def field(locator)
-      locator = locator.to_s
       xpath = descendant(:input, :textarea, :select)[~attr(:type).one_of('submit', 'image', 'hidden')]
-      xpath = locate_field(xpath, locator)
+      xpath = locate_field(xpath, locator.to_s) unless locator.nil?
       xpath
     end
 
@@ -70,9 +84,8 @@ module XPath
     #   Label, id, or name of field to match
     #
     def fillable_field(locator)
-      locator = locator.to_s
       xpath = descendant(:input, :textarea)[~attr(:type).one_of('submit', 'image', 'radio', 'checkbox', 'hidden', 'file')]
-      xpath = locate_field(xpath, locator)
+      xpath = locate_field(xpath, locator.to_s) unless locator.nil?
       xpath
     end
 
@@ -83,8 +96,9 @@ module XPath
     #   Label, id, or name of the field to match
     #
     def select(locator)
-      locator = locator.to_s
-      locate_field(descendant(:select), locator)
+      xpath = descendant(:select)
+      xpath = locate_field(xpath, locator.to_s) unless locator.nil?
+      xpath
     end
 
 
@@ -94,8 +108,9 @@ module XPath
     #   Label, id, or name of the checkbox to match
     #
     def checkbox(locator)
-      locator = locator.to_s
-      locate_field(descendant(:input)[attr(:type).equals('checkbox')], locator)
+      xpath = descendant(:input)[attr(:type).equals('checkbox')]
+      xpath = locate_field(xpath, locator.to_s) unless locator.nil?
+      xpath
     end
 
 
@@ -105,8 +120,9 @@ module XPath
     #   Label, id, or name of the radio button to match
     #
     def radio_button(locator)
-      locator = locator.to_s
-      locate_field(descendant(:input)[attr(:type).equals('radio')], locator)
+      xpath = descendant(:input)[attr(:type).equals('radio')]
+      xpath = locate_field(xpath, locator.to_s) unless locator.nil?
+      xpath
     end
 
 
@@ -116,8 +132,9 @@ module XPath
     #   Label, id, or name of the file field to match
     #
     def file_field(locator)
-      locator = locator.to_s
-      locate_field(descendant(:input)[attr(:type).equals('file')], locator)
+      xpath = descendant(:input)[attr(:type).equals('file')]
+      xpath = locate_field(xpath, locator.to_s) unless locator.nil?
+      xpath
     end
 
 
@@ -127,8 +144,9 @@ module XPath
     #   Label for the option group
     #
     def optgroup(locator)
-      locator = locator.to_s
-      descendant(:optgroup)[attr(:label).is(locator)]
+      xpath = descendant(:optgroup)
+      xpath = xpath[attr(:label).is(locator.to_s)] unless locator.nil?
+      xpath
     end
 
 
@@ -138,8 +156,9 @@ module XPath
     #   Visible text of the option
     #
     def option(locator)
-      locator = locator.to_s
-      descendant(:option)[string.n.is(locator)]
+      xpath = descendant(:option)
+      xpath = xpath[string.n.is(locator.to_s)] unless locator.nil?
+      xpath
     end
 
 
@@ -151,8 +170,9 @@ module XPath
     #   Content of each cell in each row to match
     #
     def table(locator)
-      locator = locator.to_s
-      descendant(:table)[attr(:id).equals(locator) | descendant(:caption).is(locator)]
+      xpath = descendant(:table)
+      xpath = xpath[attr(:id).equals(locator.to_s) | descendant(:caption).is(locator.to_s)] unless locator.nil?
+      xpath
     end
 
     # Match any 'dd' element.
@@ -160,8 +180,9 @@ module XPath
     # @param [String] locator
     #   Id of the 'dd' element or text from preciding 'dt' element content
     def definition_description(locator)
-      locator = locator.to_s
-      descendant(:dd)[attr(:id).equals(locator) | previous_sibling(:dt)[string.n.equals(locator)] ]
+      xpath = descendant(:dd)
+      xpath = xpath[attr(:id).equals(locator.to_s) | previous_sibling(:dt)[string.n.equals(locator.to_s)] ] unless locator.nil?
+      xpath
     end
 
   protected
