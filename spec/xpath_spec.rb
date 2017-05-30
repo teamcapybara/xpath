@@ -246,6 +246,10 @@ describe XPath do
     it "should be aliased as the unary tilde" do
       xpath { |x| x.descendant(:p).where(~x.attr(:id).equals('fooDiv')) }.first.text.should == 'Bax'
     end
+
+    it "should be aliased as the unary bang" do
+      xpath { |x| x.descendant(:p).where(!x.attr(:id).equals('fooDiv')) }.first.text.should == 'Bax'
+    end
   end
 
   describe '#equals' do
@@ -289,27 +293,12 @@ describe XPath do
       end
       @results[0][:title].should == "monkey"
     end
-
-    it "should be aliased as ampersand (&)" do
-      @results = xpath do |x|
-        x.descendant(:*).where(x.contains('Bax') & x.attr(:title).equals('monkey'))
-      end
-      @results[0][:title].should == "monkey"
-    end
   end
 
   describe '#or' do
     it "should find all nodes in either expression" do
       @results = xpath do |x|
         x.descendant(:*).where(x.attr(:id).equals('foo').or(x.attr(:id).equals('fooDiv')))
-      end
-      @results[0][:title].should == "fooDiv"
-      @results[1].text.should == "Blah"
-    end
-
-    it "should be aliased as pipe (|)" do
-      @results = xpath do |x|
-        x.descendant(:*).where(x.attr(:id).equals('foo') | x.attr(:id).equals('fooDiv'))
       end
       @results[0][:title].should == "fooDiv"
       @results[1].text.should == "Blah"
@@ -370,10 +359,10 @@ describe XPath do
       @results[0][:id].should == 'fooDiv'
     end
 
-    it "should be aliased as +" do
+    it "should be aliased as |" do
       @expr1 = XPath.generate { |x| x.descendant(:p) }
       @expr2 = XPath.generate { |x| x.descendant(:div) }
-      @collection = @expr1 + @expr2
+      @collection = @expr1 | @expr2
       @xpath1 = @collection.where(XPath.attr(:id) == 'foo').to_xpath
       @xpath2 = @collection.where(XPath.attr(:id) == 'fooDiv').to_xpath
       @results = doc.xpath(@xpath1)
@@ -445,7 +434,7 @@ describe XPath do
 
   describe "#plus" do
     it "adds stuff" do
-      @results = xpath { |x| x.descendant(:p)[XPath.position().plus(1) == 2] }
+      @results = xpath { |x| x.descendant(:p)[XPath.position() + 1 == 2] }
       @results[0][:id].should == "fooDiv"
       @results[1][:title].should == "gorilla"
     end
@@ -453,7 +442,7 @@ describe XPath do
 
   describe "#minus" do
     it "subtracts stuff" do
-      @results = xpath { |x| x.descendant(:p)[XPath.position().minus(1) == 0] }
+      @results = xpath { |x| x.descendant(:p)[XPath.position() - 1 == 0] }
       @results[0][:id].should == "fooDiv"
       @results[1][:title].should == "gorilla"
     end
