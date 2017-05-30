@@ -56,7 +56,7 @@ module XPath
     def union(*expressions)
       Union.new(*[self, expressions].flatten)
     end
-    alias_method :+, :union
+    alias_method :|, :union
 
     def last
       function(:last)
@@ -88,19 +88,21 @@ module XPath
 
     alias_method :inverse, :not
     alias_method :~, :not
+    alias_method :!, :not
     alias_method :normalize, :normalize_space
     alias_method :n, :normalize_space
 
     OPERATORS = [
       [:equals, :"=", :==],
-      [:or, :or, :|],
-      [:and, :and, :&],
+      [:not_equals, :!=, :!=],
+      [:or, :or],
+      [:and, :and],
       [:lte, :<=, :<=],
       [:lt, :<, :<],
       [:gte, :>=, :>=],
       [:gt, :>, :>],
-      [:plus, :+],
-      [:minus, :-],
+      [:plus, :+, :+],
+      [:minus, :-, :-],
       [:multiply, :*, :*],
       [:divide, :div, :/],
       [:mod, :mod, :%],
