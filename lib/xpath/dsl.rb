@@ -88,6 +88,7 @@ module XPath
 
     alias_method :inverse, :not
     alias_method :~, :not
+    alias_method :!, :not
     alias_method :normalize, :normalize_space
     alias_method :n, :normalize_space
 

@@ -246,6 +246,10 @@ describe XPath do
     it "should be aliased as the unary tilde" do
       xpath { |x| x.descendant(:p).where(~x.attr(:id).equals('fooDiv')) }.first.text.should == 'Bax'
     end
+
+    it "should be aliased as the unary bang" do
+      xpath { |x| x.descendant(:p).where(!x.attr(:id).equals('fooDiv')) }.first.text.should == 'Bax'
+    end
   end
 
   describe '#equals' do
