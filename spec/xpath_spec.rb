@@ -351,9 +351,9 @@ describe XPath do
     end
   end
 
-  describe '#name' do
+  describe '#qname' do
     it "should match the node's name" do
-      xpath { |x| x.descendant(:*).where(x.name == 'ul') }.first.text.should == "A list"
+      xpath { |x| x.descendant(:*).where(x.qname == 'ul') }.first.text.should == "A list"
     end
   end
 

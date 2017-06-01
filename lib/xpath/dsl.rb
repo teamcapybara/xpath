@@ -68,7 +68,7 @@ module XPath
 
     METHODS = [
       # node set
-      :count, :id, :local_name, :namespace_uri, :name,
+      :count, :id, :local_name, :namespace_uri,
       # string
       :string, :concat, :starts_with, :contains, :substring_before,
       :substring_after, :substring, :string_length, :normalize_space,
@@ -84,6 +84,10 @@ module XPath
       define_method key do |*args|
         method(name, *args)
       end
+    end
+
+    def qname
+      method(:name)
     end
 
     alias_method :inverse, :not
