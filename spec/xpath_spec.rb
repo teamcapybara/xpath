@@ -162,6 +162,17 @@ describe XPath do
     end
   end
 
+  describe "#contains_word" do
+    it "should find nodes that contain the given word in its entirety" do
+      @results = xpath do |x|
+        x.descendant.where(x.attr(:class).contains_word('fish'))
+      end
+      @results[0].text.should == "Bax"
+      @results[1].text.should == "llama"
+      @results.length.should == 2
+    end
+  end
+
   describe '#starts_with' do
     it "should find nodes that begin with the given string" do
       @results = xpath do |x|

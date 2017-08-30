@@ -132,6 +132,10 @@ module XPath
 
     alias_method :self_axis, :self
 
+    def contains_word(word)
+      function(:concat, " ", current.normalize_space, " ").contains(" #{word} ")
+    end
+
     def one_of(*expressions)
       expressions.map do |e|
         current.equals(e)
