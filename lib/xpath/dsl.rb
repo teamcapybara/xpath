@@ -96,6 +96,7 @@ module XPath
       [:equals, :"=", :==],
       [:or, :or, :|],
       [:and, :and, :&],
+      [:not_equals, :!=, :!=],
       [:lte, :<=, :<=],
       [:lt, :<, :<],
       [:gte, :>=, :>=],

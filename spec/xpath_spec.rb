@@ -262,6 +262,17 @@ describe XPath do
     end
   end
 
+  describe '#not_equals' do
+    it "should match only when not equal" do
+      xpath { |x| x.descendant(:div).where(x.attr(:id).not_equals('bar')) }.first[:title].should == "fooDiv"
+    end
+
+    it "should be aliased as !=" do
+      xpath { |x| x.descendant(:div).where(x.attr(:id) != 'bar') }.first[:title].should == "fooDiv"
+    end
+  end
+
+
   describe '#is' do
     it "uses equality when :exact given" do
       xpath(:exact) { |x| x.descendant(:div).where(x.attr(:id).is('foo')) }.first[:title].should == "fooDiv"
