@@ -257,6 +257,10 @@ describe XPath do
     it "should be aliased as the unary tilde" do
       xpath { |x| x.descendant(:p).where(~x.attr(:id).equals('fooDiv')) }.first.text.should == 'Bax'
     end
+
+    it "should be aliased as the unary bang" do
+      xpath { |x| x.descendant(:p).where(!x.attr(:id).equals('fooDiv')) }.first.text.should == 'Bax'
+    end
   end
 
   describe '#equals' do
@@ -268,6 +272,17 @@ describe XPath do
       xpath { |x| x.descendant(:div).where(x.attr(:id) == 'foo') }.first[:title].should == "fooDiv"
     end
   end
+
+  describe '#not_equals' do
+    it "should match only when not equal" do
+      xpath { |x| x.descendant(:div).where(x.attr(:id).not_equals('bar')) }.first[:title].should == "fooDiv"
+    end
+
+    it "should be aliased as !=" do
+      xpath { |x| x.descendant(:div).where(x.attr(:id) != 'bar') }.first[:title].should == "fooDiv"
+    end
+  end
+
 
   describe '#is' do
     it "uses equality when :exact given" do
