@@ -5,7 +5,7 @@ require 'xpath/version'
 Gem::Specification.new do |s|
   s.name = "xpath"
   s.version = XPath::VERSION
-  s.required_ruby_version = ">= 1.9.3"
+  s.required_ruby_version = ">= 2.2"
 
   s.authors = ["Jonas Nicklas"]
   s.email = ["jonas.nicklas@gmail.com"]
@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/teamcapybara/xpath"
   s.summary = "Generate XPath expressions from Ruby"
 
-  s.add_dependency("nokogiri", ["~> 1.3"])
+  s.add_dependency("nokogiri", ["~> 1.8"])
 
   s.add_development_dependency("rspec", ["~> 3.0"])
   s.add_development_dependency("yard", [">= 0.5.8"])
