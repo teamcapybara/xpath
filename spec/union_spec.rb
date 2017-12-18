@@ -9,7 +9,7 @@ describe XPath::Union do
       @expr1 = XPath.generate { |x| x.descendant(:p) }
       @expr2 = XPath.generate { |x| x.descendant(:div) }
       @collection = XPath::Union.new(@expr1, @expr2)
-      @collection.expressions.should == [@expr1, @expr2]
+      @collection.expressions.should eq [@expr1, @expr2]
     end
   end
 
@@ -20,7 +20,7 @@ describe XPath::Union do
       @collection = XPath::Union.new(@expr1, @expr2)
       exprs = []
       @collection.each { |expr| exprs << expr }
-      exprs.should == [@expr1, @expr2]
+      exprs.should eq [@expr1, @expr2]
     end
   end
 
@@ -29,7 +29,7 @@ describe XPath::Union do
       @expr1 = XPath.generate { |x| x.descendant(:p) }
       @expr2 = XPath.generate { |x| x.descendant(:div) }
       @collection = XPath::Union.new(@expr1, @expr2)
-      @collection.map { |expr| expr.expression }.should == [:descendant, :descendant]
+      @collection.map { |expr| expr.expression }.should eq [:descendant, :descendant]
     end
   end
 
@@ -39,9 +39,9 @@ describe XPath::Union do
       @expr2 = XPath.generate { |x| x.descendant(:div).where(x.attr(:id) == 'foo') }
       @collection = XPath::Union.new(@expr1, @expr2)
       @results = doc.xpath(@collection.to_xpath)
-      @results[0][:title].should == 'fooDiv'
-      @results[1].text.should == 'Blah'
-      @results[2].text.should == 'Bax'
+      @results[0][:title].should eq 'fooDiv'
+      @results[1].text.should eq 'Blah'
+      @results[2].text.should eq 'Bax'
     end
   end
 
@@ -54,9 +54,9 @@ describe XPath::Union do
       @xpath1 = @collection.where(XPath.attr(:id) == 'foo').to_xpath
       @xpath2 = @collection.where(XPath.attr(:id) == 'fooDiv').to_xpath
       @results = doc.xpath(@xpath1)
-      @results[0][:title].should == 'fooDiv'
+      @results[0][:title].should eq 'fooDiv'
       @results = doc.xpath(@xpath2)
-      @results[0][:id].should == 'fooDiv'
+      @results[0][:id].should eq 'fooDiv'
     end
   end
 
