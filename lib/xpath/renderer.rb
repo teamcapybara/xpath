@@ -55,7 +55,12 @@ module XPath
     end
 
     def where(on, condition)
-      "#{on}[#{condition}]"
+      condition = condition.to_s
+      if !condition.empty?
+        "#{on}[#{condition}]"
+      else
+        on.to_s
+      end
     end
 
     def attribute(current, name)
