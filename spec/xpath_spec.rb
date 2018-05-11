@@ -266,6 +266,10 @@ describe XPath do
     it "should be aliased as []" do
       xpath { |x| x.descendant(:div)[:"@id = 'foo'"] }.first[:title].should eq "fooDiv"
     end
+
+    it "should be a no-op when nil condition is passed" do
+      XPath.descendant(:div).where(nil).to_s.should eq ".//div"
+    end
   end
 
   describe '#inverse' do

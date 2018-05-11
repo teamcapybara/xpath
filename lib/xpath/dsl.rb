@@ -41,7 +41,11 @@ module XPath
     end
 
     def where(expression)
-      Expression.new(:where, current, expression)
+      if expression
+        Expression.new(:where, current, expression)
+      else
+        current
+      end
     end
     alias_method :[], :where
 
