@@ -192,6 +192,25 @@ describe XPath do
     end
   end
 
+  describe '#ends_with' do
+    it "should find nodes that end with the given string" do
+      @results = xpath do |x|
+        x.descendant(:*).where(x.attr(:id).ends_with('oof'))
+      end
+      @results.size.should eq 2
+      @results[0][:id].should eq "oof"
+      @results[1][:id].should eq "viDoof"
+    end
+
+    it "should find nodes that contain the given expression" do
+      @results = xpath do |x|
+        expression = x.anywhere(:div).where(x.attr(:title) == 'viDoof').attr(:id)
+        x.descendant(:div).where(x.attr(:title).ends_with(expression))
+      end
+      @results[0][:id].should eq "oof"
+    end
+  end
+
   describe '#text' do
     it "should select a node's text" do
       @results = xpath { |x| x.descendant(:p).where(x.text == 'Bax') }

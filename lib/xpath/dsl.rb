@@ -134,6 +134,10 @@ module XPath
 
     alias_method :self_axis, :self
 
+    def ends_with(suffix)
+      function(:substring, current, function(:'string-length', current).minus(function(:'string-length', suffix)).plus(1)) == suffix
+    end
+
     def contains_word(word)
       function(:concat, " ", current.normalize_space, " ").contains(" #{word} ")
     end
