@@ -1,18 +1,11 @@
 # Change Log
 
-## Unreleased
-
-### Breaking Changes
-
-- None
+## 3.1.0 - 2018-05-26
 
 ### Added
 
-- None
-
-### Fixed
-
-- None
+- `where`/`[]` with a nil parameter is now a no-op
+- `ends_with`
 
 ## 3.0.0 - 2017-12-30
 
