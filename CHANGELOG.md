@@ -1,4 +1,10 @@
 # Change Log
+## 3.2.0 - 2018-10-15
+
+### Added
+
+- `lowercase`/`uppercase`
+- ability for `attr` to use names that aren't valid in XML but are in HTML
 
 ## 3.1.0 - 2018-05-26
 
