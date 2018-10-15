@@ -211,6 +211,24 @@ describe XPath do
     end
   end
 
+  describe '#uppercase' do
+    it 'should match uppercased text' do
+      @results = xpath do |x|
+        x.descendant(:div).where(x.attr(:title).uppercase == 'VIDOOF')
+      end
+      @results[0][:id].should eq "oof"
+    end
+  end
+
+  describe '#lowercase' do
+    it 'should match lowercased text' do
+      @results = xpath do |x|
+        x.descendant(:div).where(x.attr(:title).lowercase == 'vidoof')
+      end
+      @results[0][:id].should eq "oof"
+    end
+  end
+
   describe '#text' do
     it "should select a node's text" do
       @results = xpath { |x| x.descendant(:p).where(x.text == 'Bax') }
