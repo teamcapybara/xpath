@@ -59,7 +59,11 @@ module XPath
     end
 
     def attribute(current, name)
-      "#{current}/@#{name}"
+      if valid_xml_name?(name)
+        "#{current}/@#{name}"
+      else
+        "#{current}/attribute::*[local-name(.) = #{string_literal(name)}]"
+      end
     end
 
     def binary_operator(name, left, right)
@@ -111,6 +115,10 @@ module XPath
       else
         "#{expression}*"
       end
+    end
+
+    def valid_xml_name?(name)
+      name =~ /^[a-zA-Z_:][a-zA-Z0-9_:\.\-]*$/
     end
   end
 end
