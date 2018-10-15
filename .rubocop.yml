@@ -1,0 +1,89 @@
+require:
+  - rubocop-rspec
+
+AllCops:
+  DisabledByDefault: false
+  TargetRubyVersion: 2.3
+  Exclude:
+      - 'xpath.gemspec'
+
+#################### Lint ################################
+
+Metrics/LineLength:
+  Exclude:
+    - 'spec/**/*'
+  Max: 120
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/ClassLength:
+  CountComments: false
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/MethodLength:
+  CountComments: false
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+  CountComments: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: variable
+
+Style/Alias:
+  Enabled: false
+
+Style/Documentation:
+  Exclude:
+    - 'spec/**/*'
+  Enabled: false
+
+Style/EvenOdd:
+  Enabled: false
+
+Lint/BooleanSymbol:
+  Enabled: false
+
+Style/Attr:
+  Enabled: false
+
+Layout/AccessModifierIndentation:
+  EnforcedStyle: outdent
+
+RSpec/ExampleWording:
+  Enabled: false
+
+RSpec/InstanceVariable:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/DescribedClass:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Enabled: false
+
+RSpec/FilePath:
+  Enabled: false
+
+Style/MethodCallWithoutArgsParentheses:
+  Exclude:
+    - spec/xpath_spec.rb
