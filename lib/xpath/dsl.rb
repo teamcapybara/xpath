@@ -146,6 +146,17 @@ module XPath
       function(:concat, " ", current.normalize_space, " ").contains(" #{word} ")
     end
 
+    UPPERCASE_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'
+    LOWERCASE_LETTERS = 'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ'
+
+    def lowercase
+      method(:translate, UPPERCASE_LETTERS, LOWERCASE_LETTERS)
+    end
+
+    def uppercase
+      method(:translate, LOWERCASE_LETTERS, UPPERCASE_LETTERS)
+    end
+
     def one_of(*expressions)
       expressions.map do |e|
         current.equals(e)
