@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module XPath
   class Renderer
     def self.render(node, type)
@@ -15,11 +17,11 @@ module XPath
 
     def convert_argument(argument)
       case argument
-        when Expression, Union then render(argument)
-        when Array then argument.map { |element| convert_argument(element) }
-        when String then string_literal(argument)
-        when Literal then argument.value
-        else argument.to_s
+      when Expression, Union then render(argument)
+      when Array then argument.map { |element| convert_argument(element) }
+      when String then string_literal(argument)
+      when Literal then argument.value
+      else argument.to_s
       end
     end
 
@@ -27,7 +29,7 @@ module XPath
       if string.include?("'")
         string = string.split("'", -1).map do |substr|
           "'#{substr}'"
-        end.join(%q{,"'",})
+        end.join(%q(,"'",))
         "concat(#{string})"
       else
         "'#{string}'"
@@ -51,7 +53,7 @@ module XPath
     end
 
     def anywhere(element_names)
-      with_element_conditions("//", element_names)
+      with_element_conditions('//', element_names)
     end
 
     def where(on, condition)
@@ -72,7 +74,7 @@ module XPath
 
     def is(one, two)
       if @type == :exact
-        binary_operator("=", one, two)
+        binary_operator('=', one, two)
       else
         function(:contains, one, two)
       end
@@ -102,7 +104,7 @@ module XPath
     end
 
     def function(name, *arguments)
-      "#{name}(#{arguments.join(", ")})"
+      "#{name}(#{arguments.join(', ')})"
     end
 
   private
@@ -111,7 +113,7 @@ module XPath
       if element_names.length == 1
         "#{expression}#{element_names.first}"
       elsif element_names.length > 1
-        "#{expression}*[#{element_names.map { |e| "self::#{e}" }.join(" | ")}]"
+        "#{expression}*[#{element_names.map { |e| "self::#{e}" }.join(' | ')}]"
       else
         "#{expression}*"
       end

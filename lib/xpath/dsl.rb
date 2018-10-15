@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module XPath
   module DSL
     def current
@@ -80,11 +82,11 @@ module XPath
       # boolean
       :boolean, :not, :true, :false, :lang,
       # number
-      :number, :sum, :floor, :ceiling, :round,
-    ]
+      :number, :sum, :floor, :ceiling, :round
+    ].freeze
 
     METHODS.each do |key|
-      name = key.to_s.gsub("_", "-").to_sym
+      name = key.to_s.tr('_', '-').to_sym
       define_method key do |*args|
         method(name, *args)
       end
@@ -101,20 +103,20 @@ module XPath
     alias_method :n, :normalize_space
 
     OPERATORS = [
-      [:equals, :"=", :==],
-      [:or, :or, :|],
-      [:and, :and, :&],
-      [:not_equals, :!=, :!=],
-      [:lte, :<=, :<=],
-      [:lt, :<, :<],
-      [:gte, :>=, :>=],
-      [:gt, :>, :>],
-      [:plus, :+],
-      [:minus, :-],
-      [:multiply, :*, :*],
-      [:divide, :div, :/],
-      [:mod, :mod, :%],
-    ]
+      %i[equals = ==],
+      %i[or or |],
+      %i[and and &],
+      %i[not_equals != !=],
+      %i[lte <= <=],
+      %i[lt < <],
+      %i[gte >= >=],
+      %i[gt > >],
+      %i[plus +],
+      %i[minus -],
+      %i[multiply * *],
+      %i[divide div /],
+      %i[mod mod %]
+    ].freeze
 
     OPERATORS.each do |(name, operator, alias_name)|
       define_method name do |rhs|
@@ -123,14 +125,14 @@ module XPath
       alias_method alias_name, name if alias_name
     end
 
-    AXES = [
-      :ancestor, :ancestor_or_self, :attribute, :descendant_or_self,
-      :following, :following_sibling, :namespace, :parent, :preceding,
-      :preceding_sibling, :self,
-    ]
+    AXES = %i[
+      ancestor ancestor_or_self attribute descendant_or_self
+      following following_sibling namespace parent preceding
+      preceding_sibling self
+    ].freeze
 
     AXES.each do |key|
-      name = key.to_s.gsub("_", "-").to_sym
+      name = key.to_s.tr('_', '-').to_sym
       define_method key do |*element_names|
         axis(name, *element_names)
       end
@@ -143,7 +145,7 @@ module XPath
     end
 
     def contains_word(word)
-      function(:concat, " ", current.normalize_space, " ").contains(" #{word} ")
+      function(:concat, ' ', current.normalize_space, ' ').contains(" #{word} ")
     end
 
     UPPERCASE_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'
@@ -158,11 +160,7 @@ module XPath
     end
 
     def one_of(*expressions)
-      expressions.map do |e|
-        current.equals(e)
-      end.reduce do |a, b|
-        a.or(b)
-      end
+      expressions.map { |e| current.equals(e) }.reduce(:or)
     end
 
     def next_sibling(*expressions)

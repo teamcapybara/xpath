@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module XPath
   class Expression
     attr_accessor :expression, :arguments
@@ -12,7 +14,7 @@ module XPath
       self
     end
 
-    def to_xpath(type=nil)
+    def to_xpath(type = nil)
       Renderer.render(self, type)
     end
     alias_method :to_s, :to_xpath
