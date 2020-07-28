@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/teamcapybara/xpath'
   s.summary = 'Generate XPath expressions from Ruby'
 
-  s.add_dependency('nokogiri', ['~> 1.8'])
+  s.add_dependency('nokogiri', ['~> 1.10'])
 
   s.add_development_dependency('pry')
   s.add_development_dependency('rake')
