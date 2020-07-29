@@ -120,7 +120,7 @@ module XPath
     end
 
     def valid_xml_name?(name)
-      name =~ /^[a-zA-Z_:][a-zA-Z0-9_:\.\-]*$/
+      name =~ /^[a-zA-Z_:][a-zA-Z0-9_:.\-]*$/
     end
   end
 end
