@@ -1,15 +1,13 @@
-dist: trusty
-sudo: false
-
 env:
   global:
     - JAVA_OPTS=-Djava.security.egd=file:/dev/urandom
 
 rvm:
-  - 2.3
-  - 2.4
-  - jruby-9.1.15.0
   - 2.5
+  - 2.6
+  - 2.7
+  - jruby-9.2.12.0
+  
 
 before_install:
   - gem update bundler
