@@ -7,7 +7,7 @@ require 'xpath/version'
 Gem::Specification.new do |s|
   s.name = 'xpath'
   s.version = XPath::VERSION
-  s.required_ruby_version = '>= 2.3'
+  s.required_ruby_version = '>= 2.5'
 
   s.authors = ['Jonas Nicklas']
   s.email = ['jonas.nicklas@gmail.com']
