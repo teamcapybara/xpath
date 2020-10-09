@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.description = 'XPath is a Ruby DSL for generating XPath expressions'
   s.license = 'MIT'
 
-  s.files = Dir.glob('lib/**/*') + %w[README.md]
+  s.files = Dir.glob('lib/**/*') + %w[README.md] + %w[LICENSE]
 
   s.homepage = 'https://github.com/teamcapybara/xpath'
   s.summary = 'Generate XPath expressions from Ruby'
