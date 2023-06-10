@@ -7,7 +7,7 @@ require 'xpath/version'
 Gem::Specification.new do |s|
   s.name = 'xpath'
   s.version = XPath::VERSION
-  s.required_ruby_version = '>= 2.5'
+  s.required_ruby_version = '>= 3.0'
 
   s.authors = ['Jonas Nicklas']
   s.email = ['jonas.nicklas@gmail.com']
@@ -24,6 +24,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency('pry')
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec', ['~> 3.0'])
+  s.add_development_dependency('rubocop')
+  s.add_development_dependency('rubocop-rspec')
+  s.add_development_dependency('rubocop-performance')
   s.add_development_dependency('yard', ['>= 0.5.8'])
 
   s.signing_key = 'gem-private_key.pem' if File.exist?('gem-private_key.pem')

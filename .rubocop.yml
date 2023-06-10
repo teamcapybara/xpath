@@ -1,10 +1,12 @@
 require:
   - rubocop-rspec
   - rubocop-performance
-  
+
 AllCops:
   DisabledByDefault: false
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 3.0
+  NewCops: enable
+  SuggestExtensions: false
   Exclude:
       - 'xpath.gemspec'
 
@@ -123,6 +125,9 @@ Style/Documentation:
 Style/EvenOdd:
   Enabled: false
 
+Style/QuotedSymbols:
+  Enabled: false
+
 Lint/BooleanSymbol:
   Enabled: false
 
@@ -148,4 +153,7 @@ RSpec/DescribeClass:
   Enabled: false
 
 RSpec/FilePath:
+  Enabled: false
+
+RSpec/MultipleExpectations:
   Enabled: false
