@@ -12,6 +12,7 @@ env:
 
 jobs:
   rspec:
+    name: Ruby ${{ matrix.ruby }} Specs
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,12 +21,31 @@ jobs:
         ruby: ["3.1", "3.2", "3.3", "3.4", "jruby"]
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
+
       - name: Run tests
         run: bundle exec rake
+
+  rubocop:
+    name: RuboCop Linter
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.4
+          bundler-cache: true
+
+      - name: Run RuboCop
+        run: bundle exec rubocop
