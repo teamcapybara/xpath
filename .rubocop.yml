@@ -9,6 +9,7 @@ AllCops:
   SuggestExtensions: false
   Exclude:
       - 'xpath.gemspec'
+      - 'vendor/**/*'
 
 ##### New Cops #####
 
