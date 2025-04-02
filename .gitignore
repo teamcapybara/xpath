@@ -4,6 +4,5 @@
 .bundle
 .yardoc
 doc
-Gemfile.lock
 gem-private_key.pem
 pkg
