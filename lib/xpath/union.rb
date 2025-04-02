@@ -15,8 +15,8 @@ module XPath
       :union
     end
 
-    def each(&block)
-      arguments.each(&block)
+    def each(&)
+      arguments.each(&)
     end
 
     def method_missing(*args) # rubocop:disable Style/MissingRespondToMissing
