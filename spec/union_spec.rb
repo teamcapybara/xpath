@@ -20,8 +20,7 @@ describe XPath::Union do
       @expr1 = XPath.generate { |x| x.descendant(:p) }
       @expr2 = XPath.generate { |x| x.descendant(:div) }
       @collection = XPath::Union.new(@expr1, @expr2)
-      exprs = []
-      @collection.each { |expr| exprs << expr }
+      exprs = @collection.map { |expr| expr }
       expect(exprs).to eq [@expr1, @expr2]
     end
   end

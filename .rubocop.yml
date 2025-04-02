@@ -1,10 +1,10 @@
-require:
+plugins:
   - rubocop-rspec
   - rubocop-performance
 
 AllCops:
   DisabledByDefault: false
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.1
   NewCops: enable
   SuggestExtensions: false
   Exclude:
@@ -152,7 +152,10 @@ RSpec/DescribedClass:
 RSpec/DescribeClass:
   Enabled: false
 
-RSpec/FilePath:
+RSpec/SpecFilePathFormat:
+  Enabled: false
+
+RSpec/SpecFilePathSuffix:
   Enabled: false
 
 RSpec/MultipleExpectations:
