@@ -99,7 +99,7 @@ PLATFORMS
   arm-linux-gnu
   arm-linux-musl
   arm64-darwin
-  universal-java-17
+  universal-java-21
   x86_64-darwin
   x86_64-linux-gnu
   x86_64-linux-musl
@@ -115,4 +115,4 @@ DEPENDENCIES
   yard (>= 0.5.8)
 
 BUNDLED WITH
-   2.6.4
+   2.6.8
