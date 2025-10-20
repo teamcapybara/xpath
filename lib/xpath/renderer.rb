@@ -11,6 +11,8 @@ module XPath
     end
 
     def render(node)
+      return render_grouped_where(node) if grouped_where_clause?(node)
+
       arguments = node.arguments.map { |argument| convert_argument(argument) }
       send(node.expression, *arguments)
     end
@@ -107,7 +109,53 @@ module XPath
       "#{name}(#{arguments.join(', ')})"
     end
 
+    def group(expression)
+      "(#{expression})"
+    end
+
   private
+
+    def grouped_where_clause?(node)
+      node.expression == :where &&
+        node.arguments.length == 2 &&
+        node.arguments[0].is_a?(Expression) &&
+        node.arguments[0].expression == :group
+    end
+
+    def render_grouped_where(node)
+      group_content = render(node.arguments[0].arguments[0])
+      condition = convert_argument(node.arguments[1])
+      condition = unwrap_outer_parentheses(condition)
+
+      "(#{group_content})[#{condition}]"
+    end
+
+    def unwrap_outer_parentheses(condition)
+      return condition unless wrapped_in_parentheses?(condition)
+      return condition unless balanced_inner_parentheses?(condition)
+
+      condition[1..-2]
+    end
+
+    def wrapped_in_parentheses?(string)
+      string.start_with?('(') && string.end_with?(')')
+    end
+
+    def balanced_inner_parentheses?(string)
+      inner_content = string[1..-2]
+      parentheses_count = 0
+
+      inner_content.each_char do |char|
+        case char
+        when '(' then parentheses_count += 1
+        when ')' then parentheses_count -= 1
+        end
+
+        return false if parentheses_count.negative?
+      end
+
+      parentheses_count.zero?
+    end
 
     def with_element_conditions(expression, element_names)
       if element_names.length == 1
