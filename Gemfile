@@ -2,4 +2,6 @@
 
 source 'https://rubygems.org'
 
+gem 'nokogiri', '~> 1.17.0'
+
 gemspec
