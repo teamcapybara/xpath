@@ -559,4 +559,15 @@ describe XPath do
       expect(@results[2][:id]).to eq 'foo'
     end
   end
+
+  describe '#group' do
+    it 'wraps expressions in parentheses' do
+      expect(XPath.descendant(:div).group.to_xpath).to eq '(.//div)'
+    end
+
+    it 'allows predicates to apply to grouped expressions' do
+      grouped = XPath.descendant(:div).attr(:id).group[XPath.position == XPath.last]
+      expect(grouped.to_xpath).to eq '(.//div/@id)[position() = last()]'
+    end
+  end
 end

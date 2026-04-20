@@ -64,6 +64,10 @@ module XPath
     end
     alias_method :+, :union
 
+    def group
+      Expression.new(:group, current)
+    end
+
     def last
       function(:last)
     end
